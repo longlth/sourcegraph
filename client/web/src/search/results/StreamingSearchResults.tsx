@@ -6,7 +6,6 @@ import { Observable } from 'rxjs'
 import { asError } from '@sourcegraph/common'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
 import { FetchFileParameters } from '@sourcegraph/shared/src/components/CodeExcerpt'
-import { Link } from '@sourcegraph/shared/src/components/Link'
 import { ExtensionsControllerProps } from '@sourcegraph/shared/src/extensions/controller'
 import { SearchPatternType } from '@sourcegraph/shared/src/graphql-operations'
 import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
@@ -36,6 +35,7 @@ import { SearchResultsInfoBar } from './SearchResultsInfoBar'
 import { SearchSidebar } from './sidebar/SearchSidebar'
 import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
+import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -293,29 +293,14 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                 )}
 
                 {showSignUpCta && (
-                    <div className="card my-2 mr-3 d-flex p-3 flex-md-row flex-column align-items-center">
-                        <div className="mr-md-3">
-                            <SearchBetaIcon />
-                        </div>
-                        <div className="flex-1 my-md-0 my-2">
-                            <div className={classNames('mb-1', styles.streamingSearchResultsCtaTitle)}>
-                                <strong>
-                                    Sign up to add your public and private repositories and unlock search flow
-                                </strong>
-                            </div>
-                            <div className={classNames('text-muted', styles.streamingSearchResultsCtaDescription)}>
-                                Do all the things editors can’t: search multiple repos & commit history, monitor, save
-                                searches and more.
-                            </div>
-                        </div>
-                        <Link
-                            className="btn btn-primary"
-                            to={`/sign-up?src=SearchCTA&returnTo=${encodeURIComponent('/user/settings/repositories')}`}
-                            onClick={onSignUpClick}
-                        >
-                            Create a free account
-                        </Link>
-                    </div>
+                    <CtaAlert title="Sign up to add your public and private repositories and unlock search flow"
+                        description="Do all the things editors can’t: search multiple repos & commit history, monitor, save
+                searches and more."
+                    cta={{label: 'Create a free account',
+                        href: `/sign-up?src=SearchCTA&returnTo=${encodeURIComponent('/user/settings/repositories')}`,
+                        onClick: onSignUpClick}}
+                    icon={<SearchBetaIcon />}
+                    onClose={() => {}} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />
