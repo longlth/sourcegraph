@@ -37,6 +37,8 @@ import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
 import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
 import {useLocalStorage} from '@sourcegraph/shared/src/util/useLocalStorage';
+import {useObservable} from '@sourcegraph/shared/src/util/useObservable';
+import {browserExtensionInstalled} from '../../tracking/analyticsUtils';
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -83,9 +85,15 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     const enableCodeMonitoring = useExperimentalFeatures(features => features.codeMonitoring ?? false)
     const caseSensitive = useNavbarQueryState(state => state.searchCaseSensitivity)
     const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage('StreamingSearchResults.hasDismissedSignupAlert', false);
+    const [hasDismissedBrowserExtensionAlert, setHasDismissedBrowserExtensionAlert] = useLocalStorage('StreamingSearchResults.hasDismissedBrowserExtensionAlert', false);
+    const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
 
-    const onCtaAlertDismissed = useCallback(() => {
+    const onSignupCtaAlertDismissed = useCallback(() => {
         setHasDismissedSignupAlert(true)
+    }, []);
+
+    const onBrowserExtensionCtaAlertDismissed = useCallback(() => {
+        setHasDismissedBrowserExtensionAlert(true)
     }, []);
 
     // Log view event on first load
@@ -221,10 +229,15 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
         telemetryService.log('SignUpPLGSearchCTA_1_Search')
     }
 
+    const onBrowserExtensionClick = (): void => {
+        telemetryService.log('BrowserExtensionPLGSearchCTA_1_Search')
+    }
+
     const resultsFound = results ? results.results.length > 0 : false
     const submittedSearchesCount = getSubmittedSearchesCount()
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
     const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && resultsFound && isValidSignUpCtaCadence
+    const showBrowserExtensionCta = !hasDismissedBrowserExtensionAlert && authenticatedUser && !isBrowserExtensionInstalled && resultsFound && isValidSignUpCtaCadence
 
     // Log view event when signup CTA is shown
     useEffect(() => {
@@ -306,7 +319,17 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                         href: `/sign-up?src=SearchCTA&returnTo=${encodeURIComponent('/user/settings/repositories')}`,
                         onClick: onSignUpClick}}
                     icon={<SearchBetaIcon />}
-                    onClose={onCtaAlertDismissed} />
+                    onClose={onSignupCtaAlertDismissed} />
+                )}
+
+                {showBrowserExtensionCta && (
+                    <CtaAlert title="Install the Sourcegraph browser extension"
+                        description="Add code intelligence to pull requests and file views on GitHub, GitLab, Bitbucket Server, and Phabricator"
+                        cta={{label: 'Learn more about the extension',
+                            href: 'https://docs.sourcegraph.com/integration/browser_extension?utm_campaign=inproduct-cta&utm_medium=direct_traffic&utm_source=search-results-cta&utm_term=null&utm_content=install-browser-exten',
+                            onClick: onBrowserExtensionClick}}
+                        icon={<SearchBetaIcon />}
+                        onClose={onBrowserExtensionCtaAlertDismissed} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />
