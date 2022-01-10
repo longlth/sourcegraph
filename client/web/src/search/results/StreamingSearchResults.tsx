@@ -36,6 +36,7 @@ import { SearchSidebar } from './sidebar/SearchSidebar'
 import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
 import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
+import {useLocalStorage} from '@sourcegraph/shared/src/util/useLocalStorage';
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -81,6 +82,11 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
 
     const enableCodeMonitoring = useExperimentalFeatures(features => features.codeMonitoring ?? false)
     const caseSensitive = useNavbarQueryState(state => state.searchCaseSensitivity)
+    const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage('StreamingSearchResults.hasDismissedSignupAlert', false);
+
+    const onCtaAlertDismissed = useCallback(() => {
+        setHasDismissedSignupAlert(true)
+    }, []);
 
     // Log view event on first load
     useEffect(
@@ -218,7 +224,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     const resultsFound = results ? results.results.length > 0 : false
     const submittedSearchesCount = getSubmittedSearchesCount()
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
-    const showSignUpCta = !authenticatedUser && resultsFound && isValidSignUpCtaCadence
+    const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && resultsFound && isValidSignUpCtaCadence
 
     // Log view event when signup CTA is shown
     useEffect(() => {
@@ -300,7 +306,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                         href: `/sign-up?src=SearchCTA&returnTo=${encodeURIComponent('/user/settings/repositories')}`,
                         onClick: onSignUpClick}}
                     icon={<SearchBetaIcon />}
-                    onClose={() => {}} />
+                    onClose={onCtaAlertDismissed} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />
