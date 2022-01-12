@@ -7,7 +7,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 
 export interface CtaAlertProps {
     title: string;
-    description: string;
+    description: string|React.ReactElement<any>;
     cta: {
         label: string;
         href: string;

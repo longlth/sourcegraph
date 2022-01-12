@@ -26,7 +26,6 @@ import { escapeSpaces } from '@sourcegraph/shared/src/search/query/filters'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
 import { repeatUntil } from '@sourcegraph/shared/src/util/rxjs/repeatUntil'
 import { encodeURIPathComponent, makeRepoURI } from '@sourcegraph/shared/src/util/url'
 import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
@@ -43,6 +42,7 @@ import { ActionItemsBarProps, useWebActionItems } from '../extensions/components
 import { ExternalLinkFields, RepositoryFields } from '../graphql-operations'
 import { CodeInsightsProps } from '../insights/types'
 import { IS_CHROME } from '../marketing/util'
+import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
 import { Settings } from '../schema/settings.schema'
 import { PatternTypeProps, SearchContextProps, searchQueryForRepoRevision, SearchStreamingProps } from '../search'
 import { StreamingSearchResultsListProps } from '../search/results/StreamingSearchResultsList'
@@ -52,7 +52,7 @@ import { RouteDescriptor } from '../util/contributions'
 import { parseBrowserRepoURL } from '../util/url'
 
 import { GoToCodeHostAction } from './actions/GoToCodeHostAction'
-import { InstallBrowserExtensionAlert, isFirefoxCampaignActive } from './actions/InstallBrowserExtensionAlert'
+import { InstallBrowserExtensionAlert } from './actions/InstallBrowserExtensionAlert'
 import { fetchFileExternalLinks, fetchRepository, resolveRevision } from './backend'
 import styles from './RepoContainer.module.scss'
 import { RepoHeader, RepoHeaderActionButton, RepoHeaderContributionsLifecycleProps } from './RepoHeader'
@@ -142,7 +142,6 @@ interface RepoContainerProps
 
 export const HOVER_COUNT_KEY = 'hover-count'
 const HAS_DISMISSED_ALERT_KEY = 'has-dismissed-extension-alert'
-const HAS_DISMISSED_FIREFOX_ALERT_KEY = 'has-dismissed-firefox-addon-alert'
 
 export const HOVER_THRESHOLD = 5
 
@@ -364,18 +363,10 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         setHasDismissedPopover(true)
     }, [])
 
-    const [hasDismissedFirefoxAlert, setHasDismissedFirefoxAlert] = useLocalStorage(
-        HAS_DISMISSED_FIREFOX_ALERT_KEY,
-        false
-    )
-    const showFirefoxAddonAlert = isFirefox() && !hasDismissedFirefoxAlert && isFirefoxCampaignActive(Date.now())
-
     const onAlertDismissed = useCallback(() => {
         onExtensionAlertDismissed()
         setHasDismissedExtensionAlert(true)
-        // TEMPORARY
-        setHasDismissedFirefoxAlert(true)
-    }, [onExtensionAlertDismissed, setHasDismissedExtensionAlert, setHasDismissedFirefoxAlert])
+    }, [onExtensionAlertDismissed, setHasDismissedExtensionAlert])
 
     if (!repoOrError) {
         // Render nothing while loading
@@ -407,13 +398,12 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
 
     return (
         <div className={classNames('w-100 d-flex flex-column', styles.repoContainer)}>
-            {(showExtensionAlert || showFirefoxAddonAlert) && (
+            {(showExtensionAlert) && (
                 <InstallBrowserExtensionAlert
-                    isChrome={IS_CHROME}
+                    browserName={IS_CHROME ? 'chrome' : (isFirefox() ? 'firefox' : 'other')}
                     onAlertDismissed={onAlertDismissed}
                     externalURLs={repoOrError.externalURLs}
                     codeHostIntegrationMessaging={codeHostIntegrationMessaging}
-                    showFirefoxAddonAlert={showFirefoxAddonAlert}
                 />
             )}
             <RepoHeader
