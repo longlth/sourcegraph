@@ -30,7 +30,6 @@ for (const serviceKind of services) {
             <WebStory>
                 {() => (
                     <InstallBrowserExtensionAlert
-                        browserName='other'
                         onAlertDismissed={onAlertDismissed}
                         codeHostIntegrationMessaging="native-integration"
                         externalURLs={[
@@ -51,64 +50,11 @@ for (const serviceKind of services) {
     )
 
     add(
-        `${serviceKind} (Chrome)`,
+        `${serviceKind} (browser)`,
         () => (
             <WebStory>
                 {() => (
                     <InstallBrowserExtensionAlert
-                        browserName='chrome'
-                        onAlertDismissed={onAlertDismissed}
-                        codeHostIntegrationMessaging="browser-extension"
-                        externalURLs={[
-                            {
-                                url: '',
-                                serviceKind,
-                            },
-                        ]}
-                    />
-                )}
-            </WebStory>
-        ),
-        {
-            chromatic: {
-                disable: serviceKind !== ExternalServiceKind.GITHUB,
-            },
-        }
-    )
-
-    add(
-        `${serviceKind} (Firefox)`,
-        () => (
-            <WebStory>
-                {() => (
-                    <InstallBrowserExtensionAlert
-                        browserName='firefox'
-                        onAlertDismissed={onAlertDismissed}
-                        codeHostIntegrationMessaging="native-integration"
-                        externalURLs={[
-                            {
-                                url: '',
-                                serviceKind,
-                            },
-                        ]}
-                    />
-                )}
-            </WebStory>
-        ),
-        {
-            chromatic: {
-                disable: serviceKind !== ExternalServiceKind.GITHUB,
-            },
-        }
-    )
-
-    add(
-        `${serviceKind} (non-Chrome, non-Firefox browser)`,
-        () => (
-            <WebStory>
-                {() => (
-                    <InstallBrowserExtensionAlert
-                        browserName='other'
                         onAlertDismissed={onAlertDismissed}
                         codeHostIntegrationMessaging="browser-extension"
                         externalURLs={[

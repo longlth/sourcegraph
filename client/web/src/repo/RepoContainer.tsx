@@ -41,8 +41,6 @@ import { HeroPage } from '../components/HeroPage'
 import { ActionItemsBarProps, useWebActionItems } from '../extensions/components/ActionItemsBar'
 import { ExternalLinkFields, RepositoryFields } from '../graphql-operations'
 import { CodeInsightsProps } from '../insights/types'
-import { IS_CHROME } from '../marketing/util'
-import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
 import { Settings } from '../schema/settings.schema'
 import { PatternTypeProps, SearchContextProps, searchQueryForRepoRevision, SearchStreamingProps } from '../search'
 import { StreamingSearchResultsListProps } from '../search/results/StreamingSearchResultsList'
@@ -400,7 +398,6 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         <div className={classNames('w-100 d-flex flex-column', styles.repoContainer)}>
             {(showExtensionAlert) && (
                 <InstallBrowserExtensionAlert
-                    browserName={IS_CHROME ? 'chrome' : (isFirefox() ? 'firefox' : 'other')}
                     onAlertDismissed={onAlertDismissed}
                     externalURLs={repoOrError.externalURLs}
                     codeHostIntegrationMessaging={codeHostIntegrationMessaging}

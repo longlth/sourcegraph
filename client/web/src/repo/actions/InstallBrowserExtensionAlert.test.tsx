@@ -14,18 +14,15 @@ describe('InstallBrowserExtensionAlert', () => {
         ExternalServiceKind.BITBUCKETSERVER,
         null,
     ] as const
-    const integrationTypes = ['chrome', 'firefox', 'other', 'native-integration'] as const
+    const integrationTypes = ['native-integration', 'browser-extension'] as const
     for (const serviceKind of serviceKinds) {
         for (const integrationType of integrationTypes) {
             test(`${serviceKind ?? 'none'} (${integrationType})`, () => {
                 expect(
                     render(
                         <InstallBrowserExtensionAlert
-                            browserName={integrationType !== 'native-integration' ? integrationType : 'other'}
                             onAlertDismissed={noop}
-                            codeHostIntegrationMessaging={
-                                integrationType === 'native-integration' ? 'native-integration' : 'browser-extension'
-                            }
+                            codeHostIntegrationMessaging={integrationType}
                             externalURLs={
                                 serviceKind
                                     ? [
