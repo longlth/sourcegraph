@@ -22,7 +22,6 @@ describe('InstallBrowserExtensionAlert', () => {
                     render(
                         <NativeIntegrationAlert
                             onAlertDismissed={noop}
-                            codeHostIntegrationMessaging={integrationType}
                             externalURLs={
                                 serviceKind
                                     ? [

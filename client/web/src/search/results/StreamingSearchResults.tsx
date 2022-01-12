@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
 import { asError } from '@sourcegraph/common'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
 import { FetchFileParameters } from '@sourcegraph/shared/src/components/CodeExcerpt'
+import { CtaAlert } from '@sourcegraph/shared/src/components/CtaAlert'
 import { ExtensionsControllerProps } from '@sourcegraph/shared/src/extensions/controller'
 import { SearchPatternType } from '@sourcegraph/shared/src/graphql-operations'
 import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
@@ -15,6 +16,8 @@ import { StreamSearchOptions } from '@sourcegraph/shared/src/search/stream'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
+import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
+import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
 
 import { PatternTypeProps, SearchStreamingProps, ParsedSearchQueryProps, SearchContextProps } from '..'
 import { AuthenticatedUser } from '../../auth'
@@ -22,8 +25,10 @@ import { PageTitle } from '../../components/PageTitle'
 import { FeatureFlagProps } from '../../featureFlags/featureFlags'
 import { CodeInsightsProps } from '../../insights/types'
 import { isCodeInsightsEnabled } from '../../insights/utils/is-code-insights-enabled'
+import { BrowserExtensionAlert } from '../../repo/actions/BrowserExtensionAlert'
 import { SavedSearchModal } from '../../savedSearches/SavedSearchModal'
 import { useExperimentalFeatures, useNavbarQueryState, useSearchStack } from '../../stores'
+import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
 import { SearchBetaIcon } from '../CtaIcons'
 import { getSubmittedSearchesCount, submitSearch } from '../helpers'
 
@@ -35,11 +40,6 @@ import { SearchResultsInfoBar } from './SearchResultsInfoBar'
 import { SearchSidebar } from './sidebar/SearchSidebar'
 import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
-import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
-import {useLocalStorage} from '@sourcegraph/shared/src/util/useLocalStorage';
-import {useObservable} from '@sourcegraph/shared/src/util/useObservable';
-import {browserExtensionInstalled} from '../../tracking/analyticsUtils';
-import {BrowserExtensionAlert} from '../../repo/actions/BrowserExtensionAlert';
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -85,17 +85,23 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
 
     const enableCodeMonitoring = useExperimentalFeatures(features => features.codeMonitoring ?? false)
     const caseSensitive = useNavbarQueryState(state => state.searchCaseSensitivity)
-    const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage('StreamingSearchResults.hasDismissedSignupAlert', false);
-    const [hasDismissedBrowserExtensionAlert, setHasDismissedBrowserExtensionAlert] = useLocalStorage('StreamingSearchResults.hasDismissedBrowserExtensionAlert', false);
+    const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage(
+        'StreamingSearchResults.hasDismissedSignupAlert',
+        false
+    )
+    const [hasDismissedBrowserExtensionAlert, setHasDismissedBrowserExtensionAlert] = useLocalStorage(
+        'StreamingSearchResults.hasDismissedBrowserExtensionAlert',
+        false
+    )
     const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
 
     const onSignupCtaAlertDismissed = useCallback(() => {
         setHasDismissedSignupAlert(true)
-    }, []);
+    }, [setHasDismissedSignupAlert])
 
     const onBrowserExtensionCtaAlertDismissed = useCallback(() => {
         setHasDismissedBrowserExtensionAlert(true)
-    }, []);
+    }, [setHasDismissedBrowserExtensionAlert])
 
     // Log view event on first load
     useEffect(
@@ -234,7 +240,12 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     const submittedSearchesCount = getSubmittedSearchesCount()
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
     const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && resultsFound && isValidSignUpCtaCadence
-    const showBrowserExtensionCta = !hasDismissedBrowserExtensionAlert && authenticatedUser && !isBrowserExtensionInstalled && resultsFound && isValidSignUpCtaCadence
+    const showBrowserExtensionCta =
+        !hasDismissedBrowserExtensionAlert &&
+        authenticatedUser &&
+        !isBrowserExtensionInstalled &&
+        resultsFound &&
+        isValidSignUpCtaCadence
 
     // Log view event when signup CTA is shown
     useEffect(() => {
@@ -309,19 +320,24 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                 )}
 
                 {showSignUpCta && (
-                    <CtaAlert title="Sign up to add your public and private repositories and unlock search flow"
+                    <CtaAlert
+                        title="Sign up to add your public and private repositories and unlock search flow"
                         description="Do all the things editors can’t: search multiple repos & commit history, monitor, save
                 searches and more."
-                    cta={{label: 'Create a free account',
-                        href: `/sign-up?src=SearchCTA&returnTo=${encodeURIComponent('/user/settings/repositories')}`,
-                        onClick: onSignUpClick}}
-                    icon={<SearchBetaIcon />}
-                    onClose={onSignupCtaAlertDismissed} />
+                        cta={{
+                            label: 'Create a free account',
+                            href: `/sign-up?src=SearchCTA&returnTo=${encodeURIComponent(
+                                '/user/settings/repositories'
+                            )}`,
+                            onClick: onSignUpClick,
+                        }}
+                        icon={<SearchBetaIcon />}
+                        onClose={onSignupCtaAlertDismissed}
+                    />
                 )}
 
                 {showBrowserExtensionCta && (
-                    <BrowserExtensionAlert
-                        onAlertDismissed={onBrowserExtensionCtaAlertDismissed} />
+                    <BrowserExtensionAlert onAlertDismissed={onBrowserExtensionCtaAlertDismissed} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />

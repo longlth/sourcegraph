@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
+import { CtaAlert } from '@sourcegraph/shared/src/components/CtaAlert'
 import { AlertLink } from '@sourcegraph/wildcard'
 
 import { ExternalLinkFields, ExternalServiceKind } from '../../graphql-operations'
+import { SearchBetaIcon } from '../../search/CtaIcons'
 import { eventLogger } from '../../tracking/eventLogger'
 
 import { serviceKindDisplayNameAndIcon } from './GoToCodeHostAction'
-import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
-import {SearchBetaIcon} from '../../search/CtaIcons';
 
 interface Props {
     onAlertDismissed: () => void
@@ -22,10 +22,7 @@ const supportedServiceTypes = new Set<string>([
     ExternalServiceKind.BITBUCKETSERVER,
 ])
 
-export const NativeIntegrationAlert: React.FunctionComponent<Props> = ({
-    onAlertDismissed,
-    externalURLs,
-}) => {
+export const NativeIntegrationAlert: React.FunctionComponent<Props> = ({ onAlertDismissed, externalURLs }) => {
     const externalLink = externalURLs.find(link => link.serviceKind && supportedServiceTypes.has(link.serviceKind))
     if (!externalLink) {
         return null
@@ -34,19 +31,26 @@ export const NativeIntegrationAlert: React.FunctionComponent<Props> = ({
     const { serviceKind } = externalLink
     const { displayName } = serviceKindDisplayNameAndIcon(serviceKind)
 
-    return <CtaAlert title={`Your site admin set up the Sourcegraph native integration for ${displayName}.`}
-        description={<>
-            Sourcegraph's code intelligence will follow you to your code host.{' '}
-            <AlertLink
-                to="https://docs.sourcegraph.com/integration/browser_extension?utm_campaign=inproduct-cta&utm_medium=direct_traffic&utm_source=search-results-cta&utm_term=null&utm_content=install-browser-exten"
-                target="_blank"
-                rel="noopener"
-            >Learn more</AlertLink></>}
-        cta={{label: 'Try it out',
-            href: externalLink.url,
-            onClick: installLinkClickHandler}}
-        icon={<SearchBetaIcon />}
-        onClose={onAlertDismissed} />;
+    return (
+        <CtaAlert
+            title={`Your site admin set up the Sourcegraph native integration for ${displayName}.`}
+            description={
+                <>
+                    Sourcegraph's code intelligence will follow you to your code host.{' '}
+                    <AlertLink
+                        to="https://docs.sourcegraph.com/integration/browser_extension?utm_campaign=inproduct-cta&utm_medium=direct_traffic&utm_source=search-results-cta&utm_term=null&utm_content=install-browser-exten"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Learn more
+                    </AlertLink>
+                </>
+            }
+            cta={{ label: 'Try it out', href: externalLink.url, onClick: installLinkClickHandler }}
+            icon={<SearchBetaIcon />}
+            onClose={onAlertDismissed}
+        />
+    )
 }
 
 const installLinkClickHandler = (): void => {
