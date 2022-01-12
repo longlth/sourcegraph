@@ -6,7 +6,7 @@ import { ExternalServiceKind } from '@sourcegraph/shared/src/graphql/schema'
 
 import { WebStory } from '../../components/WebStory'
 
-import { InstallBrowserExtensionAlert } from './InstallBrowserExtensionAlert'
+import { NativeIntegrationAlert } from './NativeIntegrationAlert'
 
 const onAlertDismissed = action('onAlertDismissed')
 
@@ -29,9 +29,8 @@ for (const serviceKind of services) {
         () => (
             <WebStory>
                 {() => (
-                    <InstallBrowserExtensionAlert
+                    <NativeIntegrationAlert
                         onAlertDismissed={onAlertDismissed}
-                        codeHostIntegrationMessaging="native-integration"
                         externalURLs={[
                             {
                                 url: '',
@@ -54,9 +53,8 @@ for (const serviceKind of services) {
         () => (
             <WebStory>
                 {() => (
-                    <InstallBrowserExtensionAlert
+                    <NativeIntegrationAlert
                         onAlertDismissed={onAlertDismissed}
-                        codeHostIntegrationMessaging="browser-extension"
                         externalURLs={[
                             {
                                 url: '',

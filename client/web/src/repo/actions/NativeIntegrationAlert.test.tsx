@@ -4,7 +4,7 @@ import React from 'react'
 
 import { ExternalServiceKind } from '@sourcegraph/shared/src/graphql/schema'
 
-import { InstallBrowserExtensionAlert } from './InstallBrowserExtensionAlert'
+import { NativeIntegrationAlert } from './NativeIntegrationAlert'
 
 describe('InstallBrowserExtensionAlert', () => {
     const serviceKinds = [
@@ -20,7 +20,7 @@ describe('InstallBrowserExtensionAlert', () => {
             test(`${serviceKind ?? 'none'} (${integrationType})`, () => {
                 expect(
                     render(
-                        <InstallBrowserExtensionAlert
+                        <NativeIntegrationAlert
                             onAlertDismissed={noop}
                             codeHostIntegrationMessaging={integrationType}
                             externalURLs={

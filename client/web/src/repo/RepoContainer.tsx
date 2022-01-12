@@ -50,7 +50,7 @@ import { RouteDescriptor } from '../util/contributions'
 import { parseBrowserRepoURL } from '../util/url'
 
 import { GoToCodeHostAction } from './actions/GoToCodeHostAction'
-import { InstallBrowserExtensionAlert } from './actions/InstallBrowserExtensionAlert'
+import { NativeIntegrationAlert } from './actions/NativeIntegrationAlert'
 import { fetchFileExternalLinks, fetchRepository, resolveRevision } from './backend'
 import styles from './RepoContainer.module.scss'
 import { RepoHeader, RepoHeaderActionButton, RepoHeaderContributionsLifecycleProps } from './RepoHeader'
@@ -62,6 +62,7 @@ import { RepoSettingsAreaRoute } from './settings/RepoSettingsArea'
 import { RepoSettingsSideBarGroup } from './settings/RepoSettingsSidebar'
 
 import { redirectToExternalHost } from '.'
+import {BrowserExtensionAlert} from './actions/BrowserExtensionAlert';
 
 /**
  * Props passed to sub-routes of {@link RepoContainer}.
@@ -396,12 +397,12 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
 
     return (
         <div className={classNames('w-100 d-flex flex-column', styles.repoContainer)}>
-            {(showExtensionAlert) && (
-                <InstallBrowserExtensionAlert
-                    onAlertDismissed={onAlertDismissed}
-                    externalURLs={repoOrError.externalURLs}
-                    codeHostIntegrationMessaging={codeHostIntegrationMessaging}
-                />
+            {(showExtensionAlert) && ((codeHostIntegrationMessaging === 'native-integration')
+                    ? <NativeIntegrationAlert
+                        onAlertDismissed={onAlertDismissed}
+                        externalURLs={repoOrError.externalURLs}
+                /> : <BrowserExtensionAlert
+                        onAlertDismissed={onAlertDismissed} />
             )}
             <RepoHeader
                 actionButtons={props.repoHeaderActionButtons}

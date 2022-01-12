@@ -39,6 +39,7 @@ import {CtaAlert} from '@sourcegraph/shared/src/components/CtaAlert';
 import {useLocalStorage} from '@sourcegraph/shared/src/util/useLocalStorage';
 import {useObservable} from '@sourcegraph/shared/src/util/useObservable';
 import {browserExtensionInstalled} from '../../tracking/analyticsUtils';
+import {BrowserExtensionAlert} from '../../repo/actions/BrowserExtensionAlert';
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -229,10 +230,6 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
         telemetryService.log('SignUpPLGSearchCTA_1_Search')
     }
 
-    const onBrowserExtensionClick = (): void => {
-        telemetryService.log('BrowserExtensionPLGSearchCTA_1_Search')
-    }
-
     const resultsFound = results ? results.results.length > 0 : false
     const submittedSearchesCount = getSubmittedSearchesCount()
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
@@ -323,13 +320,8 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                 )}
 
                 {showBrowserExtensionCta && (
-                    <CtaAlert title="Install the Sourcegraph browser extension"
-                        description="Add code intelligence to pull requests and file views on GitHub, GitLab, Bitbucket Server, and Phabricator"
-                        cta={{label: 'Learn more about the extension',
-                            href: 'https://docs.sourcegraph.com/integration/browser_extension?utm_campaign=inproduct-cta&utm_medium=direct_traffic&utm_source=search-results-cta&utm_term=null&utm_content=install-browser-exten',
-                            onClick: onBrowserExtensionClick}}
-                        icon={<SearchBetaIcon />}
-                        onClose={onBrowserExtensionCtaAlertDismissed} />
+                    <BrowserExtensionAlert
+                        onAlertDismissed={onBrowserExtensionCtaAlertDismissed} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />
