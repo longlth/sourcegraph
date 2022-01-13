@@ -50,7 +50,7 @@ import { RouteDescriptor } from '../util/contributions'
 import { parseBrowserRepoURL } from '../util/url'
 
 import { GoToCodeHostAction } from './actions/GoToCodeHostAction'
-import { NativeIntegrationAlert } from './actions/NativeIntegrationAlert'
+import { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
 import { fetchFileExternalLinks, fetchRepository, resolveRevision } from './backend'
 import styles from './RepoContainer.module.scss'
 import { RepoHeader, RepoHeaderActionButton, RepoHeaderContributionsLifecycleProps } from './RepoHeader'
@@ -62,7 +62,6 @@ import { RepoSettingsAreaRoute } from './settings/RepoSettingsArea'
 import { RepoSettingsSideBarGroup } from './settings/RepoSettingsSidebar'
 
 import { redirectToExternalHost } from '.'
-import {BrowserExtensionAlert} from './actions/BrowserExtensionAlert';
 
 /**
  * Props passed to sub-routes of {@link RepoContainer}.
@@ -84,7 +83,8 @@ export interface RepoContainerContext
         Pick<StreamingSearchResultsListProps, 'fetchHighlightedFileLineRanges'>,
         CodeIntelligenceProps,
         BatchChangesProps,
-        CodeInsightsProps {
+        CodeInsightsProps,
+        ExtensionAlertProps {
     repo: RepositoryFields
     authenticatedUser: AuthenticatedUser | null
     repoSettingsAreaRoutes: readonly RepoSettingsAreaRoute[]
@@ -140,7 +140,6 @@ interface RepoContainerProps
 }
 
 export const HOVER_COUNT_KEY = 'hover-count'
-const HAS_DISMISSED_ALERT_KEY = 'has-dismissed-extension-alert'
 
 export const HOVER_THRESHOLD = 5
 
@@ -149,10 +148,6 @@ export interface HoverThresholdProps {
      * Called when a hover with content is shown.
      */
     onHoverShown?: () => void
-}
-
-export interface ExtensionAlertProps {
-    onExtensionAlertDismissed: () => void
 }
 
 /**
@@ -318,14 +313,12 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
 
     const { useActionItemsBar, useActionItemsToggle } = useWebActionItems()
 
-    const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
     const codeHostIntegrationMessaging =
         (!isErrorLike(props.settingsCascade.final) &&
             props.settingsCascade.final?.['alerts.codeHostIntegrationMessaging']) ||
         'browser-extension'
-
+    const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
     // Browser extension discoverability features (alert, popover for `GoToCodeHostAction)
-    const [hasDismissedExtensionAlert, setHasDismissedExtensionAlert] = useLocalStorage(HAS_DISMISSED_ALERT_KEY, false)
     const [hasDismissedPopover, setHasDismissedPopover] = useState(false)
     const [hoverCount, setHoverCount] = useLocalStorage(HOVER_COUNT_KEY, 0)
     const canShowPopover =
@@ -333,15 +326,6 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         isBrowserExtensionInstalled === false &&
         codeHostIntegrationMessaging === 'browser-extension' &&
         hoverCount >= HOVER_THRESHOLD
-    const showExtensionAlert = useMemo(
-        () => isBrowserExtensionInstalled === false && !hasDismissedExtensionAlert && hoverCount >= HOVER_THRESHOLD,
-        // Intentionally use useMemo() here without a dependency on hoverCount to only show the alert on the next reload,
-        // to not cause an annoying layout shift from displaying the alert.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [hasDismissedExtensionAlert, isBrowserExtensionInstalled]
-    )
-
-    const { onExtensionAlertDismissed } = props
 
     // Increment hovers that the user has seen. Enable browser extension discoverability
     // features after hover count threshold is reached (e.g. alerts, popovers)
@@ -361,11 +345,6 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
     const onPopoverDismissed = useCallback(() => {
         setHasDismissedPopover(true)
     }, [])
-
-    const onAlertDismissed = useCallback(() => {
-        onExtensionAlertDismissed()
-        setHasDismissedExtensionAlert(true)
-    }, [onExtensionAlertDismissed, setHasDismissedExtensionAlert])
 
     if (!repoOrError) {
         // Render nothing while loading
@@ -394,16 +373,8 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
         onDidUpdateExternalLinks: setExternalLinks,
         useActionItemsBar,
     }
-
     return (
         <div className={classNames('w-100 d-flex flex-column', styles.repoContainer)}>
-            {(showExtensionAlert) && ((codeHostIntegrationMessaging === 'native-integration')
-                    ? <NativeIntegrationAlert
-                        onAlertDismissed={onAlertDismissed}
-                        externalURLs={repoOrError.externalURLs}
-                /> : <BrowserExtensionAlert
-                        onAlertDismissed={onAlertDismissed} />
-            )}
             <RepoHeader
                 actionButtons={props.repoHeaderActionButtons}
                 useActionItemsToggle={useActionItemsToggle}
@@ -412,7 +383,6 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
                 repo={repoOrError}
                 resolvedRev={resolvedRevisionOrError}
                 onLifecyclePropsChange={setRepoHeaderContributionsLifecycleProps}
-                isAlertDisplayed={showExtensionAlert}
                 location={props.location}
                 history={props.history}
                 settingsCascade={props.settingsCascade}

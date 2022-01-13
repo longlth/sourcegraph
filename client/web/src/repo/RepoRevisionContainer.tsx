@@ -35,6 +35,7 @@ import { RouteDescriptor } from '../util/contributions'
 
 import { CopyPathAction } from './actions/CopyPathAction'
 import { GoToPermalinkAction } from './actions/GoToPermalinkAction'
+import { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
 import { ResolvedRevision } from './backend'
 import { RepoRevisionChevronDownIcon, RepoRevisionWrapper } from './components/RepoRevision'
 import { HoverThresholdProps, RepoContainerContext } from './RepoContainer'
@@ -65,7 +66,8 @@ export interface RepoRevisionContainerContext
         SearchStreamingProps,
         Pick<StreamingSearchResultsListProps, 'fetchHighlightedFileLineRanges'>,
         BatchChangesProps,
-        CodeInsightsProps {
+        CodeInsightsProps,
+        ExtensionAlertProps {
     repo: RepositoryFields
     resolvedRev: ResolvedRevision
 
@@ -101,7 +103,8 @@ interface RepoRevisionContainerProps
         Pick<StreamingSearchResultsListProps, 'fetchHighlightedFileLineRanges'>,
         CodeIntelligenceProps,
         BatchChangesProps,
-        CodeInsightsProps {
+        CodeInsightsProps,
+        ExtensionAlertProps {
     routes: readonly RepoRevisionContainerRoute[]
     repoSettingsAreaRoutes: readonly RepoSettingsAreaRoute[]
     repoSettingsSidebarGroups: readonly RepoSettingsSideBarGroup[]

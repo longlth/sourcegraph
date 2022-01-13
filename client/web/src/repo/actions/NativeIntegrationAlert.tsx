@@ -9,7 +9,7 @@ import { eventLogger } from '../../tracking/eventLogger'
 
 import { serviceKindDisplayNameAndIcon } from './GoToCodeHostAction'
 
-interface Props {
+export interface NativeIntegrationAlertProps {
     onAlertDismissed: () => void
     externalURLs: ExternalLinkFields[]
 }
@@ -22,7 +22,10 @@ const supportedServiceTypes = new Set<string>([
     ExternalServiceKind.BITBUCKETSERVER,
 ])
 
-export const NativeIntegrationAlert: React.FunctionComponent<Props> = ({ onAlertDismissed, externalURLs }) => {
+export const NativeIntegrationAlert: React.FunctionComponent<NativeIntegrationAlertProps> = ({
+    onAlertDismissed,
+    externalURLs,
+}) => {
     const externalLink = externalURLs.find(link => link.serviceKind && supportedServiceTypes.has(link.serviceKind))
     if (!externalLink) {
         return null

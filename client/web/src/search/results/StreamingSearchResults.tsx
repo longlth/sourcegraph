@@ -238,6 +238,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
 
     const resultsFound = results ? results.results.length > 0 : false
     const submittedSearchesCount = getSubmittedSearchesCount()
+    // TODO: replace with 5th page load/view cadence
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
     const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && resultsFound && isValidSignUpCtaCadence
     const showBrowserExtensionCta =
