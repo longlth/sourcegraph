@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
 import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
 
+import { usePersistentCadence } from '../../hooks'
 import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
 import { HOVER_COUNT_KEY, HOVER_THRESHOLD } from '../RepoContainer'
 
@@ -17,6 +18,8 @@ interface InstallIntegrationsAlertProps extends Pick<NativeIntegrationAlertProps
     codeHostIntegrationMessaging: 'native-integration' | 'browser-extension'
 }
 
+const CADENCE_KEY = 'InstallIntegrationsAlert.pageViews'
+const DISPLAY_CADENCE = 5
 const HAS_DISMISSED_ALERT_KEY = 'has-dismissed-extension-alert'
 
 export const InstallIntegrationsAlert: React.FunctionComponent<InstallIntegrationsAlertProps> = ({
@@ -24,11 +27,16 @@ export const InstallIntegrationsAlert: React.FunctionComponent<InstallIntegratio
     externalURLs,
     onExtensionAlertDismissed,
 }) => {
+    const displayCTABasedOnCadence = usePersistentCadence(CADENCE_KEY, DISPLAY_CADENCE)
     const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
     const [hoverCount] = useLocalStorage(HOVER_COUNT_KEY, 0)
     const [hasDismissedExtensionAlert, setHasDismissedExtensionAlert] = useLocalStorage(HAS_DISMISSED_ALERT_KEY, false)
     const showExtensionAlert = useMemo(
-        () => isBrowserExtensionInstalled === false && !hasDismissedExtensionAlert && hoverCount >= HOVER_THRESHOLD,
+        () =>
+            isBrowserExtensionInstalled === false &&
+            displayCTABasedOnCadence &&
+            !hasDismissedExtensionAlert &&
+            hoverCount >= HOVER_THRESHOLD,
         // Intentionally use useMemo() here without a dependency on hoverCount to only show the alert on the next reload,
         // to not cause an annoying layout shift from displaying the alert.
         // eslint-disable-next-line react-hooks/exhaustive-deps

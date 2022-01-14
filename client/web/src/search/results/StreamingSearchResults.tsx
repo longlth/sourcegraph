@@ -30,7 +30,7 @@ import { SavedSearchModal } from '../../savedSearches/SavedSearchModal'
 import { useExperimentalFeatures, useNavbarQueryState, useSearchStack } from '../../stores'
 import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
 import { SearchBetaIcon } from '../CtaIcons'
-import { getSubmittedSearchesCount, submitSearch } from '../helpers'
+import { submitSearch } from '../helpers'
 
 import { DidYouMean } from './DidYouMean'
 import { StreamingProgress } from './progress/StreamingProgress'
@@ -40,6 +40,7 @@ import { SearchResultsInfoBar } from './SearchResultsInfoBar'
 import { SearchSidebar } from './sidebar/SearchSidebar'
 import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
+import { usePersistentCadence } from '../../hooks'
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -70,6 +71,9 @@ export type SearchType = 'file' | 'repo' | 'path' | 'symbol' | 'diff' | 'commit'
 // and will therefore default to V1.
 export const LATEST_VERSION = 'V2'
 
+const CTA_ALERTS_CADENCE_KEY = 'CtaAlerts.pageViews'
+const CTA_ALERT_DISPLAY_CADENCE = 5
+
 export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResultsProps> = props => {
     const {
         parsedSearchQuery: query,
@@ -85,6 +89,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
 
     const enableCodeMonitoring = useExperimentalFeatures(features => features.codeMonitoring ?? false)
     const caseSensitive = useNavbarQueryState(state => state.searchCaseSensitivity)
+
     const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage(
         'StreamingSearchResults.hasDismissedSignupAlert',
         false
@@ -94,6 +99,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
         false
     )
     const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
+    const displayCTAsBasedOnCadence = usePersistentCadence(CTA_ALERTS_CADENCE_KEY, CTA_ALERT_DISPLAY_CADENCE)
 
     const onSignupCtaAlertDismissed = useCallback(() => {
         setHasDismissedSignupAlert(true)
@@ -237,16 +243,13 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     }
 
     const resultsFound = results ? results.results.length > 0 : false
-    const submittedSearchesCount = getSubmittedSearchesCount()
-    // TODO: replace with 5th page load/view cadence
-    const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
-    const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && resultsFound && isValidSignUpCtaCadence
+    const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && displayCTAsBasedOnCadence && resultsFound
     const showBrowserExtensionCta =
         !hasDismissedBrowserExtensionAlert &&
         authenticatedUser &&
         !isBrowserExtensionInstalled &&
-        resultsFound &&
-        isValidSignUpCtaCadence
+        displayCTAsBasedOnCadence &&
+        resultsFound
 
     // Log view event when signup CTA is shown
     useEffect(() => {
