@@ -3,6 +3,7 @@ import CloseIcon from 'mdi-react/CloseIcon'
 import React from 'react'
 
 import styles from '@sourcegraph/web/src/search/results/StreamingSearchResults.module.scss'
+import { Button } from '@sourcegraph/wildcard'
 
 import { Link } from './Link'
 
@@ -28,9 +29,9 @@ export const CtaAlert: React.FunctionComponent<CtaAlertProps> = props => (
             <div className={classNames('text-muted', 'mb-2', styles.streamingSearchResultsCtaDescription)}>
                 {props.description}
             </div>
-            <Link className="btn btn-primary" to={props.cta.href} onClick={props.cta.onClick}>
+            <Button to={props.cta.href} onClick={props.cta.onClick} variant="primary" as={Link}>
                 {props.cta.label}
-            </Link>
+            </Button>
         </div>
         <CloseIcon
             className="icon-inline position-absolute cursor-pointer"
