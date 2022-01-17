@@ -4,7 +4,7 @@ import { CtaAlert } from '@sourcegraph/shared/src/components/CtaAlert'
 import { AlertLink } from '@sourcegraph/wildcard'
 
 import { ExternalLinkFields, ExternalServiceKind } from '../../graphql-operations'
-import { SearchBetaIcon } from '../../search/CtaIcons'
+import { ExtensionRadialGradientIcon } from '../../search/CtaIcons'
 import { eventLogger } from '../../tracking/eventLogger'
 
 import { serviceKindDisplayNameAndIcon } from './GoToCodeHostAction'
@@ -50,7 +50,7 @@ export const NativeIntegrationAlert: React.FunctionComponent<NativeIntegrationAl
                 </>
             }
             cta={{ label: 'Try it out', href: externalLink.url, onClick: installLinkClickHandler }}
-            icon={<SearchBetaIcon />}
+            icon={<ExtensionRadialGradientIcon />}
             onClose={onAlertDismissed}
         />
     )

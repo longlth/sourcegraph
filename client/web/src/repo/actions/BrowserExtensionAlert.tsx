@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { CtaAlert } from '@sourcegraph/shared/src/components/CtaAlert'
 
-import { SearchBetaIcon } from '../../search/CtaIcons'
+import { ExtensionRadialGradientIcon } from '../../search/CtaIcons'
 import { eventLogger } from '../../tracking/eventLogger'
 
 interface Props {
@@ -24,7 +24,7 @@ export const BrowserExtensionAlert: React.FunctionComponent<Props> = ({ onAlertD
                     'https://docs.sourcegraph.com/integration/browser_extension?utm_campaign=inproduct-cta&utm_medium=direct_traffic&utm_source=search-results-cta&utm_term=null&utm_content=install-browser-exten',
                 onClick: onBrowserExtensionClick,
             }}
-            icon={<SearchBetaIcon />}
+            icon={<ExtensionRadialGradientIcon />}
             onClose={onAlertDismissed}
         />
     )
