@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import InformationOutlineIcon from 'mdi-react/InformationOutlineIcon'
 import React from 'react'
 
-import { Button } from '@sourcegraph/wildcard/src'
+import { Button } from '@sourcegraph/wildcard'
 
 import { ErrorAlert } from '../../../../../../../components/alerts'
 import { LoaderButton } from '../../../../../../../components/LoaderButton'
@@ -178,6 +178,7 @@ export const CaptureGroupCreationForm: React.FunctionComponent<CaptureGroupCreat
                     errorInputState={stepValue.meta.touched && stepValue.meta.validState === 'INVALID'}
                     stepType={step.input.value}
                     onStepTypeChange={step.input.onChange}
+                    numberOfPoints={7}
                 />
             </FormGroup>
 
