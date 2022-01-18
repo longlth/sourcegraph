@@ -61,9 +61,11 @@
 // Input feedback messages
 .valid-feedback {
     color: var(--text-muted);
+    display: block !important; // fix UI change
 }
 .invalid-feedback {
     color: var(--danger);
+    display: block !important; // fix UI change
 }
 .form-check {
     > label,
