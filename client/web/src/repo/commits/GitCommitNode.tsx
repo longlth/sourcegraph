@@ -139,7 +139,8 @@ export const GitCommitNode: React.FunctionComponent<GitCommitNodeProps> = ({
                 <code className={styles.shaAndParentsSha}>
                     {node.oid}{' '}
                     <Button
-                        className={classNames('btn-icon', styles.shaAndParentsCopy)}
+                        variant="icon"
+                        className={styles.shaAndParentsCopy}
                         onClick={() => copyToClipboard(node.oid)}
                         data-tooltip={flashCopiedToClipboardMessage ? 'Copied!' : 'Copy full SHA'}
                     >
@@ -162,7 +163,8 @@ export const GitCommitNode: React.FunctionComponent<GitCommitNodeProps> = ({
                                     <code>{parent.oid}</code>
                                 </Link>
                                 <Button
-                                    className={classNames('btn-icon', styles.shaAndParentsCopy)}
+                                    variant="icon"
+                                    className={styles.shaAndParentsCopy}
                                     onClick={() => copyToClipboard(parent.oid)}
                                     data-tooltip={flashCopiedToClipboardMessage ? 'Copied!' : 'Copy full SHA'}
                                 >

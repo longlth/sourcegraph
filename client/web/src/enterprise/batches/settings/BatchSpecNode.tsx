@@ -35,7 +35,7 @@ export const BatchSpecNode: React.FunctionComponent<BatchSpecNodeProps> = ({ nod
         <>
             <span className={styles.nodeSeparator} />
             <Button
-                className="btn-icon"
+                variant="icon"
                 aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
                 onClick={toggleIsExpanded}
             >

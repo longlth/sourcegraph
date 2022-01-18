@@ -39,7 +39,7 @@ export const KeyboardShortcutsHelp: React.FunctionComponent<Props> = ({
             <Modal isOpen={isOpen} toggle={toggleIsOpen} centered={true} autoFocus={true} keyboard={true} fade={false}>
                 <div className="modal-header">
                     <h4 className="modal-title">Keyboard shortcuts</h4>
-                    <Button className="btn-icon" data-dismiss="modal" aria-label="Close" onClick={toggleIsOpen}>
+                    <Button variant="icon" data-dismiss="modal" aria-label="Close" onClick={toggleIsOpen}>
                         <span aria-hidden="true">&times;</span>
                     </Button>
                 </div>

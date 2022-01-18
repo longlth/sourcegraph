@@ -7,5 +7,8 @@ export const BUTTON_VARIANTS = [
     'info',
     'merged',
     'link',
+    'icon',
 ] as const
 export const BUTTON_SIZES = ['sm', 'lg'] as const
+
+export const BUTTON_DISPLAY = ['inline', 'block'] as const
