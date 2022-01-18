@@ -107,7 +107,12 @@ FROM
 }
 
 func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, error) {
-	const q = `TODO:`
+	const q = `SELECT
+(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAShown' and page = 'file') AS bext_cta_shown__count_on_file_page,
+(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAClicked' and page = 'file') AS bext_cta_clicked_count_on_file_page,
+(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAShown' and page = 'search') AS bext_cta_shown_count_on_search_page,
+(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAClicked' and page = 'search') AS bext_cta_clicked_count_on_search_page,
+`
 	var (
 		bextCtaShownCountOnFilePage     int32
 		bextCtaClickedCountOnFilePage   int32
