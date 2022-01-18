@@ -210,4 +210,13 @@ message Occurrence {
   repeated string override_documentation = 4;
   // (optional) What syntax highlighting class should be used for this range?
   SyntaxKind syntax_kind = 5;
+  // (optional) Diagnostic information about this range.
+  repeated Diagnostic diagnostics = 6;
+}
+
+message Diagnostic {
+  int32 severity = 1;
+  string code = 2;
+  string message = 3;
+  string source = 4;
 }
