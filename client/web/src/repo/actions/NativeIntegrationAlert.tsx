@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { CtaAlert } from '@sourcegraph/shared/src/components/CtaAlert'
 import { AlertLink } from '@sourcegraph/wildcard'
@@ -26,6 +26,10 @@ export const NativeIntegrationAlert: React.FunctionComponent<NativeIntegrationAl
     onAlertDismissed,
     externalURLs,
 }) => {
+    useEffect(() => {
+        eventLogger.log('NativeIntegrationInstallShown')
+    }, [])
+
     const externalLink = externalURLs.find(link => link.serviceKind && supportedServiceTypes.has(link.serviceKind))
     if (!externalLink) {
         return null
