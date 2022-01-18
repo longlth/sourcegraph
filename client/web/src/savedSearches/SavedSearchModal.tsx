@@ -1,10 +1,9 @@
-import Dialog from '@reach/dialog'
 import classNames from 'classnames'
 import * as H from 'history'
 import * as React from 'react'
 
 import { Form } from '@sourcegraph/branded/src/components/Form'
-import { Button, Select } from '@sourcegraph/wildcard'
+import { Button, Modal, Select } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'
 import { SearchPatternTypeProps } from '../search'
@@ -52,7 +51,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
     public render(): JSX.Element | null {
         return (
             this.props.authenticatedUser && (
-                <Dialog
+                <Modal
                     aria-labelledby={MODAL_LABEL_ID}
                     className={styles.savedSearchModalForm}
                     onDismiss={this.props.onDidCancel}
@@ -62,8 +61,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
                         <h3 id={MODAL_LABEL_ID}>Save search query to: </h3>
                         <div className="form-group">
                             <Select
-                                id=""
-                                label="Organization"
+                                aria-label=""
                                 onChange={this.onLocationChange}
                                 className={classNames(styles.select, 'form-control')}
                             >
@@ -77,8 +75,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
                                 this.props.authenticatedUser.organizations.nodes.length > 0 &&
                                 this.state.saveLocation === UserOrOrg.Org && (
                                     <Select
-                                        id=""
-                                        label="Select an organization"
+                                        aria-label=""
                                         onChange={this.onOrganizationChange}
                                         placeholder="Select an organization"
                                         className={classNames(styles.select, 'form-control')}
@@ -103,7 +100,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
                             Save query
                         </Button>
                     </Form>
-                </Dialog>
+                </Modal>
             )
         )
     }

@@ -33,7 +33,7 @@ export const DurationSelect: FunctionComponent<DurationSelectProps> = ({
     return (
         <div className="input-group">
             <Select
-                label=""
+                aria-label=""
                 id={id}
                 className={classNames('form-control', className)}
                 value={isCustom ? 'custom' : value || undefined}

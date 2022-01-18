@@ -10,8 +10,7 @@ import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Tooltip } f
 
 import { KeyboardShortcut } from '@sourcegraph/shared/src/keyboardShortcuts'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { useTimeoutManager } from '@sourcegraph/shared/src/util/useTimeoutManager'
-import { Select } from '@sourcegraph/wildcard'
+import { useTimeoutManager, Select } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'
 import { KEYBOARD_SHORTCUT_SHOW_HELP } from '../keyboardShortcuts/keyboardShortcuts'
@@ -179,10 +178,9 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
                 <DropdownItem divider={true} />
                 <div className="px-2 py-1">
                     <div className="d-flex align-items-center">
-                        <div className="mr-2">Theme</div>
                         <Select
                             id=""
-                            label="Theme"
+                            label={<div className="mr-2">Theme</div>}
                             className="custom-select custom-select-sm test-theme-toggle"
                             onChange={onThemeChange}
                             value={props.themePreference}

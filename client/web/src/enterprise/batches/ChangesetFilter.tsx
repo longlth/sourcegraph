@@ -29,7 +29,7 @@ export const ChangesetFilter = <T extends string>({
     return (
         <>
             <Select
-                label={label}
+                aria-label=""
                 id=""
                 className={classNames('form-control changeset-filter__dropdown', className)}
                 value={selected}
