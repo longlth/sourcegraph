@@ -1035,6 +1035,17 @@ type GrowthStatistics struct {
 	RetainedUsers    int32
 }
 
+
+// GrowthStatistics represents the total users that were created,
+// deleted, resurrected, churned and retained over the current month.
+type CTAMetrics struct {
+	BextCtaShownCountOnFilePage     int32
+	BextCtaClickedCountOnFilePage   int32
+	BextCtaShownCountOnSearchPage   int32
+	BextCtaClickedCountOnSearchPage int32
+}
+
+
 // SavedSearches represents the total number of saved searches, users
 // using saved searches, and usage of saved searches.
 type SavedSearches struct {

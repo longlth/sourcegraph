@@ -105,3 +105,28 @@ FROM
 		RetainedUsers:    int32(retainedUsers),
 	}, nil
 }
+
+func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, error) {
+	const q = `TODO:`
+	var (
+		bextCtaShownCountOnFilePage     int32
+		bextCtaClickedCountOnFilePage   int32
+		bextCtaShownCountOnSearchPage   int32
+		bextCtaClickedCountOnSearchPage int32
+	)
+	if err := db.QueryRowContext(ctx, q).Scan(
+		&bextCtaShownCountOnFilePage,
+		&bextCtaClickedCountOnFilePage,
+		&bextCtaShownCountOnSearchPage,
+		&bextCtaClickedCountOnSearchPage,
+	); err != nil {
+		return nil, err
+	}
+
+	return &types.CTAMetrics{
+		BextCtaShownCountOnFilePage:     int32(bextCtaShownCountOnFilePage),
+		BextCtaClickedCountOnFilePage:   int32(bextCtaClickedCountOnFilePage),
+		BextCtaShownCountOnSearchPage:   int32(bextCtaShownCountOnSearchPage),
+		BextCtaClickedCountOnSearchPage: int32(bextCtaClickedCountOnSearchPage),
+	}, nil
+}
