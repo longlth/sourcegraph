@@ -8,8 +8,5 @@ import { BrowserExtensionAlert } from './BrowserExtensionAlert'
 
 const onAlertDismissed = action('onAlertDismissed')
 
-const { add } = storiesOf('web/repo/actions/BrowserExtensionAlert', module).addDecorator(story => (
-    <div className="container mt-3">{story()}</div>
-))
-
-add('(browser)', () => <WebStory>{() => <BrowserExtensionAlert onAlertDismissed={onAlertDismissed} />}</WebStory>)
+const { add } = storiesOf('web/repo/actions/BrowserExtensionAlert', module)
+add('standard', () => <WebStory>{() => <BrowserExtensionAlert onAlertDismissed={onAlertDismissed} />}</WebStory>)
