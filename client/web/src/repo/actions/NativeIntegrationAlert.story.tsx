@@ -10,7 +10,7 @@ import { NativeIntegrationAlert } from './NativeIntegrationAlert'
 
 const onAlertDismissed = action('onAlertDismissed')
 
-const { add } = storiesOf('web/repo/actions/InstallBrowserExtensionAlert', module).addDecorator(story => (
+const { add } = storiesOf('web/repo/actions/NativeIntegrationAlert', module).addDecorator(story => (
     <div className="container mt-3">{story()}</div>
 ))
 
@@ -25,31 +25,7 @@ const services = [
 
 for (const serviceKind of services) {
     add(
-        `${serviceKind} (native integration installed)`,
-        () => (
-            <WebStory>
-                {() => (
-                    <NativeIntegrationAlert
-                        onAlertDismissed={onAlertDismissed}
-                        externalURLs={[
-                            {
-                                url: '',
-                                serviceKind,
-                            },
-                        ]}
-                    />
-                )}
-            </WebStory>
-        ),
-        {
-            chromatic: {
-                disable: serviceKind !== ExternalServiceKind.GITHUB,
-            },
-        }
-    )
-
-    add(
-        `${serviceKind} (browser)`,
+        `${serviceKind}`,
         () => (
             <WebStory>
                 {() => (
