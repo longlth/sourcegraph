@@ -17,6 +17,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary'
 import { OnboardingTourStepItem } from './lib/data'
 import { useOnboardingTour, useOnboardingTourCompletion, useOnboardingTourTracking } from './lib/useOnboardingTour'
 import styles from './OnboardingTour.module.scss'
+import { ONBOARDING_TOUR_MARKER } from './OnboardingTourInfo'
 
 interface CardProps {
     onClose: () => void
@@ -154,7 +155,7 @@ interface OnboardingTourContentProps extends TelemetryProps {
     className?: string
 }
 
-export const OnboardingTourContent: React.FunctionComponent<OnboardingTourContentProps> = ({
+const OnboardingTourContent: React.FunctionComponent<OnboardingTourContentProps> = ({
     className,
     isFixedHeight,
     telemetryService,
@@ -279,7 +280,7 @@ const OnboardingTourAgent: React.FunctionComponent<OnboardingTourAgentProps> = R
             return null
         }
 
-        const domNode = document.querySelector(info.selector)
+        const domNode = document.querySelector('.' + ONBOARDING_TOUR_MARKER)
         if (!domNode) {
             return null
         }
@@ -287,7 +288,7 @@ const OnboardingTourAgent: React.FunctionComponent<OnboardingTourAgentProps> = R
         return ReactDOM.createPortal(
             <div className={styles.infoPanel}>
                 <CheckCircleIcon className={classNames('icon-inline', styles.infoIcon)} size="1rem" />
-                <span dangerouslySetInnerHTML={{ __html: info.content }} />
+                <span dangerouslySetInnerHTML={{ __html: info }} />
             </div>,
             domNode
         )

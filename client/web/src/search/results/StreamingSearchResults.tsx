@@ -23,6 +23,7 @@ import { PageTitle } from '../../components/PageTitle'
 import { FeatureFlagProps } from '../../featureFlags/featureFlags'
 import { CodeInsightsProps } from '../../insights/types'
 import { isCodeInsightsEnabled } from '../../insights/utils/is-code-insights-enabled'
+import { OnboardingTourInfo } from '../../onboarding-tour/OnboardingTourInfo'
 import { SavedSearchModal } from '../../savedSearches/SavedSearchModal'
 import { useExperimentalFeatures, useNavbarQueryState, useSearchStack } from '../../stores'
 import { SearchBetaIcon } from '../CtaIcons'
@@ -218,6 +219,8 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     const submittedSearchesCount = getSubmittedSearchesCount()
     const isValidSignUpCtaCadence = submittedSearchesCount < 5 || submittedSearchesCount % 5 === 0
     const showSignUpCta = !authenticatedUser && resultsFound && isValidSignUpCtaCadence
+    const showOnboardingTour =
+        props.isSourcegraphDotCom && !props.authenticatedUser && props.featureFlags.get('getting-started-tour')
 
     // Log view event when signup CTA is shown
     useEffect(() => {
@@ -233,11 +236,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
 
             <SearchSidebar
                 activation={props.activation}
-                showOnboardingTour={
-                    props.isSourcegraphDotCom &&
-                    !props.authenticatedUser &&
-                    props.featureFlags.get('getting-started-tour')
-                }
+                showOnboardingTour={showOnboardingTour}
                 caseSensitive={caseSensitive}
                 patternType={patternType}
                 settingsCascade={props.settingsCascade}
@@ -282,6 +281,7 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
             />
 
             <div className={styles.streamingSearchResultsContainer}>
+                {showOnboardingTour && <OnboardingTourInfo className="mt-2 mr-3 mb-3" />}
                 {showSavedSearchModal && (
                     <SavedSearchModal
                         {...props}
