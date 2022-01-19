@@ -234,16 +234,16 @@ impl<'a> fmt::Display for Escape<'a> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{highlight, Query};
+    use crate::{syntect_highlight, SourcegraphQuery};
 
-    fn test_css_table_highlight(q: Query, expected: &str) {
-        let result = highlight(q);
+    fn test_css_table_highlight(q: SourcegraphQuery, expected: &str) {
+        let result = syntect_highlight(q);
         assert_eq!(json!({"data": expected, "plaintext": false}), result);
     }
 
     #[test]
     fn simple_css() {
-        let query = Query {
+        let query = SourcegraphQuery {
             filepath: "test.go".to_string(),
             code: "package main\n".to_string(),
             line_length_limit: None,
@@ -272,7 +272,7 @@ mod tests {
     // See https://github.com/sourcegraph/sourcegraph/issues/20537
     #[test]
     fn long_line_gets_escaped() {
-        let query = Query {
+        let query = SourcegraphQuery {
             filepath: "test.html".to_string(),
             code: "<div>test</div>".to_string(),
             line_length_limit: Some(10),
@@ -295,7 +295,7 @@ mod tests {
 
     #[test]
     fn no_highlight_long_line() {
-        let query = Query {
+        let query = SourcegraphQuery {
             filepath: "test.go".to_string(),
             code: "package main\n".to_string(),
             line_length_limit: Some(5),
@@ -318,7 +318,7 @@ mod tests {
 
     #[test]
     fn multi_line_java() {
-        let query = Query {
+        let query = SourcegraphQuery {
             filepath: "test.java".to_string(),
             code: "package com.lwl.boot.model;\n\npublic class Item implements Serializable {}"
                 .to_string(),
