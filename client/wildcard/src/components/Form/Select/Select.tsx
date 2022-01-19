@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import styles from './Select.module.scss'
 
 import { AccessibleFieldProps } from '../internal/AccessibleFieldType'
 import { FormFieldLabel } from '../internal/FormFieldLabel'
@@ -44,8 +45,9 @@ export const getSelectStyles = ({
  */
 export const Select: React.FunctionComponent<SelectProps> = React.forwardRef(
     ({ children, className, message, isValid, isCustomStyle, selectSize, ...props }, reference) => (
-        <div className="form-group">
-            {'label' in props && <FormFieldLabel htmlFor={props.id}>{props.label}</FormFieldLabel>}
+        // <div className="form-group">
+        <>
+            {'label' in props && <FormFieldLabel className={styles.selectLabel} htmlFor={props.id}>{props.label}</FormFieldLabel>}
             <select
                 ref={reference}
                 className={classNames(
@@ -58,6 +60,7 @@ export const Select: React.FunctionComponent<SelectProps> = React.forwardRef(
                 {children}
             </select>
             {message && <FormFieldMessage isValid={isValid}>{message}</FormFieldMessage>}
-        </div>
+        </>
+        // </div>
     )
 )
