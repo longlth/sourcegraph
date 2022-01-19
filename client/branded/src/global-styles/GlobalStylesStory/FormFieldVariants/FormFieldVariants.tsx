@@ -60,13 +60,7 @@ export const FormFieldVariants: React.FunctionComponent = () => (
         <WithVariantsAndMessageElements
             field={({ className, message, ...props }) => (
                 <fieldset className="form-group">
-                    <Select
-                        aria-label=""
-                        message={message}
-                        isCustomStyle={true}
-                        className={className}
-                        {...props}
-                    >
+                    <Select aria-label="" message={message} isCustomStyle={true} className={className} {...props}>
                         <option>Option A</option>
                         <option>Option B</option>
                         <option>Option C</option>

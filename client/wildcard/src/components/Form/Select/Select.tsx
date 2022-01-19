@@ -44,7 +44,8 @@ export const getSelectStyles = ({
  */
 export const Select: React.FunctionComponent<SelectProps> = React.forwardRef(
     ({ children, className, message, isValid, isCustomStyle, selectSize, ...props }, reference) => (
-        <div className="form-group">
+        // <div className="form-group">
+        <>
             {'label' in props && <FormFieldLabel htmlFor={props.id}>{props.label}</FormFieldLabel>}
             <select
                 ref={reference}
@@ -58,6 +59,7 @@ export const Select: React.FunctionComponent<SelectProps> = React.forwardRef(
                 {children}
             </select>
             {message && <FormFieldMessage isValid={isValid}>{message}</FormFieldMessage>}
-        </div>
+        </>
+        /* </div> */
     )
 )
