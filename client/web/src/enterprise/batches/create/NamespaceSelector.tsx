@@ -41,11 +41,7 @@ export const NamespaceSelector: React.FunctionComponent<NamespaceSelectorProps> 
     return (
         <div className="form-group">
             <Select
-                label={
-                    <label className="text-nowrap mb-2" htmlFor={NAMESPACE_SELECTOR_ID}>
-                        <strong>Namespace:</strong>
-                    </label>
-                }
+                label={<strong className="text-nowrap mb-2">Namespace:</strong>}
                 isCustomStyle={false}
                 className={styles.namespaceSelector}
                 id={NAMESPACE_SELECTOR_ID}
