@@ -56,7 +56,7 @@ pub struct SourcegraphQuery {
     pub code: String,
 }
 
-pub(crate) fn determine_language<'a>(
+fn determine_language<'a>(
     q: &SourcegraphQuery,
     syntax_set: &'a SyntaxSet,
 ) -> Result<&'a SyntaxReference, JsonValue> {

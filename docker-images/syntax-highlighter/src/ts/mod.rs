@@ -1,9 +1,8 @@
-use protobuf::Message;
 use std::collections::HashMap;
 use tree_sitter_highlight::Error;
 use tree_sitter_highlight::{Highlight, HighlightEvent};
 
-use rocket_contrib::json::{Json, JsonValue};
+use rocket_contrib::json::JsonValue;
 use tree_sitter_highlight::{HighlightConfiguration, Highlighter as TSHighlighter};
 
 use crate::lsif::{Document, Occurrence, SyntaxKind};

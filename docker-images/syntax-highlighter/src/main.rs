@@ -26,6 +26,11 @@ fn index(q: Json<SourcegraphQuery>) -> JsonValue {
     }
 }
 
+#[post("/lsif", format = "application/json", data = "<q>")]
+fn lsif(q: Json<SourcegraphQuery>) -> JsonValue {
+    sg_syntax::lsif_highlight(q.into_inner())
+}
+
 #[get("/health")]
 fn health() -> &'static str {
     "OK"
@@ -34,11 +39,6 @@ fn health() -> &'static str {
 #[catch(404)]
 fn not_found() -> JsonValue {
     json!({"error": "resource not found", "code": "resource_not_found"})
-}
-
-#[post("/", format = "application/json", data = "<q>")]
-fn lsif_endpoint(q: Json<SourcegraphQuery>) -> JsonValue {
-    sg_syntax::lsif_highlight(q.into_inner())
 }
 
 #[launch]
@@ -54,7 +54,6 @@ fn rocket() -> rocket::Rocket {
     };
 
     rocket::ignite()
-        .mount("/", routes![index, health])
-        .mount("/lsif", routes![lsif_endpoint, health])
+        .mount("/", routes![index, lsif, health])
         .register(catchers![not_found])
 }
