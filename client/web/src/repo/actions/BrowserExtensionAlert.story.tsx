@@ -1,12 +1,22 @@
 import { action } from '@storybook/addon-actions'
-import { storiesOf } from '@storybook/react'
+import { DecoratorFn, Meta, Story } from '@storybook/react'
 import React from 'react'
 
 import { WebStory } from '../../components/WebStory'
 
 import { BrowserExtensionAlert } from './BrowserExtensionAlert'
 
-const onAlertDismissed = action('onAlertDismissed')
+const decorator: DecoratorFn = story => <WebStory>{() => story()}</WebStory>
 
-const { add } = storiesOf('web/repo/actions/BrowserExtensionAlert', module)
-add('standard', () => <WebStory>{() => <BrowserExtensionAlert onAlertDismissed={onAlertDismissed} />}</WebStory>)
+const config: Meta = {
+    title: 'web/repo/actions',
+    decorators: [decorator],
+    parameters: {
+        component: BrowserExtensionAlert,
+    },
+}
+
+export default config
+
+export const Default: Story = () => <BrowserExtensionAlert onAlertDismissed={action('onAlertDismissed')} />
+Default.storyName = 'BrowserExtensionAlert'
