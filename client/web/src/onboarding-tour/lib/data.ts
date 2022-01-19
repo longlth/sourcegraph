@@ -53,7 +53,7 @@ export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[
         title: 'Find removed code in diffs',
         group: CODE_SEARCH,
         to:
-            '/search?q=context:global+repo:%5Egitlab%5C.com/sourcegraph/sourcegraph%24+type:diff+lang:go+select:commit.diff.removed+magic&patternType=literal',
+            '/search?q=context:global+repo:sourcegraph-testing/+lang:java+type:diff+select:commit.diff.added+//TODO&patternType=literal',
     },
     // Group: CODE_INTEL
     {
