@@ -36,13 +36,6 @@ export interface OnboardingTourStepItem {
 export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[] = [
     // Group: CODE_SEARCH
     {
-        id: 'TourDiffSearch',
-        title: 'Find removed code in diffs',
-        group: CODE_SEARCH,
-        to:
-            '/search?q=context:global+repo:%5Egitlab%5C.com/sourcegraph/sourcegraph%24+type:diff+lang:go+select:commit.diff.removed+magic&patternType=literal',
-    },
-    {
         id: 'TourCommitsSearch',
         title: 'Find changes in commits',
         group: CODE_SEARCH,
@@ -54,6 +47,13 @@ export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[
         title: 'Find symbols via a string',
         group: CODE_SEARCH,
         to: '/search?q=context:global+r:sourcegraph/sourcegraph%24+lang:go+type:symbol+auth&patternType=literal',
+    },
+    {
+        id: 'TourDiffSearch',
+        title: 'Find removed code in diffs',
+        group: CODE_SEARCH,
+        to:
+            '/search?q=context:global+repo:%5Egitlab%5C.com/sourcegraph/sourcegraph%24+type:diff+lang:go+select:commit.diff.removed+magic&patternType=literal',
     },
     // Group: CODE_INTEL
     {
