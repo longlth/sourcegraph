@@ -150,10 +150,9 @@
 }
 
 // Remove feedback icon for <select> and <textarea>
-// select.form-control,
-// textarea.form-control:not(.with-invalid-icon) {
-//     background-image: none;
-// } This rule is commented out because it causes UI change with migration to new <Select> component
+textarea.form-control:not(.with-invalid-icon) {
+    background-image: none;
+} // Removed select.form-control from this rule to resolve UI change on new <Select> component
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus,

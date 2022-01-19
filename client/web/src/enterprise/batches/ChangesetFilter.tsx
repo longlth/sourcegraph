@@ -31,7 +31,8 @@ export const ChangesetFilter = <T extends string>({
             <Select
                 aria-label=""
                 id=""
-                className={classNames('form-control changeset-filter__dropdown', className)}
+                isCustomStyle={false}
+                className={classNames('changeset-filter__dropdown', className)}
                 value={selected}
                 onChange={innerOnChange}
             >

@@ -32,7 +32,7 @@ export const RegistryPublisherFormGroup: React.FunctionComponent<{
             <Select
                 label="Publisher"
                 id="extension-registry-create-extension-page__publisher"
-                className="form-control"
+                isCustomStyle={false}
                 onChange={onChange}
                 required={true}
                 disabled={disabled || publishersOrError === 'loading'}

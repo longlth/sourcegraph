@@ -351,7 +351,7 @@ export const SelectAffiliatedRepos: FunctionComponent<Props> = ({
             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
                 <Select
                     label={<p className="text-xl-center text-nowrap mr-2">Code Host:</p>}
-                    className="form-control"
+                    isCustomStyle={false}
                     name="code-host"
                     aria-label="select code host type"
                     onChange={event => setCodeHostFilter(event.target.value)}

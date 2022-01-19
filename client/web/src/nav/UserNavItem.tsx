@@ -181,7 +181,9 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
                         <Select
                             id=""
                             label={<div className="mr-2">Theme</div>}
-                            className="custom-select custom-select-sm test-theme-toggle"
+                            isCustomStyle={true}
+                            selectSize='sm'
+                            className="test-theme-toggle"
                             onChange={onThemeChange}
                             value={props.themePreference}
                         >

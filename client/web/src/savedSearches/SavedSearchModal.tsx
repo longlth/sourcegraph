@@ -63,7 +63,8 @@ export class SavedSearchModal extends React.Component<Props, State> {
                             <Select
                                 aria-label=""
                                 onChange={this.onLocationChange}
-                                className={classNames(styles.select, 'form-control')}
+                                isCustomStyle={false}
+                                className={styles.select}
                             >
                                 <option value={UserOrOrg.User}>User</option>
                                 {this.props.authenticatedUser.organizations &&
@@ -78,7 +79,8 @@ export class SavedSearchModal extends React.Component<Props, State> {
                                         aria-label=""
                                         onChange={this.onOrganizationChange}
                                         placeholder="Select an organization"
-                                        className={classNames(styles.select, 'form-control')}
+                                        isCustomStyle={false}
+                                        className={styles.select}
                                     >
                                         <option value="" disabled={true} selected={true}>
                                             Select an organization

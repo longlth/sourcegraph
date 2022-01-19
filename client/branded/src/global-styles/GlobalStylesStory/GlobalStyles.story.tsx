@@ -432,7 +432,7 @@ export const Forms: Story = () => (
                 <input type="password" className="form-control" id="example-input-password" />
             </div>
             <div className="form-group">
-                <Select id="example-select" className="custom-select" label="Example select">
+                <Select id="example-select" isCustomStyle={true} label="Example select">
                     <option>Option A</option>
                     <option>Option B</option>
                     <option>Option C</option>
@@ -460,7 +460,7 @@ export const Forms: Story = () => (
                     <input type="text" id="disabledTextInput" className="form-control" placeholder="Disabled input" />
                 </div>
                 <div className="form-group">
-                    <Select id="disabledSelect" className="custom-select" label="Disabled select menu">
+                    <Select id="disabledSelect" isCustomStyle={true} label="Disabled select menu">
                         <option>Disabled select</option>
                     </Select>
                 </div>
@@ -493,7 +493,7 @@ export const Forms: Story = () => (
                 <div className="form-group">
                     <input className="form-control form-control-sm mb-1" type="text" placeholder="Small input" />
                     <TextArea size="small" className="mb-1" placeholder="Small textarea" />
-                    <Select className="custom-select custom-select-sm mb-1" aria-label="" id="">
+                    <Select isCustomStyle={true} selectSize='sm' className="mb-1" aria-label="" id="">
                         <option>Small select</option>
                     </Select>
                 </div>

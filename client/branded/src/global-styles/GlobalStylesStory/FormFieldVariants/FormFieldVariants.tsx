@@ -63,7 +63,8 @@ export const FormFieldVariants: React.FunctionComponent = () => (
                     <Select
                         aria-label=""
                         message={message}
-                        className={classNames('custom-select', className)}
+                        isCustomStyle={true}
+                        className={className}
                         {...props}
                     >
                         <option>Option A</option>

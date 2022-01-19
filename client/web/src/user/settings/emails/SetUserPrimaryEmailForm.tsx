@@ -77,7 +77,8 @@ export const SetUserPrimaryEmailForm: FunctionComponent<Props> = ({ user, emails
                 <Select
                     label="Primary email address"
                     id="setUserPrimaryEmailForm-email"
-                    className="custom-select form-control-lg mr-sm-2"
+                    isCustomStyle={true}
+                    className="form-control-lg mr-sm-2"
                     value={primaryEmail}
                     onChange={onPrimaryEmailSelect}
                     required={true}

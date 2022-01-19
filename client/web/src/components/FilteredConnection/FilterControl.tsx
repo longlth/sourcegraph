@@ -91,7 +91,7 @@ export const FilterControl: React.FunctionComponent<FilterControlProps> = ({
                                 <Select
                                     label={<p className="text-xl-center text-nowrap mr-2">{filter.label}:</p>}
                                     id=""
-                                    className="form-control"
+                                    isCustomStyle={false}
                                     name={filter.id}
                                     onChange={event => onChange(filter, event.currentTarget.value)}
                                 >
