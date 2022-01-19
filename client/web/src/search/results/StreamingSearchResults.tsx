@@ -16,7 +16,6 @@ import { StreamSearchOptions } from '@sourcegraph/shared/src/search/stream'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { Button } from '@sourcegraph/wildcard'
 import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
 import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
 
@@ -24,6 +23,7 @@ import { SearchStreamingProps, SearchContextProps } from '..'
 import { AuthenticatedUser } from '../../auth'
 import { PageTitle } from '../../components/PageTitle'
 import { FeatureFlagProps } from '../../featureFlags/featureFlags'
+import { usePersistentCadence } from '../../hooks'
 import { CodeInsightsProps } from '../../insights/types'
 import { isCodeInsightsEnabled } from '../../insights/utils/is-code-insights-enabled'
 import { BrowserExtensionAlert } from '../../repo/actions/BrowserExtensionAlert'
@@ -41,7 +41,6 @@ import { SearchResultsInfoBar } from './SearchResultsInfoBar'
 import { SearchSidebar } from './sidebar/SearchSidebar'
 import styles from './StreamingSearchResults.module.scss'
 import { StreamingSearchResultsList } from './StreamingSearchResultsList'
-import { usePersistentCadence } from '../../hooks'
 
 export interface StreamingSearchResultsProps
     extends SearchStreamingProps,
@@ -242,14 +241,26 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
         telemetryService.log('SignUpPLGSearchCTA_1_Search')
     }
 
-    const resultsFound = results ? results.results.length > 0 : false
-    const showSignUpCta = !hasDismissedSignupAlert && !authenticatedUser && displayCTAsBasedOnCadence && resultsFound
-    const showBrowserExtensionCta =
-        !hasDismissedBrowserExtensionAlert &&
-        authenticatedUser &&
-        !isBrowserExtensionInstalled &&
-        displayCTAsBasedOnCadence &&
-        resultsFound
+    const resultsFound = useMemo(() => (results ? results.results.length > 0 : false), [results])
+    const showSignUpCta = useMemo(
+        () => !hasDismissedSignupAlert && !authenticatedUser && displayCTAsBasedOnCadence && resultsFound,
+        [authenticatedUser, displayCTAsBasedOnCadence, hasDismissedSignupAlert, resultsFound]
+    )
+    const showBrowserExtensionCta = useMemo(
+        () =>
+            !hasDismissedBrowserExtensionAlert &&
+            authenticatedUser &&
+            isBrowserExtensionInstalled === false &&
+            displayCTAsBasedOnCadence &&
+            resultsFound,
+        [
+            authenticatedUser,
+            displayCTAsBasedOnCadence,
+            hasDismissedBrowserExtensionAlert,
+            isBrowserExtensionInstalled,
+            resultsFound,
+        ]
+    )
 
     // Log view event when signup CTA is shown
     useEffect(() => {
