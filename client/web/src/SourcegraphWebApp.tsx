@@ -49,7 +49,7 @@ import { ExtensionAreaHeaderNavItem } from './extensions/extension/ExtensionArea
 import { ExtensionsAreaRoute } from './extensions/ExtensionsArea'
 import { ExtensionsAreaHeaderActionButton } from './extensions/ExtensionsAreaHeader'
 import { FeatureFlagName, fetchFeatureFlags, FlagSet } from './featureFlags/featureFlags'
-import { FeatureFlagsAgent } from './featureFlags/FeatureFlagsAgent'
+import { OverrideFeatureFlagsAgent } from './featureFlags/OverrideFeatureFlagsAgent'
 import { CodeInsightsProps } from './insights/types'
 import { KeyboardShortcutsProps } from './keyboardShortcuts/keyboardShortcuts'
 import { Layout, LayoutProps } from './Layout'
@@ -396,7 +396,7 @@ export class SourcegraphWebApp extends React.Component<SourcegraphWebAppProps, S
                                 <SearchResultsCacheProvider>
                                     <ScrollManager history={history}>
                                         <Router history={history} key={0}>
-                                            <FeatureFlagsAgent />
+                                            <OverrideFeatureFlagsAgent />
                                             <Route
                                                 path="/"
                                                 render={routeComponentProps => (
