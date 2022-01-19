@@ -50,7 +50,7 @@ export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[
     },
     {
         id: 'TourDiffSearch',
-        title: 'Find removed code in diffs',
+        title: 'Search diffs for added code',
         group: CODE_SEARCH,
         to:
             '/search?q=context:global+repo:sourcegraph-testing/+lang:java+type:diff+select:commit.diff.added+//TODO&patternType=literal',
