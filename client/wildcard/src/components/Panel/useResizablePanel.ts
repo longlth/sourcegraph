@@ -57,7 +57,7 @@ export const useResizablePanel = ({
     const [panelSize, setPanelSize] = useState(defaultSize)
 
     useEffect(() => {
-        setPanelSize(getCachedPanelSize('175', 175))
+        setPanelSize(getCachedPanelSize(storageKey, defaultSize))
     }, [storageKey, defaultSize])
 
     useEffect(() => {
