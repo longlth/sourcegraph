@@ -11,6 +11,7 @@
     display: inline-block;
     text-align: center;
     vertical-align: middle;
+    background-color: transparent;
     border: 1px solid transparent;
     user-select: none;
     font-size: 0.875rem;
@@ -22,15 +23,6 @@
     &:disabled {
         cursor: not-allowed;
     }
-}
-
-.btn.btn-sm {
-    // Use string interpolation and calc() to avoid using Sass own max() function.
-    // See: https://github.com/sass/node-sass/issues/2815#issuecomment-575926329
-    font-size: calc(min(0.75rem, #{(11/12)}em));
-    line-height: 1rem;
-    letter-spacing: -(0.25/12) + em;
-    padding: var(--btn-padding-y-sm) 0.5rem;
 }
 
 .btn-link {
@@ -78,6 +70,15 @@
 
 .btn-inline {
     display: inline-block;
+}
+
+.btn-sm {
+    // Use string interpolation and calc() to avoid using Sass own max() function.
+    // See: https://github.com/sass/node-sass/issues/2815#issuecomment-575926329
+    font-size: calc(min(0.75rem, #{(11/12)}em));
+    line-height: 1rem;
+    letter-spacing: -(0.25/12) + em;
+    padding: var(--btn-padding-y-sm) 0.5rem;
 }
 
 // This class is meant for clickable icons. It is NOT meant for buttons with icons in it or for nav
