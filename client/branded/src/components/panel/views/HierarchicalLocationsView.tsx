@@ -250,33 +250,42 @@ export class HierarchicalLocationsView extends React.PureComponent<HierarchicalL
                             groupsToDisplay.map(
                                 (group, index) =>
                                     group && (
-                                        <Panel
-                                            key={index}
-                                            className={styles.resizableGroup}
-                                            position="right"
-                                            storageKey={`hierarchical-locations-view-resizable:${group.name}`}
-                                            defaultSize={group.defaultSize}
-                                        >
-                                            <div
-                                                data-testid="hierarchical-locations-view-list"
-                                                className={classNames('list-group', styles.groupList)}
+                                        <div className="position-relative">
+                                            <Panel
+                                                key={index}
+                                                className={styles.resizableGroup}
+                                                handleClassName={styles.resizableHandle}
+                                                isFloating={false}
+                                                position="left"
+                                                storageKey={`hierarchical-locations-view-resizable:${group.name}`}
+                                                defaultSize={group.defaultSize}
                                             >
-                                                {groups[index].map((group, innerIndex) => (
-                                                    <HierarchicalLocationsViewButton
-                                                        key={innerIndex}
-                                                        groupKey={group.key}
-                                                        groupCount={group.count}
-                                                        isActive={selectedGroups[index] === group.key}
-                                                        onClick={event =>
-                                                            this.onSelectTree(event, selectedGroups, index, group.key)
-                                                        }
-                                                    />
-                                                ))}
-                                                {this.state.locationsOrError.isLoading && (
-                                                    <LoadingSpinner className="m-2 flex-shrink-0 test-loading-spinner" />
-                                                )}
-                                            </div>
-                                        </Panel>
+                                                <div
+                                                    data-testid="hierarchical-locations-view-list"
+                                                    className={classNames('list-group', styles.groupList)}
+                                                >
+                                                    {groups[index].map((group, innerIndex) => (
+                                                        <HierarchicalLocationsViewButton
+                                                            key={innerIndex}
+                                                            groupKey={group.key}
+                                                            groupCount={group.count}
+                                                            isActive={selectedGroups[index] === group.key}
+                                                            onClick={event =>
+                                                                this.onSelectTree(
+                                                                    event,
+                                                                    selectedGroups,
+                                                                    index,
+                                                                    group.key
+                                                                )
+                                                            }
+                                                        />
+                                                    ))}
+                                                    {this.state.locationsOrError.isLoading && (
+                                                        <LoadingSpinner className="m-2 flex-shrink-0 test-loading-spinner" />
+                                                    )}
+                                                </div>
+                                            </Panel>
+                                        </div>
                                     )
                             )}
                     </div>

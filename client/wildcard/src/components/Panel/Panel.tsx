@@ -7,7 +7,9 @@ import styles from './Panel.module.scss'
 import { useResizablePanel } from './useResizablePanel'
 
 export interface PanelProps {
+    isFloating?: boolean
     className?: string
+    handleClassName?: string
     storageKey?: string
     defaultSize?: number
     position?: typeof PANEL_POSITIONS[number]
@@ -15,7 +17,9 @@ export interface PanelProps {
 
 export const Panel: React.FunctionComponent<PanelProps> = ({
     children,
+    isFloating = true,
     className,
+    handleClassName,
     defaultSize = 200,
     storageKey,
     position = 'bottom',
@@ -32,25 +36,39 @@ export const Panel: React.FunctionComponent<PanelProps> = ({
     })
 
     return (
-        <div
-            // eslint-disable-next-line react/forbid-dom-props
-            style={{ [position === 'bottom' ? 'height' : 'width']: `${panelSize}px` }}
-            className={classNames(
-                className,
-                styles.panel,
-                styles[`panel${upperFirst(position)}` as keyof typeof styles]
-            )}
-            ref={panelReference}
-        >
+        <div>
             <div
-                ref={handleReference}
+                // eslint-disable-next-line react/forbid-dom-props
+                style={{
+                    [position === 'bottom' ? 'height' : 'width']: `${panelSize}px`,
+                    paddingRight: isFloating ? 0 : '0.5rem',
+                }}
                 className={classNames(
-                    styles.handle,
-                    styles[`handle${upperFirst(position)}` as keyof typeof styles],
-                    isResizing && styles.handleResizing
+                    className,
+                    styles.panel,
+                    styles[`panel${upperFirst(position)}` as keyof typeof styles]
                 )}
-            />
-            {children}
+                ref={panelReference}
+            >
+                {children}
+                <div
+                    ref={handleReference}
+                    className={classNames(
+                        styles.handle,
+                        handleClassName || styles[`handle${upperFirst(position)}` as keyof typeof styles],
+                        isResizing && styles.handleResizing
+                    )}
+                />
+            </div>
+            {!isFloating && (
+                <div
+                    // eslint-disable-next-line react/forbid-dom-props
+                    style={{
+                        [position === 'bottom' ? 'height' : 'width']: `${panelSize}px`,
+                        marginRight: '0.5rem',
+                    }}
+                />
+            )}
         </div>
     )
 }

@@ -12,10 +12,16 @@
 
 .resizable-handle {
     width: 0;
-    margin-right: 0.5rem;
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: transparent;
     transition: opacity 150ms;
     border-right: 1px solid var(--border-color-2);
+    opacity: 0;
+    cursor: ew-resize;
+    top: 0;
+    bottom: 0;
+    right: 0;
 
     &:hover {
         opacity: 1;

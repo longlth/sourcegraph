@@ -3,7 +3,7 @@
     --panel-handle-bg-color: var(--border-color-2);
     --panel-bg-color: var(--color-bg-1);
 
-    position: fixed;
+    position: absolute;
     background-color: var(--panel-bg-color);
     overflow-x: hidden;
     bottom: 0;
