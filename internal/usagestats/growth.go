@@ -107,11 +107,22 @@ FROM
 }
 
 func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, error) {
-	const q = `SELECT
-(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAShown' and page = 'file') AS bext_cta_shown__count_on_file_page,
-(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAClicked' and page = 'file') AS bext_cta_clicked_count_on_file_page,
-(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAShown' and page = 'search') AS bext_cta_shown_count_on_search_page,
-(SELECT count(*) FROM metrics WHERE name = 'InstallBrowserExtensionCTAClicked' and page = 'search') AS bext_cta_clicked_count_on_search_page,
+	// TODO: Finish query
+	const q = `
+  -- source: internal/usagestats/growth.go:GetCTAMetrics
+  WITH
+  data_by_month AS (
+    SELECT DATE_TRUNC('month', timestamp) AS month
+      FROM event_logs
+     WHERE name IN ('InstallBrowserExtensionCTAShown', 'InstallBrowserExtensionCTAClicked')
+       AND argument->>'page' IN ('file', 'search')
+       AND month = DATE_TRUNC('month', NOW())
+  )
+  SELECT
+     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAShown' and argument->>'page' = 'file')) AS bext_cta_shown_count_on_file_page,
+     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAClicked' and argument->>'page' = 'file')) AS bext_cta_clicked_count_on_file_page,
+     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAShown' and argument->>'page' = 'search')) AS bext_cta_shown_count_on_search_page,
+     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAClicked' and argument->>'page' = 'search')) AS bext_cta_clicked_count_on_search_page,
 `
 	var (
 		bextCtaShownCountOnFilePage     int32

@@ -144,7 +144,7 @@ func getAndMarshalGrowthStatisticsJSON(ctx context.Context, db database.DB) (_ j
 func getAndMarshalCTAMetricsJSON(ctx context.Context, db database.DB) (_ json.RawMessage, err error) {
 	defer recordOperation("getAndMarshalCTAMetricsJSON")(&err)
 
-	ctaMetrics, err := usagestats.GetCTAMetrics(ctx, db) // TODO: implement
+	ctaMetrics, err := usagestats.GetCTAMetrics(ctx, db)
 	if err != nil {
 		return nil, err
 	}
