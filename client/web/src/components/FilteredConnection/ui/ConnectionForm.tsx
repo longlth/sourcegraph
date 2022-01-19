@@ -84,7 +84,8 @@ export const ConnectionForm = React.forwardRef<HTMLInputElement, ConnectionFormP
                 className={classNames(
                     'w-100 d-inline-flex justify-content-between flex-row',
                     !compact && styles.noncompact,
-                    formClassName
+                    formClassName,
+                    styles.customHeight
                 )}
                 onSubmit={handleSubmit}
             >

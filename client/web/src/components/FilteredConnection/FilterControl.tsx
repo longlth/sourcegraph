@@ -88,8 +88,9 @@ export const FilterControl: React.FunctionComponent<FilterControlProps> = ({
                             className={classNames('d-inline-flex flex-row align-center flex-wrap', styles.select)}
                         >
                             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
+                                <p className="text-xl-center text-nowrap mr-2">{filter.label}:</p>
                                 <Select
-                                    label={<p className="text-xl-center text-nowrap mr-2">{filter.label}:</p>}
+                                    aria-label=""
                                     id=""
                                     isCustomStyle={false}
                                     name={filter.id}

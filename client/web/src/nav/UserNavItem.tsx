@@ -178,9 +178,10 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
                 <DropdownItem divider={true} />
                 <div className="px-2 py-1">
                     <div className="d-flex align-items-center">
+                        <div className="mr-2">Theme</div>
                         <Select
                             id=""
-                            label={<div className="mr-2">Theme</div>}
+                            aria-label=""
                             isCustomStyle={true}
                             selectSize="sm"
                             className="test-theme-toggle"

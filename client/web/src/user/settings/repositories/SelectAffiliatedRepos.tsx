@@ -349,8 +349,8 @@ export const SelectAffiliatedRepos: FunctionComponent<Props> = ({
     const filterControls: JSX.Element = (
         <div className="w-100 d-inline-flex justify-content-between flex-row mt-3">
             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
+                <p className="text-xl-center text-nowrap mr-2">Code Host:</p>
                 <Select
-                    label={<p className="text-xl-center text-nowrap mr-2">Code Host:</p>}
                     isCustomStyle={false}
                     name="code-host"
                     aria-label="select code host type"
