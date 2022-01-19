@@ -1,5 +1,7 @@
 package query
 
+import "github.com/hashicorp/go-multierror"
+
 /*
 Query processing involves multiple steps to produce a query to evaluate.
 
@@ -35,6 +37,46 @@ func succeeds(passes ...pass) step {
 			nodes = pass(nodes)
 		}
 		return nodes, nil
+	}
+}
+
+func substituteSearchContexts(queryForContext func(value string) (string, error)) step {
+	return func(nodes []Node) ([]Node, error) {
+		errs := new(multierror.Error)
+		substitutedContext := MapParameter(nodes, func(field, value string, negated bool, ann Annotation) Node {
+			p := Parameter{
+				Value:      value,
+				Field:      field,
+				Negated:    negated,
+				Annotation: ann,
+			}
+
+			if field != FieldContext {
+				return p
+			}
+
+			queryString, err := queryForContext(value)
+			if err != nil {
+				errs = multierror.Append(errs, err)
+				return p
+			}
+
+			if queryString == "" {
+				return p
+			}
+
+			query, err := ParseRegexp(queryString)
+			if err != nil {
+				errs = multierror.Append(errs, err)
+				return p
+			}
+			return Operator{
+				Kind:     And,
+				Operands: query,
+			}
+		})
+
+		return substitutedContext, errs
 	}
 }
 
