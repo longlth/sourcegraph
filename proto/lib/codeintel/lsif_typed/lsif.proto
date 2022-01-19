@@ -163,8 +163,11 @@ enum SymbolRole {
 
 enum SyntaxKind {
   UnspecifiedSyntaxKind = 0;
+  // Literal strings: "Hello, world!"
   StringLiteral = 1;
+  // Literal numbers: 30.0, 1
   NumericLiteral = 2;
+  // TODO
   Identifier = 3;
   MethodIdentifier = 4;
   TypeIdentifier = 5;
@@ -173,6 +176,7 @@ enum SyntaxKind {
   ShadedIdentifier = 8;
   PackageIdentifier = 9;
   ConstantIdentifier = 10;
+  // Comment, including comment markers and text
   Comment = 11;
   Keyword = 12;
   Operator = 13;

@@ -33,7 +33,11 @@ export namespace lib.codeintel.lsif_typed {
         TermIdentifier = 6,
         LocalIdentifier = 7,
         ShadedIdentifier = 8,
-        PackageIdentifier = 9
+        PackageIdentifier = 9,
+        ConstantIdentifier = 10,
+        Comment = 11,
+        Keyword = 12,
+        Operator = 13
     }
     export class Index extends pb_1.Message {
         constructor(data?: any[] | {
