@@ -36,17 +36,17 @@ export interface OnboardingTourStepItem {
 export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[] = [
     // Group: CODE_SEARCH
     {
+        id: 'TourSymbolsSearch',
+        title: 'Search multiple repos',
+        group: CODE_SEARCH,
+        to: '/search?q=context:global+repo:linkedin+lang:java+AtomicBoolean&patternType=literal',
+    },
+    {
         id: 'TourCommitsSearch',
         title: 'Find changes in commits',
         group: CODE_SEARCH,
         to:
             '/search?q=context:global+repo:%5Egitlab%5C.com/sourcegraph/sourcegraph%24+type:commit+bump&patternType=literal',
-    },
-    {
-        id: 'TourSymbolsSearch',
-        title: 'Find symbols via a string',
-        group: CODE_SEARCH,
-        to: '/search?q=context:global+r:sourcegraph/sourcegraph%24+lang:go+type:symbol+auth&patternType=literal',
     },
     {
         id: 'TourDiffSearch',
