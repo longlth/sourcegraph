@@ -7,6 +7,7 @@ import webStyles from '@sourcegraph/web/src/SourcegraphWebApp.scss'
 import { Grid } from '../../Grid/Grid'
 
 import { Select, SelectProps } from './Select'
+import styles from './story.module.scss';
 
 const config: Meta = {
     title: 'wildcard/Select',
@@ -56,7 +57,7 @@ const BaseSelect = (props: { id: string } & Pick<SelectProps, 'isCustomStyle' | 
 const SelectVariants = ({ isCustomStyle }: Pick<SelectProps, 'isCustomStyle'>) => {
     const idPrefix = isCustomStyle ? 'custom' : 'native'
     return (
-        <Grid columnCount={4}>
+        <Grid className={styles.story} columnCount={4}>
             <div>
                 <h2>Standard</h2>
                 <BaseSelect id={`${idPrefix}-standard`} isCustomStyle={isCustomStyle} />
