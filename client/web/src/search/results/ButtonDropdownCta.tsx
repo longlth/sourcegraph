@@ -1,9 +1,9 @@
 import classNames from 'classnames'
-import React, { useCallback, useEffect, useState } from 'react'
-import { ButtonDropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
+import React, { useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 
 import { Link } from '@sourcegraph/shared/src/components/Link'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
+import { Button, Menu, MenuButton, MenuPopover, useOpenMenuButton } from '@sourcegraph/wildcard'
 
 import { CloudSignUpSource } from '../../auth/CloudSignUpPage'
 
@@ -33,58 +33,76 @@ export const ButtonDropdownCta: React.FunctionComponent<ButtonDropdownCtaProps> 
     onToggle,
     className,
 }) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const menuButtonReference = useRef<HTMLButtonElement>(null)
+    const { setIsOverButton, isDropdownOpen, setIsDropdownOpen } = useOpenMenuButton(menuButtonReference)
 
     const toggleDropdownOpen = useCallback(() => {
         setIsDropdownOpen(isOpen => !isOpen)
         onToggle?.()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [onToggle])
 
+    useLayoutEffect(() => {
+        toggleDropdownOpen()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isDropdownOpen])
     const onClick = (): void => {
         telemetryService.log(`SignUpPLG${source}_1_Search`)
     }
 
     // Whenever dropdown opens, log view event
     useEffect(() => {
-        if (isDropdownOpen) {
-            telemetryService.log(viewEventName)
-        }
+        telemetryService.log(viewEventName)
+        onToggle?.()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDropdownOpen])
+    }, [onToggle])
 
     return (
-        <ButtonDropdown className="menu-nav-item" direction="down" isOpen={isDropdownOpen} toggle={toggleDropdownOpen}>
-            <DropdownToggle
-                className={classNames(
-                    'btn btn-sm btn-outline-secondary text-decoration-none',
-                    className,
-                    styles.toggle
-                )}
-                nav={true}
-                caret={false}
-            >
-                {button}
-            </DropdownToggle>
-            <DropdownMenu right={true} className={styles.container}>
-                <div className="d-flex mb-3">
-                    <div className="d-flex align-items-center mr-3">
-                        <div className={styles.icon}>{icon}</div>
-                    </div>
-                    <div>
-                        <div className={styles.title}>
-                            <strong>{title}</strong>
+        <Menu>
+            {() => (
+                <>
+                    <MenuButton
+                        className={classNames(
+                            'btn btn-sm btn-outline-secondary text-decoration-none menu-nav-item',
+                            className,
+                            styles.toggle
+                        )}
+                        ref={menuButtonReference}
+                        onClick={() => {
+                            setIsDropdownOpen(!isDropdownOpen)
+                        }}
+                        onMouseEnter={() => {
+                            setIsOverButton(true)
+                        }}
+                        onMouseLeave={() => {
+                            setIsOverButton(false)
+                        }}
+                    >
+                        {button}
+                    </MenuButton>
+                    <MenuPopover className={styles.container}>
+                        <div className="d-flex mb-3">
+                            <div className="d-flex align-items-center mr-3">
+                                <div className={styles.icon}>{icon}</div>
+                            </div>
+                            <div>
+                                <div className={styles.title}>
+                                    <strong>{title}</strong>
+                                </div>
+                                <div className={classNames('text-muted', styles.copyText)}>{copyText}</div>
+                            </div>
                         </div>
-                        <div className={classNames('text-muted', styles.copyText)}>{copyText}</div>
-                    </div>
-                </div>
-                <Link
-                    className="btn btn-primary"
-                    to={`/sign-up?src=${source}&returnTo=${encodeURIComponent(returnTo)}`}
-                    onClick={onClick}
-                >
-                    Sign up for Sourcegraph
-                </Link>
-            </DropdownMenu>
-        </ButtonDropdown>
+                        <Button
+                            to={`/sign-up?src=${source}&returnTo=${encodeURIComponent(returnTo)}`}
+                            onClick={onClick}
+                            variant="primary"
+                            as={Link}
+                        >
+                            Sign up for Sourcegraph
+                        </Button>
+                    </MenuPopover>
+                </>
+            )}
+        </Menu>
     )
 }

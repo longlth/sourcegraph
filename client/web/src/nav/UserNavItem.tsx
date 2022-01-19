@@ -4,13 +4,23 @@ import * as H from 'history'
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon'
 import ChevronUpIcon from 'mdi-react/ChevronUpIcon'
 import OpenInNewIcon from 'mdi-react/OpenInNewIcon'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Tooltip } from 'reactstrap'
+import { Tooltip } from 'reactstrap'
 
 import { KeyboardShortcut } from '@sourcegraph/shared/src/keyboardShortcuts'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { useTimeoutManager } from '@sourcegraph/shared/src/util/useTimeoutManager'
+import {
+    Menu,
+    MenuButton,
+    MenuDivider,
+    MenuHeader,
+    MenuItems,
+    MenuPopover,
+    useTimeoutManager,
+    MenuLink,
+    useOpenMenuButton,
+} from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'
 import { KEYBOARD_SHORTCUT_SHOW_HELP } from '../keyboardShortcuts/keyboardShortcuts'
@@ -98,15 +108,15 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
         () => Boolean(window.matchMedia?.('not all and (prefers-color-scheme), (prefers-color-scheme)').matches),
         []
     )
-
-    const [isOpen, setIsOpen] = useState(() => !!testIsOpen)
-    const toggleIsOpen = useCallback(() => setIsOpen(open => !open), [])
+    const menuButtonReference = useRef<HTMLButtonElement>(null)
+    const { setIsDropdownOpen } = useOpenMenuButton(menuButtonReference)
 
     useEffect(() => {
         // Close dropdown after clicking on a dropdown item.
         if (!testIsOpen) {
-            setIsOpen(false)
+            setIsDropdownOpen(false)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname, testIsOpen])
 
     const onThemeChange: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
@@ -124,135 +134,138 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
     const targetID = 'target-user-avatar'
 
     return (
-        <ButtonDropdown isOpen={isOpen} toggle={toggleIsOpen} className="py-0" aria-label="User. Open menu">
-            <DropdownToggle className="bg-transparent d-flex align-items-center test-user-nav-item-toggle" nav={true}>
-                <div className="position-relative">
-                    <div className="align-items-center d-flex">
-                        <UserAvatar
-                            user={props.authenticatedUser}
-                            targetID={targetID}
-                            className={classNames('icon-inline', styles.avatar)}
-                        />
-                        {isOpen ? (
-                            <ChevronUpIcon className="icon-inline" />
-                        ) : (
-                            <ChevronDownIcon className="icon-inline" />
-                        )}
-                    </div>
-                </div>
-                {isExtensionAlertAnimating && (
-                    <Tooltip
-                        target={targetID}
-                        placement="bottom"
-                        isOpen={true}
-                        modifiers={{
-                            offset: {
-                                offset: '0, 10px',
-                            },
-                        }}
-                        className={styles.tooltip}
-                    >
-                        Install the browser extension from here later
-                    </Tooltip>
-                )}
-            </DropdownToggle>
-            <DropdownMenu right={true} className={styles.dropdownMenu}>
-                <DropdownItem header={true} className="py-1">
-                    Signed in as <strong>@{props.authenticatedUser.username}</strong>
-                </DropdownItem>
-                <DropdownItem divider={true} />
-                <Link to={props.authenticatedUser.settingsURL!} className="dropdown-item">
-                    Settings
-                </Link>
-                {props.showRepositorySection && (
-                    <Link
-                        to={`/users/${props.authenticatedUser.username}/settings/repositories`}
-                        className="dropdown-item"
-                    >
-                        Your repositories
-                    </Link>
-                )}
-                <Link to={`/users/${props.authenticatedUser.username}/searches`} className="dropdown-item">
-                    Saved searches
-                </Link>
-                <DropdownItem divider={true} />
-                <div className="px-2 py-1">
-                    <div className="d-flex align-items-center">
-                        <div className="mr-2">Theme</div>
-                        <select
-                            className="custom-select custom-select-sm test-theme-toggle"
-                            onChange={onThemeChange}
-                            value={props.themePreference}
-                        >
-                            <option value={ThemePreference.Light}>Light</option>
-                            <option value={ThemePreference.Dark}>Dark</option>
-                            <option value={ThemePreference.System}>System</option>
-                        </select>
-                    </div>
-                    {props.themePreference === ThemePreference.System && !supportsSystemTheme && (
-                        <div className="text-wrap">
-                            <small>
-                                <a
-                                    href="https://caniuse.com/#feat=prefers-color-scheme"
-                                    className="text-warning"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Your browser does not support the system theme.
-                                </a>
-                            </small>
+        <Menu>
+            {({ isExpanded }) => (
+                <>
+                    <MenuButton className="bg-transparent d-flex align-items-center test-user-nav-item-toggle">
+                        <div className="position-relative">
+                            <div className="align-items-center d-flex">
+                                <UserAvatar
+                                    user={props.authenticatedUser}
+                                    targetID={targetID}
+                                    className={classNames('icon-inline', styles.avatar)}
+                                />
+                                {isExpanded ? (
+                                    <ChevronUpIcon className="icon-inline" />
+                                ) : (
+                                    <ChevronDownIcon className="icon-inline" />
+                                )}
+                            </div>
                         </div>
-                    )}
-                    {props.keyboardShortcutForSwitchTheme?.keybindings.map((keybinding, index) => (
-                        <Shortcut key={index} {...keybinding} onMatch={onThemeCycle} />
-                    ))}
-                </div>
-                {props.authenticatedUser.organizations.nodes.length > 0 && (
-                    <>
-                        <DropdownItem divider={true} />
-                        <DropdownItem header={true}>Your organizations</DropdownItem>
-                        {props.authenticatedUser.organizations.nodes.map(org => (
-                            <Link key={org.id} to={org.settingsURL || org.url} className="dropdown-item">
-                                {org.displayName || org.name}
-                            </Link>
-                        ))}
-                    </>
-                )}
-                <DropdownItem divider={true} />
-                {props.authenticatedUser.siteAdmin && (
-                    <Link to="/site-admin" className="dropdown-item">
-                        Site admin
-                    </Link>
-                )}
-                <Link to="/help" className="dropdown-item" target="_blank" rel="noopener">
-                    Help <OpenInNewIcon className="icon-inline" />
-                </Link>
-                <button onClick={showKeyboardShortcutsHelp} type="button" className="dropdown-item">
-                    Keyboard shortcuts
-                </button>
+                        {isExtensionAlertAnimating && (
+                            <Tooltip
+                                target={targetID}
+                                placement="bottom"
+                                isOpen={true}
+                                modifiers={{
+                                    offset: {
+                                        offset: '0, 10px',
+                                    },
+                                }}
+                                className={styles.tooltip}
+                            >
+                                Install the browser extension from here later
+                            </Tooltip>
+                        )}
+                    </MenuButton>
+                    <MenuPopover className="py-0" aria-label="User. Open menu">
+                        <MenuItems className={styles.dropdownMenu}>
+                            <MenuHeader className="py-1">
+                                Signed in as <strong>@{props.authenticatedUser.username}</strong>
+                            </MenuHeader>
+                            <MenuDivider />
+                            <MenuLink as={Link} to={props.authenticatedUser.settingsURL!}>
+                                Settings
+                            </MenuLink>
+                            {props.showRepositorySection && (
+                                <MenuLink
+                                    as={Link}
+                                    to={`/users/${props.authenticatedUser.username}/settings/repositories`}
+                                >
+                                    Your repositories
+                                </MenuLink>
+                            )}
+                            <MenuLink as={Link} to={`/users/${props.authenticatedUser.username}/searches`}>
+                                Saved searches
+                            </MenuLink>
+                            <MenuDivider />
+                            <div className="px-2 py-1">
+                                <div className="d-flex align-items-center">
+                                    <div className="mr-2">Theme</div>
+                                    <select
+                                        className="custom-select custom-select-sm test-theme-toggle"
+                                        onChange={onThemeChange}
+                                        value={props.themePreference}
+                                    >
+                                        <option value={ThemePreference.Light}>Light</option>
+                                        <option value={ThemePreference.Dark}>Dark</option>
+                                        <option value={ThemePreference.System}>System</option>
+                                    </select>
+                                </div>
+                                {props.themePreference === ThemePreference.System && !supportsSystemTheme && (
+                                    <div className="text-wrap">
+                                        <small>
+                                            <a
+                                                href="https://caniuse.com/#feat=prefers-color-scheme"
+                                                className="text-warning"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Your browser does not support the system theme.
+                                            </a>
+                                        </small>
+                                    </div>
+                                )}
+                                {props.keyboardShortcutForSwitchTheme?.keybindings.map((keybinding, index) => (
+                                    <Shortcut key={index} {...keybinding} onMatch={onThemeCycle} />
+                                ))}
+                            </div>
+                            {props.authenticatedUser.organizations.nodes.length > 0 && (
+                                <>
+                                    <MenuDivider />
+                                    <MenuHeader>Your organizations</MenuHeader>
+                                    {props.authenticatedUser.organizations.nodes.map(org => (
+                                        <MenuLink as={Link} key={org.id} to={org.settingsURL || org.url}>
+                                            {org.displayName || org.name}
+                                        </MenuLink>
+                                    ))}
+                                </>
+                            )}
+                            <MenuDivider />
+                            {props.authenticatedUser.siteAdmin && (
+                                <MenuLink as={Link} to="/site-admin">
+                                    Site admin
+                                </MenuLink>
+                            )}
+                            <MenuLink as={Link} to="/help" target="_blank" rel="noopener">
+                                Help <OpenInNewIcon className="icon-inline" />
+                            </MenuLink>
+                            <MenuLink as="button" onClick={showKeyboardShortcutsHelp} type="button">
+                                Keyboard shortcuts
+                            </MenuLink>
 
-                {props.authenticatedUser.session?.canSignOut && (
-                    <a href="/-/sign-out" className="dropdown-item">
-                        Sign out
-                    </a>
-                )}
-                <DropdownItem divider={true} />
-                {props.showDotComMarketing && (
-                    <a href="https://about.sourcegraph.com" target="_blank" rel="noopener" className="dropdown-item">
-                        About Sourcegraph <OpenInNewIcon className="icon-inline" />
-                    </a>
-                )}
-                {codeHostIntegrationMessaging === 'browser-extension' && (
-                    <a
-                        href="https://docs.sourcegraph.com/integration/browser_extension"
-                        target="_blank"
-                        rel="noopener"
-                        className="dropdown-item"
-                    >
-                        Browser extension <OpenInNewIcon className="icon-inline" />
-                    </a>
-                )}
-            </DropdownMenu>
-        </ButtonDropdown>
+                            {props.authenticatedUser.session?.canSignOut && (
+                                <MenuLink href="/-/sign-out">Sign out</MenuLink>
+                            )}
+                            <MenuDivider />
+                            {props.showDotComMarketing && (
+                                <MenuLink href="https://about.sourcegraph.com" target="_blank" rel="noopener">
+                                    About Sourcegraph <OpenInNewIcon className="icon-inline" />
+                                </MenuLink>
+                            )}
+                            {codeHostIntegrationMessaging === 'browser-extension' && (
+                                <MenuLink
+                                    href="https://docs.sourcegraph.com/integration/browser_extension"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Browser extension <OpenInNewIcon className="icon-inline" />
+                                </MenuLink>
+                            )}
+                        </MenuItems>
+                    </MenuPopover>
+                </>
+            )}
+        </Menu>
     )
 }

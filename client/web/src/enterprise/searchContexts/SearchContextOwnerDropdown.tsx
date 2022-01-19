@@ -1,9 +1,8 @@
-import { MenuItems } from '@reach/menu-button'
 import classNames from 'classnames'
 import React, { useMemo } from 'react'
 
-import { Namespace } from '@sourcegraph/shared/src/graphql/schema'
-import { Menu, MenuButton } from '@sourcegraph/wildcard'
+import { Namespace } from '@sourcegraph/shared/src/schema'
+import { Menu, MenuButton, MenuItem, MenuItems, MenuPopover } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../../auth'
 
@@ -49,42 +48,49 @@ export const SearchContextOwnerDropdown: React.FunctionComponent<SearchContextOw
     selectedNamespace,
     setSelectedNamespace,
 }) => {
-    // const [isOpen, setIsOpen] = useState(false)
-    // const toggleIsOpen = useCallback(() => setIsOpen(open => !open), [])
-
     const selectedUserNamespace = useMemo(() => getSelectedNamespaceFromUser(authenticatedUser), [authenticatedUser])
     return (
         <Menu>
-            <MenuButton
-                className={classNames('form-control', styles.searchContextOwnerDropdownToggle)}
-                color="outline-secondary"
-                disabled={isDisabled}
-                data-tooltip={isDisabled ? "Owner can't be changed." : ''}
-            >
-                <div>{selectedNamespace.type === 'global-owner' ? 'Global' : `@${selectedNamespace.name}`}</div>
-            </MenuButton>
-            <Menu>
-                <MenuItems onClick={() => setSelectedNamespace(selectedUserNamespace)}>
-                    @{authenticatedUser.username} <span className="text-muted">(you)</span>
-                </MenuItems>
-                {authenticatedUser.organizations.nodes.map(org => (
-                    <MenuItems
-                        key={org.name}
-                        onClick={() => setSelectedNamespace({ id: org.id, type: 'org', name: org.name })}
+            {() => (
+                <>
+                    <MenuButton
+                        className={classNames('form-control', styles.searchContextOwnerDropdownToggle)}
+                        color="outline-secondary"
+                        disabled={isDisabled}
+                        data-tooltip={isDisabled ? "Owner can't be changed." : ''}
                     >
-                        @{org.name}
-                    </MenuItems>
-                ))}
-                {authenticatedUser.siteAdmin && (
-                    <>
-                        <hr />
-                        <MenuItems onClick={() => setSelectedNamespace({ id: null, type: 'global-owner', name: '' })}>
-                            <div>Global owner</div>
-                            <div className="text-muted">Available to everyone.</div>
+                        <div>{selectedNamespace.type === 'global-owner' ? 'Global' : `@${selectedNamespace.name}`}</div>
+                    </MenuButton>
+                    <MenuPopover>
+                        <MenuItems>
+                            <MenuItem onSelect={() => setSelectedNamespace(selectedUserNamespace)}>
+                                @{authenticatedUser.username} <span className="text-muted">(you)</span>
+                            </MenuItem>
+                            {authenticatedUser.organizations.nodes.map(org => (
+                                <MenuItem
+                                    key={org.name}
+                                    onSelect={() => setSelectedNamespace({ id: org.id, type: 'org', name: org.name })}
+                                >
+                                    @{org.name}
+                                </MenuItem>
+                            ))}
+                            {authenticatedUser.siteAdmin && (
+                                <>
+                                    <hr />
+                                    <MenuItem
+                                        onSelect={() =>
+                                            setSelectedNamespace({ id: null, type: 'global-owner', name: '' })
+                                        }
+                                    >
+                                        <div>Global owner</div>
+                                        <div className="text-muted">Available to everyone.</div>
+                                    </MenuItem>
+                                </>
+                            )}
                         </MenuItems>
-                    </>
-                )}
-            </Menu>
+                    </MenuPopover>
+                </>
+            )}
         </Menu>
     )
 }
