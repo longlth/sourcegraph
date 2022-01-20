@@ -15,6 +15,7 @@ func ASDFInstall() []bk.StepOpt {
 			RestoreKeys: []string{"cache-asdf-{{ checksum '.tool-versions' }}"},
 			Paths:       []string{"../../../../root/.asdf/installs"},
 		}),
+		buildkite.Cmd("asdf list"),
 		buildkite.Cmd("asdf install"),
 	}
 }
