@@ -161,25 +161,72 @@ enum SymbolRole {
   Test = 0x20;
 }
 
+// TODO: Should make sure that nums 1-15 are the MOST common before releasing.
+
 enum SyntaxKind {
   UnspecifiedSyntaxKind = 0;
-  // Literal strings: "Hello, world!"
-  StringLiteral = 1;
-  // Literal numbers: 30.0, 1
-  NumericLiteral = 2;
-  // TODO
-  Identifier = 3;
-  MethodIdentifier = 4;
-  TypeIdentifier = 5;
-  TermIdentifier = 6;
-  LocalIdentifier = 7;
-  ShadedIdentifier = 8;
-  PackageIdentifier = 9;
-  ConstantIdentifier = 10;
+
+  // `+`, `*`, etc.
+  Operator = 0;
+
   // Comment, including comment markers and text
-  Comment = 11;
-  Keyword = 12;
-  Operator = 13;
+  Comment = 0;
+
+  // `;` `.` `,`
+  PunctuationDelimiter = 0;
+  // (), {}, [] when used syntactically
+  PunctuationBracket = 0;
+  // `{}` within a string.
+  PunctuationSpecial = 0;
+
+  // This is `if`, `else`, `return`, `class`, etc.
+  Keyword = 0;
+
+  // non-specific variables, function calls, etc.
+  Identifier = 0;
+  // `xyz` in `const xyz = 1`
+  ConstantIdentifier = 0;
+  // Identifiers builtin to the language: `None`, `min`, `print` in Python.
+  BuiltinIdentifier = 0;
+  // TODO: Should we have local identifier?
+  LocalIdentifier = 0;
+  // TODO: Is this supposed to be Shaded or Shadowed? It's seems we're mixing implementation here.
+  ShadedIdentifier = 0;
+  // `package main`
+  PackageIdentifier = 0;
+
+  // Literal strings: "Hello, world!"
+  StringLiteral = 0;
+  // ".*" in a string regex
+  StringLiteralRegex = 0;
+  // "\t", "\n"
+  StringLiteralEscape = 0;
+  // "{}" in a format string
+  StringLiteralSpecial = 0;
+  // 'c' or similar, in languages that differentiate strings and characters
+  CharacterLiteral = 0;
+  // Literal numbers
+  NumericLiteral = 0;
+  // `true`, `false`
+  BooleanLiteral = 0;
+
+  // Function definition only
+  FunctionDefinition = 0;
+
+  // non-builtin types, including namespaces
+  TypeIdentifier = 0;
+  // builtin types only, such as `str` for Python or `uint64` in Go
+  BuiltinTypeIdentifier = 0;
+
+  // python decorators, c-like __attribute__
+  AttributeIdentifier = 0;
+
+  // Used for xml-like tags
+  Tag = 0;
+  // Attribute name in xml-like tags
+  TagAttribute = 0;
+  // Delimiters for xml-like tags
+  TagDelimiter = 0;
 }
 
 // Occurrence associates a source position with a symbol and/or highlighting
