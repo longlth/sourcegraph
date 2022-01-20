@@ -19,7 +19,7 @@ ln -s "$(pwd)/enterprise/dev/ci/scripts/trace-command.sh" tr 2>/dev/null || true
 # set the buildkite cache access keys
 AWS_CONFIG_DIR_PATH="/buildkite/.aws"
 mkdir -p "$AWS_CONFIG_DIR_PATH"
-AWS_CONFIG_FILE="$AWS_CONFIG_DIR_PATH/config" 
+AWS_CONFIG_FILE="$AWS_CONFIG_DIR_PATH/config"
 export AWS_CONFIG_FILE
 AWS_SHARED_CREDENTIALS_FILE="/buildkite/.aws/credentials"
 export AWS_SHARED_CREDENTIALS_FILE
