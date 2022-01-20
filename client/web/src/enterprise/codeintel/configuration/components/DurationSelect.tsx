@@ -34,7 +34,6 @@ export const DurationSelect: FunctionComponent<DurationSelectProps> = ({
             <Select
                 aria-label=""
                 id={id}
-                isCustomStyle={true}
                 className={className}
                 value={isCustom ? 'custom' : value || undefined}
                 disabled={disabled}

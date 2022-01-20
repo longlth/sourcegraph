@@ -15,7 +15,6 @@ export const GitTypeSelector: FunctionComponent<GitTypeSelectorProps> = ({ type,
         <Select
             id="type"
             label="Type"
-            isCustomStyle={true}
             value={type}
             onChange={({ target: { value } }) => setType(value as GitObjectType)}
             disabled={disabled}

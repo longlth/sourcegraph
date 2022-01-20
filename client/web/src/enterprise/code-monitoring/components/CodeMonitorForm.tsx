@@ -182,7 +182,6 @@ export const CodeMonitorForm: React.FunctionComponent<CodeMonitorFormProps> = ({
                     <Select
                         label="Owner"
                         id="code-monitor-form-owner"
-                        isCustomStyle={true}
                         className={classNames('mb-2 w-auto', styles.ownerDropdown)}
                         disabled={true}
                     >

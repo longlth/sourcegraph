@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs'
 
 import { Form } from '@sourcegraph/branded/src/components/Form'
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
-import { Link } from '@sourcegraph/shared/src/components/Link'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import {
     ProductStatusBadge,
@@ -14,8 +13,9 @@ import {
     PageSelector,
     RadioButton,
     TextArea,
-    Select,
+    Link,
     Button,
+    Select,
 } from '@sourcegraph/wildcard'
 
 import { ALLOW_NAVIGATION, AwayPrompt } from '../../../components/AwayPrompt'
@@ -627,7 +627,6 @@ export const UserSettingsManageRepositoriesPage: React.FunctionComponent<Props> 
             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
                 <p className="text-xl-center text-nowrap mr-2">Code Host:</p>
                 <Select
-                    isCustomStyle={true}
                     name="code-host"
                     aria-label="select code host type"
                     onChange={event => setCodeHostFilter(event.target.value)}

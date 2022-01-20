@@ -74,4 +74,10 @@
   "shellformat.flag": "-i 2 -ci",
   "vscode-graphql.useSchemaFileDefinitions": true,
   "jest.jestCommandLine": "yarn -s test",
+  "files.autoGuessEncoding": true,
+  "search.quickOpen.includeSymbols": true,
+  "search.searchEditor.reusePriorSearchConfiguration": true,
+  "search.seedWithNearestWord": true,
+  "search.smartCase": true,
+  "search.showLineNumbers": true,
 }

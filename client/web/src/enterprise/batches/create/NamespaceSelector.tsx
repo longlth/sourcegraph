@@ -41,7 +41,6 @@ export const NamespaceSelector: React.FunctionComponent<NamespaceSelectorProps> 
     return (
         <Select
             label={<strong className="text-nowrap mb-2">Namespace:</strong>}
-            isCustomStyle={true}
             className={styles.namespaceSelector}
             id={NAMESPACE_SELECTOR_ID}
             value={selectedNamespace}
