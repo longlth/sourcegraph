@@ -7,6 +7,7 @@ import { BrandedStory } from '@sourcegraph/branded/src/components/BrandedStory'
 import webStyles from '@sourcegraph/web/src/SourcegraphWebApp.scss'
 
 import { Button } from '../Button'
+import { ButtonGroup } from '../ButtonGroup'
 import { BUTTON_VARIANTS, BUTTON_SIZES } from '../constants'
 
 import { ButtonVariants } from './ButtonVariants'
@@ -79,5 +80,18 @@ export const AllButtons: Story = () => (
         <Button size="sm" variant="secondary" display="block">
             Block
         </Button>
+
+        <h2>Button Group</h2>
+        <ButtonGroup className="mb-3">
+            <Button variant="secondary" display="block">
+                Grouped
+            </Button>
+            <Button variant="secondary" display="block">
+                Grouped
+            </Button>
+            <Button variant="secondary" display="block">
+                Grouped
+            </Button>
+        </ButtonGroup>
     </>
 )
