@@ -1,6 +1,7 @@
 package buildkite
 
-const cachePluginName = "gencer/cache#v2.4.10"
+// const cachePluginName = "gencer/cache#v2.4.10"
+const cachePluginName = "jhchabran/cache#60e0942a91ca438331af6f851991d4cf882808bf"
 
 // CacheConfig represents the configuration data for https://github.com/gencer/cache-buildkite-plugin
 type CacheConfigPayload struct {
