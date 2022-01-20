@@ -137,7 +137,7 @@ export const DropdownButton: React.FunctionComponent<Props> = ({
                         <Button
                             onClick={toggleIsOpen}
                             disabled={isDisabled}
-                            className="dropdown-toggle dropdown-toggle-split"
+                            className={classNames('dropdown-toggle', styles.dropdownButton)}
                             variant="primary"
                         />
                         <div

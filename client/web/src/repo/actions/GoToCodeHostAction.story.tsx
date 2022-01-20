@@ -13,6 +13,7 @@ import { Button } from '@sourcegraph/wildcard'
 import { WebStory } from '../../components/WebStory'
 
 import { InstallBrowserExtensionPopover } from './InstallBrowserExtensionPopover'
+import styles from './InstallBrowserExtensionPopover.module.scss'
 
 const onClose = action('onClose')
 const onReject = action('onReject')
@@ -35,7 +36,7 @@ add('GitHub', () => (
             }, [])
             return (
                 <>
-                    <Button id={targetID} onClick={() => setOpen(isOpen => !isOpen)}>
+                    <Button id={targetID} onClick={() => setOpen(isOpen => !isOpen)} className={styles.githubBtn}>
                         <GithubIcon className="icon-inline" />
                     </Button>
                     <InstallBrowserExtensionPopover

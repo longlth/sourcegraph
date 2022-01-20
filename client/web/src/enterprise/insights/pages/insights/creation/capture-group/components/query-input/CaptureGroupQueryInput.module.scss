@@ -2,3 +2,13 @@
     align-self: flex-start;
     background-color: var(--input-disabled-bg);
 }
+
+.btn-inline-icon {
+    :global(.theme-light) & {
+        color: #797d8a;
+    }
+
+    :global(.theme-dark) & {
+        color: #959ba7;
+    }
+}

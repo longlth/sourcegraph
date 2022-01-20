@@ -13,6 +13,7 @@ export const CaptureGroupQueryInput = forwardRef<HTMLInputElement, MonacoFieldPr
     <InsightQueryInput {...props} ref={reference} patternType={SearchPatternType.regexp}>
         <Button variant="icon" className={styles.regexButton} disabled={true}>
             <RegexIcon
+                className={styles.btnInlineIcon}
                 size={21}
                 data-tooltip="Regular expression is the only pattern type usable with capture groups and it’s enabled by default for this search input."
             />

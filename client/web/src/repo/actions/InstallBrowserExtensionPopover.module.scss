@@ -20,3 +20,8 @@
     height: 3.5rem;
     width: 3.5rem;
 }
+
+// Added to overide default btn color, should be removed during button bootstrap extraction
+.github-btn {
+    color: var(--body-color);
+}
