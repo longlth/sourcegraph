@@ -161,6 +161,7 @@ export const SavedSearchesPanel: React.FunctionComponent<Props> = ({
                     })}
                     outline={true}
                     variant="secondary"
+                    size="sm"
                 >
                     All searches
                 </Button>
