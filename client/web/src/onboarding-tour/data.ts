@@ -53,7 +53,7 @@ export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[
     },
     {
         id: 'TourDiffSearch',
-        title: 'Search diffs for added code',
+        title: 'Search diffs for removed code',
         group: CODE_SEARCH,
         url: {
             [OnboardingTourLanguage.C]:
@@ -71,8 +71,8 @@ export const ONBOARDING_STEP_ITEMS: Omit<OnboardingTourStepItem, 'isCompleted'>[
             [OnboardingTourLanguage.Typescript]:
                 '/search?q=context:global+repo:sourcegraph/sourcegraph%24+lang:typescript+type:diff+select:commit.diff.removed+authenticatedUser&patternType=regexp&case=yes',
         },
-        info: `<strong>Searching diffs for added code</strong><br/>
-            Find altered code without browsing through history or trying to remember which file it was in.`,
+        info: `<strong>Searching diffs for removed code</strong><br/>
+            Find removed code without browsing through history or trying to remember which file it was in.`,
     },
     // Group: CODE_INTEL
     {
