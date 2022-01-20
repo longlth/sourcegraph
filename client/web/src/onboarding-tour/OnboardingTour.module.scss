@@ -1,3 +1,5 @@
+$oc-blue: #ccedff;
+
 .card {
     padding: 0.1875rem;
     background: linear-gradient(to right, #e4d3fc 0%, #d7f0fd 100%);
@@ -46,7 +48,7 @@
 .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .card-title {
@@ -132,7 +134,7 @@
 
 .info-panel {
     padding: 0.5rem;
-    background-color: #ccedff;
+    background-color: $oc-blue;
     border: 1px solid #a5d8ff;
     border-radius: 3px;
     color: var(--gray-08);
@@ -146,4 +148,26 @@
 .info-icon {
     color: var(--icon-color);
     margin-right: 0.25rem;
+}
+
+.language-title {
+    font-size: 0.875rem;
+    text-transform: none;
+    font-weight: 500;
+    line-height: 1.25rem;
+}
+
+.language {
+    padding: 0.125rem 0.25rem;
+    &,
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $oc-blue !important;
+        border-color: $oc-blue !important;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
