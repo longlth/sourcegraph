@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 
-import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
+import { isFirefox } from '@sourcegraph/common/src/util/browserDetection'
 
 import { observeResize } from '../../../../../../../../../util/dom'
 

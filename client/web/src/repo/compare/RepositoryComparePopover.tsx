@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Popover } from 'reactstrap'
 
-import { escapeRevspecForURL } from '@sourcegraph/shared/src/util/url'
+import { escapeRevspecForURL } from '@sourcegraph/common/src/util/url'
 import { Button } from '@sourcegraph/wildcard'
 
 import { eventLogger } from '../../tracking/eventLogger'

@@ -2,6 +2,16 @@ import { from, Observable } from 'rxjs'
 import { delay, filter, map, retryWhen, switchMap } from 'rxjs/operators'
 
 import { createAggregateError } from '@sourcegraph/common'
+import { sha256 } from '@sourcegraph/common/src/util/hashCode'
+import { memoizeObservable } from '@sourcegraph/common/src/util/rxjs/memoizeObservable'
+import {
+    FileSpec,
+    makeRepoURI,
+    RawRepoSpec,
+    RepoSpec,
+    ResolvedRevisionSpec,
+    RevisionSpec,
+} from '@sourcegraph/common/src/util/url'
 import { dataOrThrowErrors, gql } from '@sourcegraph/http-client'
 import {
     CloneInProgressError,
@@ -11,16 +21,6 @@ import {
 } from '@sourcegraph/shared/src/backend/errors'
 import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
 import * as GQL from '@sourcegraph/shared/src/schema'
-import { sha256 } from '@sourcegraph/shared/src/util/hashCode'
-import { memoizeObservable } from '@sourcegraph/shared/src/util/memoizeObservable'
-import {
-    FileSpec,
-    makeRepoURI,
-    RawRepoSpec,
-    RepoSpec,
-    ResolvedRevisionSpec,
-    RevisionSpec,
-} from '@sourcegraph/shared/src/util/url'
 
 import { NotAuthenticatedError } from '../code-hosts/shared/errors'
 

@@ -4,9 +4,9 @@ import differenceInDays from 'date-fns/differenceInDays'
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
 import { Markdown } from '@sourcegraph/shared/src/components/Markdown'
 import { isSettingsValid, SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
-import { renderMarkdown } from '@sourcegraph/shared/src/util/markdown'
 
 import { AuthenticatedUser } from '../auth'
 import { DismissibleAlert } from '../components/DismissibleAlert'

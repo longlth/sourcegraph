@@ -8,11 +8,11 @@ import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
 import { ExtensionCategory, EXTENSION_CATEGORIES } from '@sourcegraph/shared/src/schema/extensionSchema'
 import { mergeSettings, SettingsCascadeProps, SettingsSubject } from '@sourcegraph/shared/src/settings/settings'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { createRecord } from '@sourcegraph/shared/src/util/createRecord'
 import { Button, LoadingSpinner } from '@sourcegraph/wildcard'
 
 import { ErrorAlert } from '../components/alerts'
 
+import { createRecord } from './createRecord'
 import { ExtensionCard } from './ExtensionCard'
 import { ExtensionCategoryOrAll, ExtensionListData, ExtensionsEnablement } from './ExtensionRegistry'
 import { applyEnablementFilter, applyWIPFilter } from './extensions'

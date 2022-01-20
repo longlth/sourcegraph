@@ -8,10 +8,9 @@ import { Observable } from 'rxjs'
 import { catchError, startWith } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { RevisionSpec, ResolvedRevisionSpec, displayRepoName } from '@sourcegraph/common/src/util/url'
 import { FetchFileParameters } from '@sourcegraph/shared/src/components/CodeExcerpt'
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
-import { RevisionSpec, ResolvedRevisionSpec } from '@sourcegraph/shared/src/util/url'
 import { Container, ProductStatusBadge, LoadingSpinner, useObservable, Button, Link } from '@sourcegraph/wildcard'
 
 import { BreadcrumbSetters } from '../../components/Breadcrumbs'

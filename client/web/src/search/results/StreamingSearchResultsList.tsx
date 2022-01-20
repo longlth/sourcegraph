@@ -8,9 +8,9 @@ import SourceRepositoryIcon from 'mdi-react/SourceRepositoryIcon'
 import React, { useCallback } from 'react'
 import { Observable } from 'rxjs'
 
+import { displayRepoName } from '@sourcegraph/common/src/util/url'
 import { FetchFileParameters } from '@sourcegraph/shared/src/components/CodeExcerpt'
 import { FileMatch } from '@sourcegraph/shared/src/components/FileMatch'
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
 import { VirtualList } from '@sourcegraph/shared/src/components/VirtualList'
 import {
     AggregateStreamingSearchResults,

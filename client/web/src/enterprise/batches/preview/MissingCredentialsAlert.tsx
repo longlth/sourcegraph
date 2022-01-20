@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
 import { Link } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../../../auth'

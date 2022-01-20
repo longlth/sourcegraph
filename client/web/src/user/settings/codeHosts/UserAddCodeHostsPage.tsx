@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react'
 
 import { asError, ErrorLike, isErrorLike, isDefined } from '@sourcegraph/common'
+import { keyExistsIn } from '@sourcegraph/common/src/util/types'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { keyExistsIn } from '@sourcegraph/shared/src/util/types'
 import { SelfHostedCta } from '@sourcegraph/web/src/components/SelfHostedCta'
 import { Button, Container, PageHeader, LoadingSpinner, Link } from '@sourcegraph/wildcard'
 

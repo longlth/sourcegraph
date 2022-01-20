@@ -2,8 +2,7 @@ import classNames from 'classnames'
 import React, { useMemo } from 'react'
 import { useHistory } from 'react-router'
 
-import { createLinkClickHandler } from '../util/link-click-handler/linkClickHandler'
-
+import { createLinkClickHandler } from './link-click-handler/linkClickHandler'
 import styles from './Markdown.module.scss'
 
 interface Props {

@@ -3,8 +3,8 @@ import classNames from 'classnames'
 import CloseIcon from 'mdi-react/CloseIcon'
 import React, { useState, useEffect } from 'react'
 
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
-import { toPrettyBlobURL } from '@sourcegraph/shared/src/util/url'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
+import { toPrettyBlobURL } from '@sourcegraph/common/src/util/url'
 import { useLocalStorage, Button, Modal } from '@sourcegraph/wildcard'
 
 import { CaseInsensitiveFuzzySearch } from '../../fuzzyFinder/CaseInsensitiveFuzzySearch'

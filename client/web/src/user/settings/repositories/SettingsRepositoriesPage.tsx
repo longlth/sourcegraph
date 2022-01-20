@@ -4,9 +4,9 @@ import { EMPTY, Observable } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { repeatUntil } from '@sourcegraph/common/src/util/rxjs/repeatUntil'
 import { gql } from '@sourcegraph/http-client'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { repeatUntil } from '@sourcegraph/shared/src/util/rxjs/repeatUntil'
 import { ErrorAlert } from '@sourcegraph/web/src/components/alerts'
 import { queryExternalServices } from '@sourcegraph/web/src/components/externalServices/backend'
 import {

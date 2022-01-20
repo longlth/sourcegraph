@@ -3,10 +3,10 @@ import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { hasProperty } from '@sourcegraph/common/src/util/types'
 import { ContributableMenu } from '@sourcegraph/shared/src/api/protocol'
 import { ExtensionManifest } from '@sourcegraph/shared/src/schema/extensionSchema'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { hasProperty } from '@sourcegraph/shared/src/util/types'
 
 import { ErrorAlert } from '../../components/alerts'
 import { PageTitle } from '../../components/PageTitle'

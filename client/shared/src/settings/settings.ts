@@ -1,9 +1,9 @@
 import { cloneDeep, isFunction } from 'lodash'
 
 import { createAggregateError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { parseJSONCOrError } from '@sourcegraph/common/src/util/jsonc'
 
 import * as GQL from '../schema'
-import { parseJSONCOrError } from '../util/jsonc'
 
 /**
  * A dummy type to represent the "subject" for client settings (i.e., settings stored in the client application,

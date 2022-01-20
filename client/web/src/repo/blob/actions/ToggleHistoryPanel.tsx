@@ -8,10 +8,10 @@ import {
     addLineRangeQueryParameter,
     formatSearchParameters,
     lprToRange,
-    parseQueryAndHash,
     toPositionOrRangeQueryParameter,
     toViewStateHash,
-} from '@sourcegraph/shared/src/util/url'
+} from '@sourcegraph/common/src/util/url'
+import { parseQueryAndHash } from '@sourcegraph/shared/src/util/url'
 import { TooltipController } from '@sourcegraph/wildcard'
 
 import { eventLogger } from '../../../tracking/eventLogger'

@@ -14,7 +14,7 @@ import {
     getBasicCSSLoader,
 } from '@sourcegraph/build-config'
 
-import { subtypeOf } from '../../../shared/src/util/types'
+import { subtypeOf } from '../../../common/src/util/types'
 
 export const browserWorkspacePath = path.resolve(ROOT_PATH, 'client/browser')
 const browserSourcePath = path.resolve(browserWorkspacePath, 'src')

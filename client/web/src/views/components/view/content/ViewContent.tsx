@@ -4,11 +4,11 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { View, MarkupContent } from 'sourcegraph'
 
 import { ErrorLike } from '@sourcegraph/common'
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
+import { hasProperty } from '@sourcegraph/common/src/util/types'
 import { MarkupKind } from '@sourcegraph/extension-api-classes'
 import { Markdown } from '@sourcegraph/shared/src/components/Markdown'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { renderMarkdown } from '@sourcegraph/shared/src/util/markdown'
-import { hasProperty } from '@sourcegraph/shared/src/util/types'
 import { LoadingSpinner } from '@sourcegraph/wildcard'
 
 import { ErrorAlert } from '../../../../components/alerts'

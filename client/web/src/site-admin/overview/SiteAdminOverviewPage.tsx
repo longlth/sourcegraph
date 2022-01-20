@@ -4,12 +4,12 @@ import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 
 import { ErrorLike, asError, isErrorLike } from '@sourcegraph/common'
+import { numberWithCommas, pluralize } from '@sourcegraph/common/src/util/strings'
 import { dataOrThrowErrors, gql } from '@sourcegraph/http-client'
 import { ActivationProps, percentageDone } from '@sourcegraph/shared/src/components/activation/Activation'
 import { ActivationChecklist } from '@sourcegraph/shared/src/components/activation/ActivationChecklist'
 import * as GQL from '@sourcegraph/shared/src/schema'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { numberWithCommas, pluralize } from '@sourcegraph/shared/src/util/strings'
 import { LoadingSpinner, useObservable, Button, Link } from '@sourcegraph/wildcard'
 
 import { queryGraphQL } from '../../backend/graphql'

@@ -4,9 +4,9 @@ import StarIcon from 'mdi-react/StarIcon'
 import StarOutlineIcon from 'mdi-react/StarOutlineIcon'
 import React, { useMemo } from 'react'
 
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
 import { IMarkdownBlock, NotebookBlock } from '@sourcegraph/shared/src/schema'
-import { renderMarkdown } from '@sourcegraph/shared/src/util/markdown'
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
 import { Timestamp } from '@sourcegraph/web/src/components/time/Timestamp'
 import { Link, Badge } from '@sourcegraph/wildcard'
 

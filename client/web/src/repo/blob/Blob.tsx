@@ -28,6 +28,22 @@ import {
     createHoverifier,
 } from '@sourcegraph/codeintellify'
 import { asError, isErrorLike, isDefined } from '@sourcegraph/common'
+import { property } from '@sourcegraph/common/src/util/types'
+import {
+    AbsoluteRepoFile,
+    FileSpec,
+    LineOrPositionOrRange,
+    lprToSelectionsZeroIndexed,
+    ModeSpec,
+    UIPositionSpec,
+    RepoSpec,
+    ResolvedRevisionSpec,
+    RevisionSpec,
+    toURIWithPath,
+    toPositionOrRangeQueryParameter,
+    addLineRangeQueryParameter,
+    formatSearchParameters,
+} from '@sourcegraph/common/src/util/url'
 import { TextDocumentDecoration } from '@sourcegraph/extension-api-types'
 import { ActionItemAction } from '@sourcegraph/shared/src/actions/ActionItem'
 import { wrapRemoteObservable } from '@sourcegraph/shared/src/api/client/api/common'
@@ -44,23 +60,7 @@ import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { property } from '@sourcegraph/shared/src/util/types'
-import {
-    AbsoluteRepoFile,
-    FileSpec,
-    LineOrPositionOrRange,
-    lprToSelectionsZeroIndexed,
-    ModeSpec,
-    UIPositionSpec,
-    RepoSpec,
-    ResolvedRevisionSpec,
-    RevisionSpec,
-    toURIWithPath,
-    parseQueryAndHash,
-    toPositionOrRangeQueryParameter,
-    addLineRangeQueryParameter,
-    formatSearchParameters,
-} from '@sourcegraph/shared/src/util/url'
+import { parseQueryAndHash } from '@sourcegraph/shared/src/util/url'
 import { useObservable } from '@sourcegraph/wildcard'
 
 import { getHover, getDocumentHighlights } from '../../backend/features'

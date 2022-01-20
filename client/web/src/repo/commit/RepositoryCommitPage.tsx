@@ -7,6 +7,16 @@ import { catchError, distinctUntilChanged, filter, map, switchMap, tap, withLate
 
 import { HoveredToken, createHoverifier, Hoverifier, HoverState } from '@sourcegraph/codeintellify'
 import { asError, createAggregateError, ErrorLike, isErrorLike, isDefined } from '@sourcegraph/common'
+import { memoizeObservable } from '@sourcegraph/common/src/util/rxjs/memoizeObservable'
+import { property } from '@sourcegraph/common/src/util/types'
+import {
+    FileSpec,
+    ModeSpec,
+    RepoSpec,
+    ResolvedRevisionSpec,
+    RevisionSpec,
+    UIPositionSpec,
+} from '@sourcegraph/common/src/util/url'
 import { gql } from '@sourcegraph/http-client'
 import { ActionItemAction } from '@sourcegraph/shared/src/actions/ActionItem'
 import { HoverMerged } from '@sourcegraph/shared/src/api/client/types/hover'
@@ -18,16 +28,6 @@ import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
 import * as GQL from '@sourcegraph/shared/src/schema'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { memoizeObservable } from '@sourcegraph/shared/src/util/memoizeObservable'
-import { property } from '@sourcegraph/shared/src/util/types'
-import {
-    FileSpec,
-    ModeSpec,
-    RepoSpec,
-    ResolvedRevisionSpec,
-    RevisionSpec,
-    UIPositionSpec,
-} from '@sourcegraph/shared/src/util/url'
 import { LoadingSpinner } from '@sourcegraph/wildcard'
 
 import { getHover, getDocumentHighlights } from '../../backend/features'

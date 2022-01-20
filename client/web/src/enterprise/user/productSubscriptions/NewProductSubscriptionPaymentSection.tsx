@@ -7,10 +7,10 @@ import { Observable, of } from 'rxjs'
 import { catchError, map, startWith } from 'rxjs/operators'
 
 import { asError, createAggregateError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { numberWithCommas } from '@sourcegraph/common/src/util/strings'
 import { gql } from '@sourcegraph/http-client'
 import { Scalars } from '@sourcegraph/shared/src/graphql-operations'
 import * as GQL from '@sourcegraph/shared/src/schema'
-import { numberWithCommas } from '@sourcegraph/shared/src/util/strings'
 import { LoadingSpinner, useObservable } from '@sourcegraph/wildcard'
 
 import { queryGraphQL } from '../../../backend/graphql'

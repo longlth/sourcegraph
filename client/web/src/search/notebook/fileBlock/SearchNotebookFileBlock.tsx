@@ -10,9 +10,9 @@ import { of } from 'rxjs'
 import { startWith } from 'rxjs/operators'
 
 import { isErrorLike } from '@sourcegraph/common'
+import { toPrettyBlobURL } from '@sourcegraph/common/src/util/url'
 import { CodeExcerpt } from '@sourcegraph/shared/src/components/CodeExcerpt'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { toPrettyBlobURL } from '@sourcegraph/shared/src/util/url'
 import { LoadingSpinner, useObservable, Link } from '@sourcegraph/wildcard'
 
 import { BlockProps, FileBlock, FileBlockInput } from '..'

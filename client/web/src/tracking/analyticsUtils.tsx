@@ -3,7 +3,7 @@ import { fromFetch } from 'rxjs/fetch'
 import { catchError, filter, map, mapTo, publishReplay, refCount, take } from 'rxjs/operators'
 
 import { isErrorLike } from '@sourcegraph/common'
-import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
+import { isFirefox } from '@sourcegraph/common/src/util/browserDetection'
 
 import { IS_CHROME } from '../marketing/util'
 import { observeQuerySelector } from '../util/dom'

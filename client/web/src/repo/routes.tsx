@@ -2,13 +2,9 @@ import React from 'react'
 import { Redirect, RouteComponentProps } from 'react-router'
 
 import { isErrorLike } from '@sourcegraph/common'
+import { appendLineRangeQueryParameter, toRepoURL } from '@sourcegraph/common/src/util/url'
 import { getModeFromPath } from '@sourcegraph/shared/src/languages'
-import {
-    appendLineRangeQueryParameter,
-    isLegacyFragment,
-    parseQueryAndHash,
-    toRepoURL,
-} from '@sourcegraph/shared/src/util/url'
+import { isLegacyFragment, parseQueryAndHash } from '@sourcegraph/shared/src/util/url'
 
 import { ErrorBoundary } from '../components/ErrorBoundary'
 import { ActionItemsBar } from '../extensions/components/ActionItemsBar'

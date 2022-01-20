@@ -1,4 +1,4 @@
-import { dedupeWhitespace } from '@sourcegraph/shared/src/util/strings'
+import { dedupeWhitespace } from '@sourcegraph/common/src/util/strings'
 
 import { renderError } from '../../../../../../../../components/alerts'
 import { getSanitizedRepositories } from '../../../../../../components/creation-ui-kit/sanitizers/repositories'

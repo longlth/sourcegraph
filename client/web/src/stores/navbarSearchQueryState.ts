@@ -5,12 +5,12 @@
 // (see https://github.com/sourcegraph/sourcegraph/issues/21200).
 import create from 'zustand'
 
+import { buildSearchURLQuery } from '@sourcegraph/common/src/util/url'
 import { SearchPatternType } from '@sourcegraph/shared/src/schema'
 import { FilterType } from '@sourcegraph/shared/src/search/query/filters'
 import { appendFilter, updateFilter } from '@sourcegraph/shared/src/search/query/transformer'
 import { filterExists } from '@sourcegraph/shared/src/search/query/validate'
 import { Settings, SettingsCascadeOrError } from '@sourcegraph/shared/src/settings/settings'
-import { buildSearchURLQuery } from '@sourcegraph/shared/src/util/url'
 
 import { parseSearchURL } from '../search'
 import { QueryState, SubmitSearchParameters, submitSearch, toggleSubquery, canSubmitSearch } from '../search/helpers'

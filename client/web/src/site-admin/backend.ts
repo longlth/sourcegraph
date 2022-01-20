@@ -3,6 +3,8 @@ import { Observable } from 'rxjs'
 import { map, tap, mapTo } from 'rxjs/operators'
 
 import { createAggregateError } from '@sourcegraph/common'
+import { resetAllMemoizationCaches } from '@sourcegraph/common/src/util/rxjs/memoizeObservable'
+import { repeatUntil } from '@sourcegraph/common/src/util/rxjs/repeatUntil'
 import {
     createInvalidGraphQLMutationResponseError,
     dataOrThrowErrors,
@@ -11,8 +13,6 @@ import {
 } from '@sourcegraph/http-client'
 import * as GQL from '@sourcegraph/shared/src/schema'
 import { Settings } from '@sourcegraph/shared/src/settings/settings'
-import { resetAllMemoizationCaches } from '@sourcegraph/shared/src/util/memoizeObservable'
-import { repeatUntil } from '@sourcegraph/shared/src/util/rxjs/repeatUntil'
 
 import { mutateGraphQL, queryGraphQL, requestGraphQL } from '../backend/graphql'
 import {

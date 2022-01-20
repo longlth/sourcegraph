@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { PieChart, Pie, Tooltip, ResponsiveContainer, PieLabelRenderProps, Cell, TooltipFormatter } from 'recharts'
 
+import { numberWithCommas, pluralize } from '@sourcegraph/common/src/util/strings'
+import { buildSearchURLQuery } from '@sourcegraph/common/src/util/url'
 import * as GQL from '@sourcegraph/shared/src/schema'
-import { numberWithCommas, pluralize } from '@sourcegraph/shared/src/util/strings'
-import { buildSearchURLQuery } from '@sourcegraph/shared/src/util/url'
 import { Link } from '@sourcegraph/wildcard'
 
 import { SearchPatternType } from '../../../graphql-operations'

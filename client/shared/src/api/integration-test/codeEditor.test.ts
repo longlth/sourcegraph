@@ -3,10 +3,10 @@ import { distinctUntilChanged, first, switchMap, take, toArray, filter } from 'r
 import * as sourcegraph from 'sourcegraph'
 
 import { isDefined } from '@sourcegraph/common'
+import { isTaggedUnionMember } from '@sourcegraph/common/src/util/types'
 import { Range, Selection } from '@sourcegraph/extension-api-classes'
 import * as clientType from '@sourcegraph/extension-api-types'
 
-import { isTaggedUnionMember } from '../../util/types'
 import { wrapRemoteObservable } from '../client/api/common'
 
 import { assertToJSON, integrationTestContext } from './testHelpers'

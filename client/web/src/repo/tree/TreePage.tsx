@@ -17,22 +17,26 @@ import { Observable, EMPTY } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { memoizeObservable } from '@sourcegraph/common/src/util/rxjs/memoizeObservable'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
+import {
+    encodeURIPathComponent,
+    toPrettyBlobURL,
+    toURIWithPath,
+    displayRepoName,
+} from '@sourcegraph/common/src/util/url'
 import { gql, dataOrThrowErrors } from '@sourcegraph/http-client'
 import { ActionItem } from '@sourcegraph/shared/src/actions/ActionItem'
 import { ActionsContainer } from '@sourcegraph/shared/src/actions/ActionsContainer'
 import { FileDecorationsByPath } from '@sourcegraph/shared/src/api/extension/extensionHostApi'
 import { ContributableMenu } from '@sourcegraph/shared/src/api/protocol'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
 import { ExtensionsControllerProps } from '@sourcegraph/shared/src/extensions/controller'
 import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
 import * as GQL from '@sourcegraph/shared/src/schema'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { memoizeObservable } from '@sourcegraph/shared/src/util/memoizeObservable'
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
-import { encodeURIPathComponent, toPrettyBlobURL, toURIWithPath } from '@sourcegraph/shared/src/util/url'
 import { Container, PageHeader, LoadingSpinner, Button, useObservable, Link } from '@sourcegraph/wildcard'
 
 import { getFileDecorations } from '../../backend/features'

@@ -19,10 +19,10 @@ import {
 import addDomainPermissionToggle from 'webext-domain-permission-toggle'
 
 import { isDefined } from '@sourcegraph/common'
+import { fetchCache } from '@sourcegraph/common/src/util/fetchCache'
 import { GraphQLResult, requestGraphQLCommon } from '@sourcegraph/http-client'
 import { createExtensionHostWorker } from '@sourcegraph/shared/src/api/extension/worker'
 import { EndpointPair } from '@sourcegraph/shared/src/platform/context'
-import { fetchCache } from '@sourcegraph/shared/src/util/fetchCache'
 
 import { getHeaders } from '../../shared/backend/headers'
 import { fetchSite } from '../../shared/backend/server'

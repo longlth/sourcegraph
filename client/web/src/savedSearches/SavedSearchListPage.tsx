@@ -9,8 +9,8 @@ import { Subject, Subscription } from 'rxjs'
 import { catchError, map, mapTo, startWith, switchMap } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { buildSearchURLQuery } from '@sourcegraph/common/src/util/url'
 import * as GQL from '@sourcegraph/shared/src/schema'
-import { buildSearchURLQuery } from '@sourcegraph/shared/src/util/url'
 import { Container, PageHeader, LoadingSpinner, Button, Link } from '@sourcegraph/wildcard'
 
 import { ErrorAlert } from '../components/alerts'

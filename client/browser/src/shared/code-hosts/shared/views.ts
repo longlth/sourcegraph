@@ -2,7 +2,7 @@ import { asyncScheduler, defer, from, Observable, OperatorFunction, Subscription
 import { concatAll, filter, mergeMap, observeOn, tap } from 'rxjs/operators'
 
 import { isDefined } from '@sourcegraph/common'
-import { isInstanceOf } from '@sourcegraph/shared/src/util/types'
+import { isInstanceOf } from '@sourcegraph/common/src/util/types'
 
 import { MutationRecordLike, querySelectorAllOrSelf } from '../../util/dom'
 

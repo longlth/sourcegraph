@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { ReplaySubject } from 'rxjs'
 
 import { isDefined } from '@sourcegraph/common'
+import { property } from '@sourcegraph/common/src/util/types'
 import { TextDocumentDecoration } from '@sourcegraph/extension-api-types'
 import {
     decorationAttachmentStyleForTheme,
@@ -11,7 +12,6 @@ import {
 } from '@sourcegraph/shared/src/api/extension/api/decorations'
 import { LinkOrSpan } from '@sourcegraph/shared/src/components/LinkOrSpan'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { property } from '@sourcegraph/shared/src/util/types'
 
 import styles from './LineDecorator.module.scss'
 

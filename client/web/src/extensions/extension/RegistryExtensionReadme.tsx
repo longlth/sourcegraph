@@ -2,9 +2,9 @@ import classNames from 'classnames'
 import * as React from 'react'
 
 import { isErrorLike } from '@sourcegraph/common'
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
 import { Markdown } from '@sourcegraph/shared/src/components/Markdown'
 import { ConfiguredRegistryExtension } from '@sourcegraph/shared/src/extensions/extension'
-import { renderMarkdown } from '@sourcegraph/shared/src/util/markdown'
 import { Button, Link } from '@sourcegraph/wildcard'
 
 import { ExtensionNoManifestAlert } from './RegistryExtensionManifestPage'

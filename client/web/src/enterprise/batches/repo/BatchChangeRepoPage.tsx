@@ -1,7 +1,7 @@
 import * as H from 'history'
 import React, { useMemo } from 'react'
 
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
+import { displayRepoName } from '@sourcegraph/common/src/util/url'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
 import { DiffStat } from '@sourcegraph/web/src/components/diff/DiffStat'
 import { PageHeader, useObservable } from '@sourcegraph/wildcard'

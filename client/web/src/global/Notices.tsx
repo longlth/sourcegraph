@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import * as React from 'react'
 
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
 import { Markdown } from '@sourcegraph/shared/src/components/Markdown'
 import { isSettingsValid, SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
-import { renderMarkdown } from '@sourcegraph/shared/src/util/markdown'
 
 import { DismissibleAlert } from '../components/DismissibleAlert'
 import { Notice, Settings } from '../schema/settings.schema'

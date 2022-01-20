@@ -5,6 +5,11 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 import { isErrorLike } from '@sourcegraph/common'
+import {
+    appendLineRangeQueryParameter,
+    toPositionOrRangeQueryParameter,
+    appendSubtreeQueryParameter,
+} from '@sourcegraph/common/src/util/url'
 import { Link } from '@sourcegraph/wildcard'
 
 import { IHighlightLineRange } from '../schema'
@@ -12,11 +17,6 @@ import { ContentMatch, SymbolMatch, PathMatch, getFileMatchUrl } from '../search
 import { SettingsCascadeProps } from '../settings/settings'
 import { SymbolIcon } from '../symbols/SymbolIcon'
 import { TelemetryProps } from '../telemetry/telemetryService'
-import {
-    appendLineRangeQueryParameter,
-    toPositionOrRangeQueryParameter,
-    appendSubtreeQueryParameter,
-} from '../util/url'
 
 import { CodeExcerpt, FetchFileParameters } from './CodeExcerpt'
 import styles from './FileMatchChildren.module.scss'

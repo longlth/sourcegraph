@@ -1,11 +1,11 @@
 import * as H from 'history'
 
+import { buildSearchURLQuery } from '@sourcegraph/common/src/util/url'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
 import * as GQL from '@sourcegraph/shared/src/schema'
 import { FilterType } from '@sourcegraph/shared/src/search/query/filters'
 import { CharacterRange } from '@sourcegraph/shared/src/search/query/token'
 import { appendContextFilter } from '@sourcegraph/shared/src/search/query/transformer'
-import { buildSearchURLQuery } from '@sourcegraph/shared/src/util/url'
 
 import { eventLogger } from '../tracking/eventLogger'
 

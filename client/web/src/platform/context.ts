@@ -2,12 +2,7 @@ import { ApolloQueryResult, ObservableQuery } from '@apollo/client'
 import { map, publishReplay, refCount, shareReplay } from 'rxjs/operators'
 
 import { createAggregateError, asError } from '@sourcegraph/common'
-import { fromObservableQueryPromise, getDocumentNode, gql } from '@sourcegraph/http-client'
-import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
-import * as GQL from '@sourcegraph/shared/src/schema'
-import { mutateSettings, updateSettings } from '@sourcegraph/shared/src/settings/edit'
-import { gqlToCascade } from '@sourcegraph/shared/src/settings/settings'
-import { LocalStorageSubject } from '@sourcegraph/shared/src/util/LocalStorageSubject'
+import { LocalStorageSubject } from '@sourcegraph/common/src/util/LocalStorageSubject'
 import {
     toPrettyBlobURL,
     RepoFile,
@@ -16,7 +11,12 @@ import {
     RenderModeSpec,
     UIRangeSpec,
     appendSubtreeQueryParameter,
-} from '@sourcegraph/shared/src/util/url'
+} from '@sourcegraph/common/src/util/url'
+import { fromObservableQueryPromise, getDocumentNode, gql } from '@sourcegraph/http-client'
+import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
+import * as GQL from '@sourcegraph/shared/src/schema'
+import { mutateSettings, updateSettings } from '@sourcegraph/shared/src/settings/edit'
+import { gqlToCascade } from '@sourcegraph/shared/src/settings/settings'
 import { TooltipController } from '@sourcegraph/wildcard'
 
 import { getWebGraphQLClient, requestGraphQL } from '../backend/graphql'

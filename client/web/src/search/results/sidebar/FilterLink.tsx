@@ -1,12 +1,12 @@
 import classNames from 'classnames'
 import React from 'react'
 
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
+import { displayRepoName } from '@sourcegraph/common/src/util/url'
 import { RepoIcon } from '@sourcegraph/shared/src/components/RepoIcon'
 import { FilterType } from '@sourcegraph/shared/src/search/query/filters'
 import { Filter } from '@sourcegraph/shared/src/search/stream'
 import { isSettingsValid, SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
 import { Button } from '@sourcegraph/wildcard'
 
 import { SyntaxHighlightedSearchQuery } from '../../../components/SyntaxHighlightedSearchQuery'

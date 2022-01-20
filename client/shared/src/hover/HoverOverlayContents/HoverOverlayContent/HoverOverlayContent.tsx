@@ -3,10 +3,10 @@ import { upperFirst } from 'lodash'
 import React from 'react'
 
 import { asError } from '@sourcegraph/common'
+import { renderMarkdown } from '@sourcegraph/common/src/util/markdown'
 import { Badge } from '@sourcegraph/wildcard'
 
 import { HoverMerged } from '../../../api/client/types/hover'
-import { renderMarkdown } from '../../../util/markdown'
 import hoverOverlayStyle from '../../HoverOverlay.module.scss'
 import hoverOverlayContentsStyle from '../../HoverOverlayContents.module.scss'
 

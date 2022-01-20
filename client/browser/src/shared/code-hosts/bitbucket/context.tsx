@@ -1,4 +1,4 @@
-import { RawRepoSpec, RevisionSpec } from '@sourcegraph/shared/src/util/url'
+import { RawRepoSpec, RevisionSpec } from '@sourcegraph/common/src/util/url'
 
 import { CodeHostContext } from '../shared/codeHost'
 

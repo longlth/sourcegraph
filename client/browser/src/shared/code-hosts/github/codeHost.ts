@@ -6,16 +6,16 @@ import { map } from 'rxjs/operators'
 import { Omit } from 'utility-types'
 
 import { AdjustmentDirection, PositionAdjuster } from '@sourcegraph/codeintellify'
-import { NotificationType } from '@sourcegraph/shared/src/api/extension/extensionHostApi'
-import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
-import { observeSystemIsLightTheme } from '@sourcegraph/shared/src/theme'
 import {
     FileSpec,
     RepoSpec,
     ResolvedRevisionSpec,
     RevisionSpec,
     toAbsoluteBlobURL,
-} from '@sourcegraph/shared/src/util/url'
+} from '@sourcegraph/common/src/util/url'
+import { NotificationType } from '@sourcegraph/shared/src/api/extension/extensionHostApi'
+import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
+import { observeSystemIsLightTheme } from '@sourcegraph/shared/src/theme'
 
 import LogoSVG from '../../../../assets/img/sourcegraph-mark.svg'
 import { background } from '../../../browser-extension/web-extension-api/runtime'

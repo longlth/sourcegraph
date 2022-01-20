@@ -8,8 +8,8 @@ import { RouteComponentProps } from 'react-router'
 import { Subject } from 'rxjs'
 
 import { asError, isErrorLike } from '@sourcegraph/common'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
 import { Button, Link } from '@sourcegraph/wildcard'
 
 import { ErrorAlert } from '../components/alerts'

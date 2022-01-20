@@ -12,22 +12,21 @@ import { NEVER, ObservableInput, of } from 'rxjs'
 import { catchError, switchMap } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { isFirefox } from '@sourcegraph/common/src/util/browserDetection'
+import { repeatUntil } from '@sourcegraph/common/src/util/rxjs/repeatUntil'
+import { encodeURIPathComponent, makeRepoURI, displayRepoName } from '@sourcegraph/common/src/util/url'
 import {
     isCloneInProgressErrorLike,
     isRepoNotFoundErrorLike,
     isRepoSeeOtherErrorLike,
 } from '@sourcegraph/shared/src/backend/errors'
 import { ActivationProps } from '@sourcegraph/shared/src/components/activation/Activation'
-import { displayRepoName } from '@sourcegraph/shared/src/components/RepoFileLink'
 import { ExtensionsControllerProps } from '@sourcegraph/shared/src/extensions/controller'
 import { PlatformContextProps } from '@sourcegraph/shared/src/platform/context'
 import { escapeSpaces } from '@sourcegraph/shared/src/search/query/filters'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { isFirefox } from '@sourcegraph/shared/src/util/browserDetection'
-import { repeatUntil } from '@sourcegraph/shared/src/util/rxjs/repeatUntil'
-import { encodeURIPathComponent, makeRepoURI } from '@sourcegraph/shared/src/util/url'
 import { Button, useLocalStorage, useObservable, Link } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'

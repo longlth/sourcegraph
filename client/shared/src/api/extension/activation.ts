@@ -4,11 +4,11 @@ import { catchError, concatMap, distinctUntilChanged, map, tap } from 'rxjs/oper
 import sourcegraph from 'sourcegraph'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { hashCode } from '@sourcegraph/common/src/util/hashCode'
+import { memoizeObservable } from '@sourcegraph/common/src/util/rxjs/memoizeObservable'
 
 import { ConfiguredExtension, getScriptURLFromExtensionManifest, splitExtensionID } from '../../extensions/extension'
 import { areExtensionsSame, getEnabledExtensionsForSubject } from '../../extensions/extensions'
-import { hashCode } from '../../util/hashCode'
-import { memoizeObservable } from '../../util/memoizeObservable'
 import { wrapRemoteObservable } from '../client/api/common'
 import { MainThreadAPI } from '../contract'
 import { Contributions } from '../protocol'

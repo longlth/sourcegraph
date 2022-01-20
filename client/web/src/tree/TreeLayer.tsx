@@ -16,11 +16,11 @@ import {
 import { FileDecoration } from 'sourcegraph'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { AbsoluteRepo } from '@sourcegraph/common/src/util/url'
 import { FileDecorationsByPath } from '@sourcegraph/shared/src/api/extension/extensionHostApi'
 import { ExtensionsControllerProps } from '@sourcegraph/shared/src/extensions/controller'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { AbsoluteRepo } from '@sourcegraph/shared/src/util/url'
 
 import { getFileDecorations } from '../backend/features'
 import { TreeFields } from '../graphql-operations'

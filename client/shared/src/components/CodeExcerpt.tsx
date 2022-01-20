@@ -7,10 +7,10 @@ import { of, combineLatest, Observable, Subject, Subscription } from 'rxjs'
 import { catchError, filter, switchMap, map, distinctUntilChanged } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { highlightNode } from '@sourcegraph/common/src/util/highlightNode'
+import { Repo } from '@sourcegraph/common/src/util/url'
 
 import * as GQL from '../schema'
-import { highlightNode } from '../util/dom'
-import { Repo } from '../util/url'
 
 import styles from './CodeExcerpt.module.scss'
 

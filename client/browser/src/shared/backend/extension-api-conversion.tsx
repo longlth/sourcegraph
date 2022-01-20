@@ -1,5 +1,5 @@
+import { AbsoluteRepoFilePosition, toURIWithPath } from '@sourcegraph/common/src/util/url'
 import { TextDocumentPositionParameters } from '@sourcegraph/shared/src/api/protocol'
-import { AbsoluteRepoFilePosition, toURIWithPath } from '@sourcegraph/shared/src/util/url'
 
 export const toTextDocumentPositionParameters = (
     position: AbsoluteRepoFilePosition

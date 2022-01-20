@@ -8,9 +8,9 @@ import { merge, of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { RevisionSpec, FileSpec } from '@sourcegraph/common/src/util/url'
 import { Position, Range } from '@sourcegraph/extension-api-types'
 import { PhabricatorIcon } from '@sourcegraph/shared/src/components/icons' // TODO: Switch mdi icon
-import { RevisionSpec, FileSpec } from '@sourcegraph/shared/src/util/url'
 import { useObservable, useLocalStorage } from '@sourcegraph/wildcard'
 
 import { ExternalLinkFields, RepositoryFields, ExternalServiceKind } from '../../graphql-operations'

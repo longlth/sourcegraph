@@ -1,4 +1,4 @@
-import { replaceRange } from '../../util/strings'
+import { replaceRange } from '@sourcegraph/common/src/util/strings'
 
 import { FILTERS, FilterType } from './filters'
 import { findFilters, findFilter, FilterKind } from './query'

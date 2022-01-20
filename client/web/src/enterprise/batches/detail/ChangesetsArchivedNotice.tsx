@@ -2,7 +2,7 @@ import * as H from 'history'
 import ArchiveIcon from 'mdi-react/ArchiveIcon'
 import React, { useEffect, useState } from 'react'
 
-import { pluralize } from '@sourcegraph/shared/src/util/strings'
+import { pluralize } from '@sourcegraph/common/src/util/strings'
 import { Link } from '@sourcegraph/wildcard'
 
 import { DismissibleAlert } from '../../../components/DismissibleAlert'

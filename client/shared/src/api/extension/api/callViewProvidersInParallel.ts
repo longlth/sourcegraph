@@ -3,8 +3,8 @@ import { catchError, defaultIfEmpty, map, mergeMap, scan, startWith, switchMap }
 import sourcegraph from 'sourcegraph'
 
 import { asError, ErrorLike, isDefined } from '@sourcegraph/common'
+import { allOf, isExactly, isNot, property } from '@sourcegraph/common/src/util/types'
 
-import { allOf, isExactly, isNot, property } from '../../../util/types'
 import { ContributableViewContainer } from '../../protocol'
 import { RegisteredViewProvider, ViewContexts, ViewProviderResult } from '../extensionHostApi'
 

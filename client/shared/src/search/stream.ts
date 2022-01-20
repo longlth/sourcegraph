@@ -4,8 +4,8 @@ import { defaultIfEmpty, map, materialize, scan, switchMap } from 'rxjs/operator
 import { AggregableBadge } from 'sourcegraph'
 
 import { asError, ErrorLike, isErrorLike } from '@sourcegraph/common'
+import { displayRepoName } from '@sourcegraph/common/src/util/url'
 
-import { displayRepoName } from '../components/RepoFileLink'
 import { SearchPatternType } from '../graphql-operations'
 import { SymbolKind } from '../schema'
 

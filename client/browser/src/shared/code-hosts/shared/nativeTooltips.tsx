@@ -14,12 +14,12 @@ import {
 import type { HoverAlert } from 'sourcegraph'
 
 import { ErrorLike, isErrorLike, isDefined } from '@sourcegraph/common'
+import { isNot } from '@sourcegraph/common/src/util/types'
 import { MarkupKind } from '@sourcegraph/extension-api-classes'
 import { syncRemoteSubscription } from '@sourcegraph/shared/src/api/util'
 import { Controller as ExtensionsController } from '@sourcegraph/shared/src/extensions/controller'
 import { PlatformContext } from '@sourcegraph/shared/src/platform/context'
 import { Settings } from '@sourcegraph/shared/src/settings/settings'
-import { isNot } from '@sourcegraph/shared/src/util/types'
 
 import { MutationRecordLike } from '../../util/dom'
 

@@ -1,5 +1,4 @@
 import { HoveredToken } from '@sourcegraph/codeintellify'
-import { getModeFromPath } from '@sourcegraph/shared/src/languages'
 import {
     RepoSpec,
     RevisionSpec,
@@ -7,7 +6,8 @@ import {
     ResolvedRevisionSpec,
     UIPositionSpec,
     ModeSpec,
-} from '@sourcegraph/shared/src/util/url'
+} from '@sourcegraph/common/src/util/url'
+import { getModeFromPath } from '@sourcegraph/shared/src/languages'
 
 import {
     ChangesetCheckState,
