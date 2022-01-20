@@ -185,12 +185,9 @@ func (ds *Definitions) traverse(targetIDs []int, next func(definition Definition
 }
 
 func unknownMigrationError(id int, parent *int) error {
-	var errorSuffix string
 	if parent == nil {
-		errorSuffix = ", target of migration"
-	} else {
-		errorSuffix = fmt.Sprintf(" referenced from migration %d", *parent)
+		return fmt.Errorf("unknown migration %d", id)
 	}
 
-	return fmt.Errorf("unknown migration %d%s", id, errorSuffix)
+	return fmt.Errorf("unknown migration %dreferenced from migration %d", id, *parent)
 }
