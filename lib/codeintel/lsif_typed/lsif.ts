@@ -42,6 +42,11 @@ export namespace lib.codeintel.lsif_typed {
         Information = 3,
         Hint = 4
     }
+    export enum DiagnosticTag {
+        UnspecifiedDiagnosticTag = 0,
+        Unnecessary = 1,
+        Deprecated = 2
+    }
     export class Index extends pb_1.Message {
         constructor(data?: any[] | {
             metadata?: Metadata;
@@ -1295,9 +1300,10 @@ export namespace lib.codeintel.lsif_typed {
             code?: string;
             message?: string;
             source?: string;
+            tags?: DiagnosticTag[];
         }) {
             super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], []);
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [5], []);
             if (!Array.isArray(data) && typeof data == "object") {
                 if ("severity" in data && data.severity != undefined) {
                     this.severity = data.severity;
@@ -1310,6 +1316,9 @@ export namespace lib.codeintel.lsif_typed {
                 }
                 if ("source" in data && data.source != undefined) {
                     this.source = data.source;
+                }
+                if ("tags" in data && data.tags != undefined) {
+                    this.tags = data.tags;
                 }
             }
         }
@@ -1337,11 +1346,18 @@ export namespace lib.codeintel.lsif_typed {
         set source(value: string) {
             pb_1.Message.setField(this, 4, value);
         }
+        get tags() {
+            return pb_1.Message.getField(this, 5) as DiagnosticTag[];
+        }
+        set tags(value: DiagnosticTag[]) {
+            pb_1.Message.setField(this, 5, value);
+        }
         static fromObject(data: {
             severity?: Severity;
             code?: string;
             message?: string;
             source?: string;
+            tags?: DiagnosticTag[];
         }) {
             const message = new Diagnostic({});
             if (data.severity != null) {
@@ -1356,6 +1372,9 @@ export namespace lib.codeintel.lsif_typed {
             if (data.source != null) {
                 message.source = data.source;
             }
+            if (data.tags != null) {
+                message.tags = data.tags;
+            }
             return message;
         }
         toObject() {
@@ -1364,6 +1383,7 @@ export namespace lib.codeintel.lsif_typed {
                 code?: string;
                 message?: string;
                 source?: string;
+                tags?: DiagnosticTag[];
             } = {};
             if (this.severity != null) {
                 data.severity = this.severity;
@@ -1376,6 +1396,9 @@ export namespace lib.codeintel.lsif_typed {
             }
             if (this.source != null) {
                 data.source = this.source;
+            }
+            if (this.tags != null) {
+                data.tags = this.tags;
             }
             return data;
         }
@@ -1391,6 +1414,8 @@ export namespace lib.codeintel.lsif_typed {
                 writer.writeString(3, this.message);
             if (typeof this.source === "string" && this.source.length)
                 writer.writeString(4, this.source);
+            if (this.tags !== undefined)
+                writer.writePackedEnum(5, this.tags);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -1411,6 +1436,9 @@ export namespace lib.codeintel.lsif_typed {
                         break;
                     case 4:
                         message.source = reader.readString();
+                        break;
+                    case 5:
+                        message.tags = reader.readPackedEnum();
                         break;
                     default: reader.skipField();
                 }

@@ -41,6 +41,8 @@ reported for a document.
 |  **code** | string | Code of this diagnostic, which might appear in the user interface.
 |  **message** | string | Message of this diagnostic.
 |  **source** | string | Human-readable string describing the source of this diagnostic, e.g. 'typescript' or 'super lint'.
+| repeated **tags** | DiagnosticTag | 
+
 
 
 
