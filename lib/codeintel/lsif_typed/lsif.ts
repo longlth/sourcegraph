@@ -861,7 +861,7 @@ export namespace lib.codeintel.lsif_typed {
             relationships?: Relationship[];
         }) {
             super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [3, 4], []);
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [2, 3], []);
             if (!Array.isArray(data) && typeof data == "object") {
                 if ("symbol" in data && data.symbol != undefined) {
                     this.symbol = data.symbol;
@@ -881,16 +881,16 @@ export namespace lib.codeintel.lsif_typed {
             pb_1.Message.setField(this, 1, value);
         }
         get documentation() {
-            return pb_1.Message.getField(this, 3) as string[];
+            return pb_1.Message.getField(this, 2) as string[];
         }
         set documentation(value: string[]) {
-            pb_1.Message.setField(this, 3, value);
+            pb_1.Message.setField(this, 2, value);
         }
         get relationships() {
-            return pb_1.Message.getRepeatedWrapperField(this, Relationship, 4) as Relationship[];
+            return pb_1.Message.getRepeatedWrapperField(this, Relationship, 3) as Relationship[];
         }
         set relationships(value: Relationship[]) {
-            pb_1.Message.setRepeatedWrapperField(this, 4, value);
+            pb_1.Message.setRepeatedWrapperField(this, 3, value);
         }
         static fromObject(data: {
             symbol?: string;
@@ -933,9 +933,9 @@ export namespace lib.codeintel.lsif_typed {
             if (typeof this.symbol === "string" && this.symbol.length)
                 writer.writeString(1, this.symbol);
             if (this.documentation !== undefined)
-                writer.writeRepeatedString(3, this.documentation);
+                writer.writeRepeatedString(2, this.documentation);
             if (this.relationships !== undefined)
-                writer.writeRepeatedMessage(4, this.relationships, (item: Relationship) => item.serialize(writer));
+                writer.writeRepeatedMessage(3, this.relationships, (item: Relationship) => item.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -948,11 +948,11 @@ export namespace lib.codeintel.lsif_typed {
                     case 1:
                         message.symbol = reader.readString();
                         break;
-                    case 3:
-                        pb_1.Message.addToRepeatedField(message, 3, reader.readString());
+                    case 2:
+                        pb_1.Message.addToRepeatedField(message, 2, reader.readString());
                         break;
-                    case 4:
-                        reader.readMessage(message.relationships, () => pb_1.Message.addToRepeatedWrapperField(message, 4, Relationship.deserialize(reader), Relationship));
+                    case 3:
+                        reader.readMessage(message.relationships, () => pb_1.Message.addToRepeatedWrapperField(message, 3, Relationship.deserialize(reader), Relationship));
                         break;
                     default: reader.skipField();
                 }

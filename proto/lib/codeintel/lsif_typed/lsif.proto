@@ -146,9 +146,9 @@ message SymbolInformation {
   // for this symbol. This field is repeated to allow different kinds of
   // documentation.  For example, it's nice to include both the signature of a
   // method (parameters and return type) along with the accompanying docstring.
-  repeated string documentation = 3;
+  repeated string documentation = 2;
   // (optional) Relationships to other symbols (e.g., implements, type definition).
-  repeated Relationship relationships = 4;
+  repeated Relationship relationships = 3;
 }
 
 message Relationship {
