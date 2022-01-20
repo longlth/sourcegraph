@@ -2,19 +2,24 @@ package runner
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 type SchemaOutOfDateError struct {
 	schemaName      string
-	currentVersion  int
-	expectedVersion int
+	missingVersions []int
 }
 
 func (e *SchemaOutOfDateError) Error() string {
+	ids := make([]string, 0, len(e.missingVersions))
+	for _, id := range e.missingVersions {
+		ids = append(ids, strconv.Itoa(id))
+	}
+
 	return (instructionalError{
 		class:       "schema out of date",
-		description: fmt.Sprintf("expected schema %q to be at or above version %d, currently at version %d\n", e.schemaName, e.expectedVersion, e.currentVersion),
+		description: fmt.Sprintf("schema %q requires the following migrations to be applied: %s\n", e.schemaName, strings.Join(ids, ", ")),
 		instructions: strings.Join([]string{
 			`This software expects a migrator instance to have run on this schema prior to the deployment of this process.`,
 			`If this error is occurring directly after an upgrade, roll back your instance to the previous versiona nd ensure the migrator instance runs successfully prior attempting to re-upgrade.`,

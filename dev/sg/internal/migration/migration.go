@@ -14,11 +14,7 @@ import (
 	"github.com/sourcegraph/sourcegraph/dev/sg/root"
 )
 
-const upMigrationFileTemplate = `-- +++
--- parent: %d
--- +++
-
-BEGIN;
+const upMigrationFileTemplate = `BEGIN;
 
 -- Perform migration here.
 --
@@ -39,41 +35,51 @@ const downMigrationFileTemplate = `BEGIN;
 COMMIT;
 `
 
+const metadataTemplate = `
+name: %s
+parent: %d
+`
+
 // RunAdd creates a new up/down migration file pair for the given database and
 // returns the names of the new files. If there was an error, the filesystem should remain
 // unmodified.
-func RunAdd(database db.Database, migrationName string) (up, down string, _ error) {
+func RunAdd(database db.Database, migrationName string) (up, down, metadata string, _ error) {
 	baseDir, err := MigrationDirectoryForDatabase(database)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
+
+	//
+	// TODO - recalculate parents by checking leaves
+	//
 
 	// TODO: We can probably convert to migrations and use getMaxMigrationID
 	names, err := ReadFilenamesNamesInDirectory(baseDir)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
 	lastMigrationIndex, ok := ParseLastMigrationIndex(names)
 	if !ok {
-		return "", "", errors.New("no previous migrations exist")
+		return "", "", "", errors.New("no previous migrations exist")
 	}
 
-	upPath, downPath, err := MakeMigrationFilenames(database, lastMigrationIndex+1, migrationName)
+	upPath, downPath, metadataPath, err := MakeMigrationFilenames(database, lastMigrationIndex+1)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
 	contents := map[string]string{
-		upPath:   fmt.Sprintf(upMigrationFileTemplate, lastMigrationIndex),
-		downPath: downMigrationFileTemplate,
+		upPath:       upMigrationFileTemplate,
+		downPath:     downMigrationFileTemplate,
+		metadataPath: fmt.Sprintf(metadataTemplate, migrationName, lastMigrationIndex),
 	}
 
-	if err := writeMigrationFiles(contents); err != nil {
-		return "", "", err
+	if err := WriteMigrationFiles(contents); err != nil {
+		return "", "", "", err
 	}
 
-	return upPath, downPath, nil
+	return upPath, downPath, metadataPath, nil
 }
 
 // MigrationDirectoryForDatabase returns the directory where migration files are stored for the
@@ -88,16 +94,17 @@ func MigrationDirectoryForDatabase(database db.Database) (string, error) {
 }
 
 // MakeMigrationFilenames makes a pair of (absolute) paths to migration files with the
-// given migration index and name.
-func MakeMigrationFilenames(database db.Database, migrationIndex int, migrationName string) (up string, down string, _ error) {
+// given migration index.
+func MakeMigrationFilenames(database db.Database, migrationIndex int) (up, down, metadata string, _ error) {
 	baseDir, err := MigrationDirectoryForDatabase(database)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
-	upPath := filepath.Join(baseDir, fmt.Sprintf("%d_%s.up.sql", migrationIndex, migrationName))
-	downPath := filepath.Join(baseDir, fmt.Sprintf("%d_%s.down.sql", migrationIndex, migrationName))
-	return upPath, downPath, nil
+	upPath := filepath.Join(baseDir, fmt.Sprintf("%d/up.sql", migrationIndex))
+	downPath := filepath.Join(baseDir, fmt.Sprintf("%d/down.sql", migrationIndex))
+	metadataPath := filepath.Join(baseDir, fmt.Sprintf("%d/metadata.yaml", migrationIndex))
+	return upPath, downPath, metadataPath, nil
 }
 
 // ParseMigrationIndex parse a filename and returns the migration index if the filename
@@ -131,8 +138,8 @@ func ParseLastMigrationIndex(names []string) (int, bool) {
 	return indices[len(indices)-1], true
 }
 
-// writeMigrationFiles writes the contents of migrationFileTemplate to the given filepaths.
-func writeMigrationFiles(contents map[string]string) (err error) {
+// WriteMigrationFiles writes the contents of migrationFileTemplate to the given filepaths.
+func WriteMigrationFiles(contents map[string]string) (err error) {
 	defer func() {
 		if err != nil {
 			for path := range contents {
@@ -143,6 +150,10 @@ func writeMigrationFiles(contents map[string]string) (err error) {
 	}()
 
 	for path, contents := range contents {
+		if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+			return err
+		}
+
 		if err := os.WriteFile(path, []byte(contents), os.FileMode(0644)); err != nil {
 			return err
 		}

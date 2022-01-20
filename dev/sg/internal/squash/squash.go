@@ -1,12 +1,13 @@
 package squash
 
 import (
+	"context"
+	"database/sql"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 
@@ -16,6 +17,10 @@ import (
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/migration"
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/run"
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/stdout"
+	connections "github.com/sourcegraph/sourcegraph/internal/database/connections/live"
+	"github.com/sourcegraph/sourcegraph/internal/database/migration/runner"
+	"github.com/sourcegraph/sourcegraph/internal/database/migration/store"
+	"github.com/sourcegraph/sourcegraph/internal/observation"
 	"github.com/sourcegraph/sourcegraph/lib/output"
 )
 
@@ -39,12 +44,27 @@ func runMigrationsGoto(database db.Database, migrationIndex int, postgresDSN str
 		}
 	}()
 
-	_, err = runMigrate(
-		database,
-		postgresDSN+fmt.Sprintf("&x-migrations-table=%s", database.MigrationsTable),
-		"goto", strconv.FormatInt(int64(migrationIndex), 10),
-	)
-	return err
+	ctx := context.Background()
+
+	storeFactory := func(db *sql.DB, migrationsTable string) connections.Store {
+		return store.NewWithDB(db, migrationsTable, store.NewOperations(&observation.TestContext))
+	}
+
+	options := runner.Options{
+		Operations: []runner.MigrationOperation{
+			{
+				SchemaName:     database.Name,
+				Type:           runner.MigrationOperationTypeTargetedUp,
+				TargetVersions: []int{migrationIndex},
+			},
+		},
+	}
+
+	dsns := map[string]string{
+		database.Name: postgresDSN,
+	}
+
+	return connections.RunnerFromDSNs(dsns, "sg", storeFactory).Run(ctx, options)
 }
 
 // generateSquashedMigrations generates the content of a migration file pair that contains the contents
@@ -94,7 +114,7 @@ func generateSquashedUpMigration(database db.Database, postgresDSN string) (_ st
 		return run.InRoot(cmd)
 	}
 
-	pgDumpOutput, err := pgDump("--schema-only", "--no-owner", "--exclude-table", "*schema_migrations")
+	pgDumpOutput, err := pgDump("--schema-only", "--no-owner", "--exclude-table", "*schema_migrations", "--exclude-table", "migration_logs", "--exclude-table", "migration_logs_id_seq")
 	if err != nil {
 		return "", err
 	}
@@ -207,16 +227,6 @@ func runPostgresContainer(databaseName string) (_ func(err error) error, err err
 	return teardown, nil
 }
 
-// runMigrate runs the migrate utility with the given arguments.
-func runMigrate(database db.Database, postgresDSN string, args ...string) (string, error) {
-	baseDir, err := migration.MigrationDirectoryForDatabase(database)
-	if err != nil {
-		return "", err
-	}
-
-	return run.InRoot(exec.Command("migrate", append([]string{"-database", postgresDSN, "-path", baseDir}, args...)...))
-}
-
 // lastMigrationIndexAtCommit returns the index of the last migration for the given database
 // available at the given commit. This function returns a false-valued flag if no migrations
 // exist at the given commit.
@@ -262,19 +272,24 @@ func Run(database db.Database, commit string) error {
 	}
 
 	// Write the replacement migration pair
-	upPath, downPath, err := migration.MakeMigrationFilenames(database, lastMigrationIndex, "squashed_migrations")
+	upPath, downPath, metadataPath, err := migration.MakeMigrationFilenames(database, lastMigrationIndex)
 	if err != nil {
 		return err
 	}
-	if err := os.WriteFile(upPath, []byte(squashedUpMigration), os.ModePerm); err != nil {
-		return err
+
+	contents := map[string]string{
+		upPath:       squashedUpMigration,
+		downPath:     squashedDownMigration,
+		metadataPath: "name: 'squashed migrations'\n",
 	}
-	if err := os.WriteFile(downPath, []byte(squashedDownMigration), os.ModePerm); err != nil {
+
+	if err := migration.WriteMigrationFiles(contents); err != nil {
 		return err
 	}
 
 	block.Writef("Created: %s", upPath)
 	block.Writef("Created: %s", downPath)
+	block.Writef("Created: %s", metadataPath)
 	return nil
 }
 
@@ -305,7 +320,7 @@ func removeMigrationFilesUpToIndex(database db.Database, targetIndex int) ([]str
 	}
 
 	for _, name := range filtered {
-		if err := os.Remove(filepath.Join(baseDir, name)); err != nil {
+		if err := os.RemoveAll(filepath.Join(baseDir, name)); err != nil {
 			return nil, err
 		}
 	}

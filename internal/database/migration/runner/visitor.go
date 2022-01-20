@@ -18,8 +18,9 @@ type schemaContext struct {
 }
 
 type schemaVersion struct {
-	version int
-	dirty   bool
+	appliedVersions []int
+	pendingVersions []int
+	failedVersions  []int
 }
 
 type visitFunc func(ctx context.Context, schemaName string, schemaContext schemaContext) error
@@ -123,23 +124,34 @@ func (r *Runner) fetchVersions(ctx context.Context, storeMap map[string]Store) (
 	versions := make(map[string]schemaVersion, len(storeMap))
 
 	for schemaName, store := range storeMap {
-		version, dirty, err := r.fetchVersion(ctx, schemaName, store)
+		schemaVersion, err := r.fetchVersion(ctx, schemaName, store)
 		if err != nil {
 			return nil, err
 		}
 
-		versions[schemaName] = schemaVersion{version, dirty}
+		versions[schemaName] = schemaVersion
 	}
 
 	return versions, nil
 }
 
-func (r *Runner) fetchVersion(ctx context.Context, schemaName string, store Store) (int, bool, error) {
-	version, dirty, _, err := store.Version(ctx)
+func (r *Runner) fetchVersion(ctx context.Context, schemaName string, store Store) (schemaVersion, error) {
+	appliedVersions, pendingVersions, failedVersions, err := store.Versions(ctx)
 	if err != nil {
-		return 0, false, err
+		return schemaVersion{}, err
 	}
 
-	log15.Info("Checked current version", "schema", schemaName, "version", version, "dirty", dirty)
-	return version, dirty, nil
+	log15.Info(
+		"Checked current version",
+		"schema", schemaName,
+		"appliedVersions", appliedVersions,
+		"pendingVersions", pendingVersions,
+		"failedVersions", failedVersions,
+	)
+
+	return schemaVersion{
+		appliedVersions: appliedVersions,
+		pendingVersions: pendingVersions,
+		failedVersions:  failedVersions,
+	}, nil
 }
