@@ -569,6 +569,7 @@ type ListWorkspacesArgs struct {
 	After   *string
 	OrderBy *string
 	Search  *string
+	State   *string
 }
 
 type ListRecentlyCompletedWorkspacesArgs struct {

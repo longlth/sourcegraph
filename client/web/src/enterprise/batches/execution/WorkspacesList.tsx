@@ -7,6 +7,7 @@ import { DiffStat } from '../../../components/diff/DiffStat'
 import {
     ConnectionContainer,
     ConnectionError,
+    ConnectionForm,
     ConnectionList,
     ConnectionLoading,
     ConnectionSummary,
@@ -32,6 +33,20 @@ export const WorkspacesList: React.FunctionComponent<WorkspacesListProps> = ({ b
     return (
         <ConnectionContainer>
             {error && <ConnectionError errors={[error.message]} />}
+            <ConnectionForm
+                // ref={this.setFilterRef}
+                hideSearch={true}
+                // inputClassName={this.props.inputClassName}
+                inputPlaceholder="Search workspaces..."
+                inputValue={this.state.query}
+                onInputChange={this.onChange}
+                autoFocus={this.props.autoFocus}
+                filters={this.props.filters}
+                onValueSelect={this.onDidSelectValue}
+                values={this.state.activeValues}
+                compact={this.props.compact}
+                // formClassName={this.props.formClassName}
+            />
             <ConnectionList as="ul" className="list-group list-group-flush">
                 {connection?.nodes?.map(node => (
                     <WorkspaceNode key={node.id} node={node} selectedNode={selectedNode} />

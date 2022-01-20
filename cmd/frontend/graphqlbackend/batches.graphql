@@ -1814,8 +1814,18 @@ type BatchSpecWorkspaceResolution {
     workspaces(
         first: Int = 50
         after: String
+        """
+        Not implemented.
+        """
         orderBy: WorkspacesSortOrder
+        """
+        Not implemented.
+        """
         search: String
+        """
+        Filter workspaces by given state.
+        """
+        state: BatchSpecWorkspaceState
     ): BatchSpecWorkspaceConnection!
 
     """
