@@ -7,6 +7,8 @@ import (
 
 func ASDFInstall() []bk.StepOpt {
 	return []bk.StepOpt{
+		buildkite.Env("AWS_CONFIG_FILE", "/buildkite/.aws/config"),
+		buildkite.Env("AWS_SHARED_CREDENTIALS_FILE", "/buildkite/.aws/credentials"),
 		buildkite.Cache(&buildkite.CacheOptions{
 			ID:          "asdf",
 			Key:         "cache-asdf-{{ checksum '.tool-versions' }}",
