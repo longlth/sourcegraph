@@ -76,8 +76,6 @@ message Document {
   repeated Occurrence occurrences = 2;
   // Symbols that are defined within this document.
   repeated SymbolInformation symbols = 3;
-  // Diagnostics that have been reported for this document.
-  repeated Diagnostic diagnostics = 4;
 }
 
 // Symbol is similar to a URI, it identifies a class, method, or a local
@@ -263,23 +261,22 @@ message Occurrence {
   repeated string override_documentation = 4;
   // (optional) What syntax highlighting class should be used for this range?
   SyntaxKind syntax_kind = 5;
+  // Diagnostics that have been reported for this document.
+  repeated Diagnostic diagnostics = 6;
 }
 
 // Represents a diagnostic, such as a compiler error or warning, which should be
 // reported for a document.
 message Diagnostic {
-  // Source position at which this diagnostic applies. See `Occurrence.range`
-  // for how to encode ranges as `repeated int32`.
-  repeated int32 range = 1;
   // Should this diagnostic be reported as an error, warning, info, or hint?
-  Severity severity = 2;
+  Severity severity = 1;
   // Code of this diagnostic, which might appear in the user interface.
-  string code = 3;
+  string code = 2;
   // Message of this diagnostic.
-  string message = 4;
+  string message = 3;
   // Human-readable string describing the source of this diagnostic, e.g.
   // 'typescript' or 'super lint'.
-  string source = 5;
+  string source = 4;
 }
 
 enum Severity {
