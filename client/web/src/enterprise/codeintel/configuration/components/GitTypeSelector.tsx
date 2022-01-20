@@ -13,6 +13,7 @@ export interface GitTypeSelectorProps {
 export const GitTypeSelector: FunctionComponent<GitTypeSelectorProps> = ({ type, setType, disabled }) => (
     <>
         <Select
+            selectClassName="form-control"
             id="type"
             label="Type"
             value={type}

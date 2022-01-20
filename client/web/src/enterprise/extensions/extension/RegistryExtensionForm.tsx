@@ -30,6 +30,7 @@ export const RegistryPublisherFormGroup: React.FunctionComponent<{
             <ErrorAlert error={publishersOrError} />
         ) : (
             <Select
+                selectClassName="form-control"
                 label="Publisher"
                 id="extension-registry-create-extension-page__publisher"
                 onChange={onChange}

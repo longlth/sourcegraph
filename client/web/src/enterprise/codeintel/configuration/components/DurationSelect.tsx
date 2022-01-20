@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { FunctionComponent, useState } from 'react'
 
 import { Select } from '@sourcegraph/wildcard'
@@ -34,7 +35,7 @@ export const DurationSelect: FunctionComponent<DurationSelectProps> = ({
             <Select
                 aria-label=""
                 id={id}
-                className={className}
+                selectClassName={classNames('form-control', className)}
                 value={isCustom ? 'custom' : value || undefined}
                 disabled={disabled}
                 onChange={event => {

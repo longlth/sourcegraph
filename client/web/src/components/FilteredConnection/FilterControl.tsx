@@ -90,6 +90,7 @@ export const FilterControl: React.FunctionComponent<FilterControlProps> = ({
                             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
                                 <p className="text-xl-center text-nowrap mr-2">{filter.label}:</p>
                                 <Select
+                                    className="form-control"
                                     aria-label=""
                                     id=""
                                     name={filter.id}

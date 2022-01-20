@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useCallback } from 'react'
 
 import { SettingsOrgSubject, SettingsUserSubject } from '@sourcegraph/shared/src/settings/settings'
@@ -41,7 +42,7 @@ export const NamespaceSelector: React.FunctionComponent<NamespaceSelectorProps> 
     return (
         <Select
             label={<strong className="text-nowrap mb-2">Namespace:</strong>}
-            className={styles.namespaceSelector}
+            selectClassName={classNames(styles.namespaceSelector, 'form-control')}
             id={NAMESPACE_SELECTOR_ID}
             value={selectedNamespace}
             onChange={onSelectNamespace}
