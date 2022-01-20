@@ -29,5 +29,5 @@ unset AWS_SHARED_CREDENTIALS_FILE
 unset AWS_CONFIG_FILE
 
 # handle caching absolute paths
-mkdir -p .builkite-cache
-ln -s /root/.asdf/installs .buildkite-cache/installs
+mkdir -p .buildkite-cache
+ln -s ~/.asdf/installs .buildkite-cache/installs
