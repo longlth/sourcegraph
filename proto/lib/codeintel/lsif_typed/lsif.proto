@@ -261,7 +261,7 @@ message Occurrence {
   repeated string override_documentation = 4;
   // (optional) What syntax highlighting class should be used for this range?
   SyntaxKind syntax_kind = 5;
-  // Diagnostics that have been reported for this document.
+  // Diagnostics that have been reported for this specific range.
   repeated Diagnostic diagnostics = 6;
 }
 

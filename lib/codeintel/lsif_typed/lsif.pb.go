@@ -1108,7 +1108,7 @@ type Occurrence struct {
 	OverrideDocumentation []string `protobuf:"bytes,4,rep,name=override_documentation,json=overrideDocumentation,proto3" json:"override_documentation,omitempty"`
 	// (optional) What syntax highlighting class should be used for this range?
 	SyntaxKind SyntaxKind `protobuf:"varint,5,opt,name=syntax_kind,json=syntaxKind,proto3,enum=lib.codeintel.lsif_typed.SyntaxKind" json:"syntax_kind,omitempty"`
-	// Diagnostics that have been reported for this document.
+	// Diagnostics that have been reported for this specific range.
 	Diagnostics []*Diagnostic `protobuf:"bytes,6,rep,name=diagnostics,proto3" json:"diagnostics,omitempty"`
 }
 

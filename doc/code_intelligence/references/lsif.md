@@ -100,7 +100,7 @@ information.
 |  **symbol_roles** | int32 | (optional) Bitmask for what `SymbolRole` apply to this occurrence. See `SymbolRole` for how to read and write this field.
 | repeated **override_documentation** | string | (optional) Markdown-formatted documentation for this specific range.  If empty, the `Symbol.documentation` field is used instead. One example where this field might be useful is when the symbol represents a generic function (with abstract type parameters such as `List<T>`) and at this occurrence we know the exact values (such as `List<String>`).
 |  **syntax_kind** | SyntaxKind | (optional) What syntax highlighting class should be used for this range?
-| repeated **diagnostics** | Diagnostic | Diagnostics that have been reported for this document.
+| repeated **diagnostics** | Diagnostic | Diagnostics that have been reported for this specific range.
 
 Additional notes on **range**:
 
