@@ -39,10 +39,7 @@ export const Panel: React.FunctionComponent<PanelProps> = ({
         <div>
             <div
                 // eslint-disable-next-line react/forbid-dom-props
-                style={{
-                    [position === 'bottom' ? 'height' : 'width']: `${panelSize}px`,
-                    paddingRight: isFloating ? 0 : '0.5rem',
-                }}
+                style={{ [position === 'bottom' ? 'height' : 'width']: `${panelSize}px` }}
                 className={classNames(
                     className,
                     styles.panel,
@@ -65,7 +62,6 @@ export const Panel: React.FunctionComponent<PanelProps> = ({
                     // eslint-disable-next-line react/forbid-dom-props
                     style={{
                         [position === 'bottom' ? 'height' : 'width']: `${panelSize}px`,
-                        marginRight: '0.5rem',
                     }}
                 />
             )}
