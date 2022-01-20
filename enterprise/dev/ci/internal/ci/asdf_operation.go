@@ -16,6 +16,7 @@ func ASDFInstall() []bk.StepOpt {
 			Paths:       []string{"../../../../root/.asdf/installs"},
 		}),
 		buildkite.Cmd("asdf list"),
+		buildkite.Cmd("ls -al"),
 		buildkite.Cmd("ls ~/.asdf/installs"),
 		buildkite.Cmd("asdf install"),
 	}
