@@ -17,7 +17,7 @@ func ASDFInstall() []bk.StepOpt {
 		}),
 		buildkite.Cmd("asdf list"),
 		buildkite.Cmd("ls -al .buildkite-cache"),
-		buildkite.Cmd("ls ~/.asdf/installs"),
+		buildkite.Cmd("ls -al .buildkite-cache/installs"),
 		buildkite.Cmd("asdf install"),
 	}
 }
