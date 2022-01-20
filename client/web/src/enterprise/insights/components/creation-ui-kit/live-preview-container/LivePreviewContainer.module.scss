@@ -29,5 +29,11 @@
 }
 
 .btn-inline-icon {
-    color: #797d8a;
+    :global(.theme-light) & {
+        color: #797d8a;
+    }
+
+    :global(.theme-dark) & {
+        color: #d5d7db;
+    }
 }
