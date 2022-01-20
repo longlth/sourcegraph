@@ -107,22 +107,38 @@ FROM
 }
 
 func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, error) {
-	// TODO: Finish query
-	const q = `
-  -- source: internal/usagestats/growth.go:GetCTAMetrics
-  WITH
-  data_by_month AS (
-    SELECT DATE_TRUNC('month', timestamp) AS month
-      FROM event_logs
-     WHERE name IN ('InstallBrowserExtensionCTAShown', 'InstallBrowserExtensionCTAClicked')
-       AND argument->>'page' IN ('file', 'search')
-       AND month = DATE_TRUNC('month', NOW())
-  )
-  SELECT
-     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAShown' and argument->>'page' = 'file')) AS bext_cta_shown_count_on_file_page,
-     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAClicked' and argument->>'page' = 'file')) AS bext_cta_clicked_count_on_file_page,
-     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAShown' and argument->>'page' = 'search')) AS bext_cta_shown_count_on_search_page,
-     COUNT(*) FILTER (WHERE name = 'InstallBrowserExtensionCTAClicked' and argument->>'page' = 'search')) AS bext_cta_clicked_count_on_search_page,
+	// TODO: Finish ctaMetricsQuery
+	const ctaMetricsQuery = `
+	-- source: internal/usagestats/growth.go:GetCTAMetrics
+	WITH data_by_month AS (
+		SELECT name,
+			DATE_TRUNC('month', timestamp) AS month,
+			argument->>'page' AS page
+		FROM event_logs
+		WHERE name IN (
+				'InstallBrowserExtensionCTAShown',
+				'InstallBrowserExtensionCTAClicked'
+			)
+			AND argument->>'page' IN ('file', 'search')
+			AND DATE_TRUNC('month', timestamp) = DATE_TRUNC('month', $1::timestamp)
+	)
+	SELECT COUNT(*) FILTER (
+			WHERE name = 'InstallBrowserExtensionCTAShown'
+				and page = 'file'
+		) AS bext_cta_shown_count_on_file_page,
+		COUNT(*) FILTER (
+			WHERE name = 'InstallBrowserExtensionCTAClicked'
+				and page = 'file'
+		) AS bext_cta_clicked_count_on_file_page,
+		COUNT(*) FILTER (
+			WHERE name = 'InstallBrowserExtensionCTAShown'
+				and page = 'search'
+		) AS bext_cta_shown_count_on_search_page,
+		COUNT(*) FILTER (
+			WHERE name = 'InstallBrowserExtensionCTAClicked'
+				and page = 'search'
+		) AS bext_cta_clicked_count_on_search_page
+	FROM data_by_month
 `
 	var (
 		bextCtaShownCountOnFilePage     int32
@@ -130,7 +146,7 @@ func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, erro
 		bextCtaShownCountOnSearchPage   int32
 		bextCtaClickedCountOnSearchPage int32
 	)
-	if err := db.QueryRowContext(ctx, q).Scan(
+	if err := db.QueryRowContext(ctx, ctaMetricsQuery, timeNow()).Scan(
 		&bextCtaShownCountOnFilePage,
 		&bextCtaClickedCountOnFilePage,
 		&bextCtaShownCountOnSearchPage,
@@ -140,9 +156,9 @@ func GetCTAMetrics(ctx context.Context, db database.DB) (*types.CTAMetrics, erro
 	}
 
 	return &types.CTAMetrics{
-		BextCtaShownCountOnFilePage:     int32(bextCtaShownCountOnFilePage),
-		BextCtaClickedCountOnFilePage:   int32(bextCtaClickedCountOnFilePage),
-		BextCtaShownCountOnSearchPage:   int32(bextCtaShownCountOnSearchPage),
-		BextCtaClickedCountOnSearchPage: int32(bextCtaClickedCountOnSearchPage),
+		BextCtaShownCountOnFilePage:     bextCtaShownCountOnFilePage,
+		BextCtaClickedCountOnFilePage:   bextCtaClickedCountOnFilePage,
+		BextCtaShownCountOnSearchPage:   bextCtaShownCountOnSearchPage,
+		BextCtaClickedCountOnSearchPage: bextCtaClickedCountOnSearchPage,
 	}, nil
 }
