@@ -11,11 +11,11 @@ export interface GitTypeSelectorProps {
 }
 
 export const GitTypeSelector: FunctionComponent<GitTypeSelectorProps> = ({ type, setType, disabled }) => (
-    <div className="form-group">
+    <>
         <Select
             id="type"
             label="Type"
-            isCustomStyle={false}
+            isCustomStyle={true}
             value={type}
             onChange={({ target: { value } }) => setType(value as GitObjectType)}
             disabled={disabled}
@@ -26,5 +26,5 @@ export const GitTypeSelector: FunctionComponent<GitTypeSelectorProps> = ({ type,
             <option value={GitObjectType.GIT_TREE}>Branch</option>
         </Select>
         <small className="form-text text-muted">Required.</small>
-    </div>
+    </>
 )

@@ -178,23 +178,23 @@ export const CodeMonitorForm: React.FunctionComponent<CodeMonitorFormProps> = ({
                             .
                         </small>
                     </div>
-                    <div className="form-group">
-                        <Select
-                            label="Owner"
-                            id="code-monitor-form-owner"
-                            isCustomStyle={false}
-                            className={classNames('mb-2 w-auto', styles.ownerDropdown)}
-                            disabled={true}
-                        >
-                            <option value={authenticatedUser.displayName || authenticatedUser.username}>
-                                {authenticatedUser.username}
-                            </option>
-                        </Select>
-                        <small className="text-muted">
-                            Event history and configuration will not be shared. Code monitoring currently only supports
-                            individual owners.
-                        </small>
-                    </div>
+
+                    <Select
+                        label="Owner"
+                        id="code-monitor-form-owner"
+                        isCustomStyle={true}
+                        className={classNames('mb-2 w-auto', styles.ownerDropdown)}
+                        disabled={true}
+                    >
+                        <option value={authenticatedUser.displayName || authenticatedUser.username}>
+                            {authenticatedUser.username}
+                        </option>
+                    </Select>
+                    <small className="text-muted">
+                        Event history and configuration will not be shared. Code monitoring currently only supports
+                        individual owners.
+                    </small>
+
                     <hr className={classNames('my-3', styles.horizontalRule)} />
                     <div className="mb-4">
                         <FormTriggerArea
@@ -217,9 +217,6 @@ export const CodeMonitorForm: React.FunctionComponent<CodeMonitorFormProps> = ({
                             disabled={!formCompletion.triggerCompleted}
                             onActionsChange={onActionsChange}
                             description={currentCodeMonitorState.description}
-                            cardBtnClassName={styles.cardButton}
-                            cardLinkClassName={styles.cardLink}
-                            cardClassName={styles.card}
                         />
                     </div>
                     <hr className={classNames('my-3', styles.horizontalRule)} />

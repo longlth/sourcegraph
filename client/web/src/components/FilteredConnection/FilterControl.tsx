@@ -92,7 +92,7 @@ export const FilterControl: React.FunctionComponent<FilterControlProps> = ({
                                 <Select
                                     aria-label=""
                                     id=""
-                                    isCustomStyle={false}
+                                    isCustomStyle={true}
                                     name={filter.id}
                                     onChange={event => onChange(filter, event.currentTarget.value)}
                                 >

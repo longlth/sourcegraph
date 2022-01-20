@@ -39,21 +39,19 @@ export const NamespaceSelector: React.FunctionComponent<NamespaceSelectorProps> 
     )
 
     return (
-        <div className="form-group">
-            <Select
-                label={<strong className="text-nowrap mb-2">Namespace:</strong>}
-                isCustomStyle={false}
-                className={styles.namespaceSelector}
-                id={NAMESPACE_SELECTOR_ID}
-                value={selectedNamespace}
-                onChange={onSelectNamespace}
-            >
-                {namespaces.map(namespace => (
-                    <option key={namespace.id} value={namespace.id}>
-                        {getNamespaceDisplayName(namespace)}
-                    </option>
-                ))}
-            </Select>
-        </div>
+        <Select
+            label={<strong className="text-nowrap mb-2">Namespace:</strong>}
+            isCustomStyle={true}
+            className={styles.namespaceSelector}
+            id={NAMESPACE_SELECTOR_ID}
+            value={selectedNamespace}
+            onChange={onSelectNamespace}
+        >
+            {namespaces.map(namespace => (
+                <option key={namespace.id} value={namespace.id}>
+                    {getNamespaceDisplayName(namespace)}
+                </option>
+            ))}
+        </Select>
     )
 }

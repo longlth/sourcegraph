@@ -25,14 +25,14 @@ export const RegistryPublisherFormGroup: React.FunctionComponent<{
     disabled?: boolean
     onChange?: React.FormEventHandler<HTMLSelectElement>
 }> = ({ className = '', value, publishersOrError, disabled, onChange }) => (
-    <div className={classNames('form-group', className)}>
+    <div className={className}>
         {isErrorLike(publishersOrError) ? (
             <ErrorAlert error={publishersOrError} />
         ) : (
             <Select
                 label="Publisher"
                 id="extension-registry-create-extension-page__publisher"
-                isCustomStyle={false}
+                isCustomStyle={true}
                 onChange={onChange}
                 required={true}
                 disabled={disabled || publishersOrError === 'loading'}

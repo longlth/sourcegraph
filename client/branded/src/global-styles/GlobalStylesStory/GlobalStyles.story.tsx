@@ -431,13 +431,13 @@ export const Forms: Story = () => (
                 <label htmlFor="example-input-password">Password</label>
                 <input type="password" className="form-control" id="example-input-password" />
             </div>
-            <div className="form-group">
-                <Select id="example-select" isCustomStyle={true} label="Example select">
-                    <option>Option A</option>
-                    <option>Option B</option>
-                    <option>Option C</option>
-                </Select>
-            </div>
+
+            <Select isCustomStyle={true} aria-label="Example select" label="Example select">
+                <option>Option A</option>
+                <option>Option B</option>
+                <option>Option C</option>
+            </Select>
+
             <div className="form-group">
                 <TextArea label="Example textarea" id="example-textarea" rows={3} />
             </div>
@@ -459,11 +459,16 @@ export const Forms: Story = () => (
                     <label htmlFor="disabledTextInput">Disabled input</label>
                     <input type="text" id="disabledTextInput" className="form-control" placeholder="Disabled input" />
                 </div>
-                <div className="form-group">
-                    <Select id="disabledSelect" isCustomStyle={true} label="Disabled select menu">
-                        <option>Disabled select</option>
-                    </Select>
-                </div>
+
+                <Select
+                    isCustomStyle={true}
+                    disabled={true}
+                    label="Disabled select menu"
+                    aria-label="Disabled select menu"
+                >
+                    <option>Disabled select</option>
+                </Select>
+
                 <div className="form-group">
                     <div className="form-check">
                         <input
@@ -493,10 +498,10 @@ export const Forms: Story = () => (
                 <div className="form-group">
                     <input className="form-control form-control-sm mb-1" type="text" placeholder="Small input" />
                     <TextArea size="small" className="mb-1" placeholder="Small textarea" />
-                    <Select isCustomStyle={true} selectSize="sm" className="mb-1" aria-label="" id="">
-                        <option>Small select</option>
-                    </Select>
                 </div>
+                <Select isCustomStyle={true} selectSize="sm" className="mb-1" aria-label="" id="">
+                    <option>Small select</option>
+                </Select>
             </fieldset>
         </div>
         <h2 className="mt-3">Field reference</h2>

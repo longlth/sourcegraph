@@ -59,40 +59,40 @@ export class SavedSearchModal extends React.Component<Props, State> {
                 >
                     <Form onSubmit={this.onSubmit} className="test-saved-search-modal">
                         <h3 id={MODAL_LABEL_ID}>Save search query to: </h3>
-                        <div className="form-group">
-                            <Select
-                                aria-label=""
-                                onChange={this.onLocationChange}
-                                isCustomStyle={false}
-                                className={styles.select}
-                            >
-                                <option value={UserOrOrg.User}>User</option>
-                                {this.props.authenticatedUser.organizations &&
-                                    this.props.authenticatedUser.organizations.nodes.length > 0 && (
-                                        <option value={UserOrOrg.Org}>Organization</option>
-                                    )}
-                            </Select>
+
+                        <Select
+                            aria-label=""
+                            onChange={this.onLocationChange}
+                            isCustomStyle={true}
+                            className={styles.select}
+                        >
+                            <option value={UserOrOrg.User}>User</option>
                             {this.props.authenticatedUser.organizations &&
-                                this.props.authenticatedUser.organizations.nodes.length > 0 &&
-                                this.state.saveLocation === UserOrOrg.Org && (
-                                    <Select
-                                        aria-label=""
-                                        onChange={this.onOrganizationChange}
-                                        placeholder="Select an organization"
-                                        isCustomStyle={false}
-                                        className={styles.select}
-                                    >
-                                        <option value="" disabled={true} selected={true}>
-                                            Select an organization
-                                        </option>
-                                        {this.props.authenticatedUser.organizations.nodes.map(org => (
-                                            <option value={org.name} key={org.name}>
-                                                {org.displayName ? org.displayName : org.name}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                this.props.authenticatedUser.organizations.nodes.length > 0 && (
+                                    <option value={UserOrOrg.Org}>Organization</option>
                                 )}
-                        </div>
+                        </Select>
+                        {this.props.authenticatedUser.organizations &&
+                            this.props.authenticatedUser.organizations.nodes.length > 0 &&
+                            this.state.saveLocation === UserOrOrg.Org && (
+                                <Select
+                                    aria-label=""
+                                    onChange={this.onOrganizationChange}
+                                    placeholder="Select an organization"
+                                    isCustomStyle={true}
+                                    className={styles.select}
+                                >
+                                    <option value="" disabled={true} selected={true}>
+                                        Select an organization
+                                    </option>
+                                    {this.props.authenticatedUser.organizations.nodes.map(org => (
+                                        <option value={org.name} key={org.name}>
+                                            {org.displayName ? org.displayName : org.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            )}
+
                         <Button
                             type="submit"
                             disabled={this.state.saveLocation === UserOrOrg.Org && !this.state.organization}

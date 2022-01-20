@@ -57,15 +57,21 @@ export const FormFieldVariants: React.FunctionComponent = () => (
                 </fieldset>
             )}
         />
-        <WithVariantsAndMessageElements
-            field={({ className, message, ...props }) => (
-                <fieldset className="form-group">
-                    <Select aria-label="" message={message} isCustomStyle={true} className={className} {...props}>
-                        <option>Option A</option>
-                        <option>Option B</option>
-                        <option>Option C</option>
-                    </Select>
-                </fieldset>
+        <WithVariants
+            field={({ className, message, variant, ...props }) => (
+                <Select
+                    isCustomStyle={true}
+                    className={className}
+                    isValid={variant === 'invalid' ? false : variant === 'valid' ? true : undefined}
+                    message={message}
+                    disabled={variant === 'disabled'}
+                    aria-label=""
+                    {...props}
+                >
+                    <option>Option A</option>
+                    <option>Option B</option>
+                    <option>Option C</option>
+                </Select>
             )}
         />
         <WithVariants
