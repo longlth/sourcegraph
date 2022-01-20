@@ -277,6 +277,7 @@ message Diagnostic {
   // Human-readable string describing the source of this diagnostic, e.g.
   // 'typescript' or 'super lint'.
   string source = 4;
+  repeated DiagnosticTag tags = 5;
 }
 
 enum Severity {
@@ -285,4 +286,10 @@ enum Severity {
     Warning = 2;
     Information = 3;
     Hint = 4;
+}
+
+enum DiagnosticTag {
+    UnspecifiedDiagnosticTag = 0;
+    Unnecessary = 1;
+    Deprecated = 2;
 }
