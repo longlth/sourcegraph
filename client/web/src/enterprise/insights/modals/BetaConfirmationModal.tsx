@@ -1,10 +1,8 @@
-import { DialogContent, DialogOverlay } from '@reach/dialog'
 import React, { useRef } from 'react'
 import { useHistory } from 'react-router'
 
-import { Button, useAutoFocus } from '@sourcegraph/wildcard'
-
-import { useTemporarySetting } from '../../../settings/temporary/useTemporarySetting'
+import { useTemporarySetting } from '@sourcegraph/shared/src/settings/temporary/useTemporarySetting'
+import { Button, useAutoFocus, Modal } from '@sourcegraph/wildcard'
 
 import styles from './BetaConfirmationModal.module.scss'
 import { FourLineChart, LangStatsInsightChart, ThreeLineChart } from './components/MediaCharts'
@@ -28,9 +26,9 @@ export const BetaConfirmationModal: React.FunctionComponent = () => {
     }
 
     return (
-        <DialogOverlay className={styles.overlay}>
+        <Modal position="center" aria-label="Code Insights Beta information" containerClassName={styles.overlay}>
             <BetaConfirmationModalContent onAccept={handleAccept} onDismiss={handleDismiss} />
-        </DialogOverlay>
+        </Modal>
     )
 }
 
@@ -51,7 +49,7 @@ export const BetaConfirmationModalContent: React.FunctionComponent<BetaConfirmat
     useAutoFocus({ autoFocus: true, reference: dismissButtonReference })
 
     return (
-        <DialogContent aria-label="Code Insights Beta information" className={styles.content}>
+        <>
             <h1 className={styles.title}>Welcome to the Code Insights Beta!</h1>
 
             <div className={styles.mediaHeroContent}>
@@ -98,6 +96,6 @@ export const BetaConfirmationModalContent: React.FunctionComponent<BetaConfirmat
                     Understood, let’s go!
                 </Button>
             </footer>
-        </DialogContent>
+        </>
     )
 }

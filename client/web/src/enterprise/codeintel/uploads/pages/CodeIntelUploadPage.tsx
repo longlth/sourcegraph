@@ -6,18 +6,18 @@ import { Redirect, RouteComponentProps } from 'react-router'
 import { Observable } from 'rxjs'
 import { takeWhile } from 'rxjs/operators'
 
+import { ErrorAlert } from '@sourcegraph/branded/src/components/alerts'
 import { ErrorLike, isErrorLike } from '@sourcegraph/common'
 import { LSIFUploadState } from '@sourcegraph/shared/src/graphql-operations'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
 import {
     FilteredConnection,
     FilteredConnectionQueryArguments,
 } from '@sourcegraph/web/src/components/FilteredConnection'
-import { Button, Container, PageHeader, LoadingSpinner } from '@sourcegraph/wildcard'
+import { Button, Container, PageHeader, LoadingSpinner, useObservable } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../../../../auth'
-import { ErrorAlert } from '../../../../components/alerts'
+import { Collapsible } from '../../../../components/Collapsible'
 import { PageTitle } from '../../../../components/PageTitle'
 import { LsifUploadFields, LsifUploadConnectionFields } from '../../../../graphql-operations'
 import { CodeIntelStateBanner } from '../../shared/components/CodeIntelStateBanner'
@@ -212,10 +212,18 @@ export const CodeIntelUploadPage: FunctionComponent<CodeIntelUploadPageProps> = 
                     {(uploadOrError.state === LSIFUploadState.COMPLETED ||
                         uploadOrError.state === LSIFUploadState.DELETING) && (
                         <Container className="mt-2">
-                            <div className="mb-2">
+                            <Collapsible
+                                title={
+                                    dependencyGraphState === DependencyGraphState.ShowDependencies ? (
+                                        <h3 className="mb-0">Dependencies</h3>
+                                    ) : (
+                                        <h3 className="mb-0">Dependents</h3>
+                                    )
+                                }
+                                titleAtStart={true}
+                            >
                                 {dependencyGraphState === DependencyGraphState.ShowDependencies ? (
-                                    <h3>
-                                        Dependencies
+                                    <>
                                         <Button
                                             type="button"
                                             className="float-right p-0 mb-2"
@@ -224,10 +232,21 @@ export const CodeIntelUploadPage: FunctionComponent<CodeIntelUploadPageProps> = 
                                         >
                                             Show dependents
                                         </Button>
-                                    </h3>
+                                        <FilteredConnection
+                                            listComponent="div"
+                                            listClassName={classNames(styles.grid, 'mb-3')}
+                                            noun="dependency"
+                                            pluralNoun="dependencies"
+                                            nodeComponent={DependencyOrDependentNode}
+                                            queryConnection={queryDependencies}
+                                            history={history}
+                                            location={props.location}
+                                            cursorPaging={true}
+                                            emptyElement={<EmptyDependencies />}
+                                        />
+                                    </>
                                 ) : (
-                                    <h3>
-                                        Dependents
+                                    <>
                                         <Button
                                             type="button"
                                             className="float-right p-0 mb-2"
@@ -238,37 +257,21 @@ export const CodeIntelUploadPage: FunctionComponent<CodeIntelUploadPageProps> = 
                                         >
                                             Show dependencies
                                         </Button>
-                                    </h3>
+                                        <FilteredConnection
+                                            listComponent="div"
+                                            listClassName={classNames(styles.grid, 'mb-3')}
+                                            noun="dependent"
+                                            pluralNoun="dependents"
+                                            nodeComponent={DependencyOrDependentNode}
+                                            queryConnection={queryDependents}
+                                            history={history}
+                                            location={props.location}
+                                            cursorPaging={true}
+                                            emptyElement={<EmptyDependents />}
+                                        />
+                                    </>
                                 )}
-                            </div>
-
-                            {dependencyGraphState === DependencyGraphState.ShowDependencies ? (
-                                <FilteredConnection
-                                    listComponent="div"
-                                    listClassName={classNames(styles.grid, 'mb-3')}
-                                    noun="dependency"
-                                    pluralNoun="dependencies"
-                                    nodeComponent={DependencyOrDependentNode}
-                                    queryConnection={queryDependencies}
-                                    history={history}
-                                    location={props.location}
-                                    cursorPaging={true}
-                                    emptyElement={<EmptyDependencies />}
-                                />
-                            ) : (
-                                <FilteredConnection
-                                    listComponent="div"
-                                    listClassName={classNames(styles.grid, 'mb-3')}
-                                    noun="dependent"
-                                    pluralNoun="dependents"
-                                    nodeComponent={DependencyOrDependentNode}
-                                    queryConnection={queryDependents}
-                                    history={history}
-                                    location={props.location}
-                                    cursorPaging={true}
-                                    emptyElement={<EmptyDependents />}
-                                />
-                            )}
+                            </Collapsible>
                         </Container>
                     )}
                 </>

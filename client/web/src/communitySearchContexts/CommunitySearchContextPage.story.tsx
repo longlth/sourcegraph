@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import { subDays } from 'date-fns'
 import React from 'react'
-import { NEVER, Observable, of } from 'rxjs'
+import { EMPTY, NEVER, Observable, of } from 'rxjs'
 
 import { ActionItemComponentProps } from '@sourcegraph/shared/src/actions/ActionItem'
 import * as GQL from '@sourcegraph/shared/src/schema'
@@ -12,7 +12,7 @@ import {
     mockFetchSearchContexts,
     mockGetUserSearchContextNamespaces,
 } from '@sourcegraph/shared/src/testing/searchContexts/testHelpers'
-import { NOOP_SETTINGS_CASCADE } from '@sourcegraph/shared/src/util/searchTestHelpers'
+import { NOOP_SETTINGS_CASCADE } from '@sourcegraph/shared/src/testing/searchTestHelpers'
 import { subtypeOf } from '@sourcegraph/shared/src/util/types'
 import { WebStory } from '@sourcegraph/web/src/components/WebStory'
 
@@ -46,6 +46,7 @@ const PLATFORM_CONTEXT: CommunitySearchContextPageProps['platformContext'] = {
     forceUpdateTooltip: () => undefined,
     settings: NEVER,
     sourcegraphURL: '',
+    requestGraphQL: () => EMPTY,
 }
 
 const authUser: AuthenticatedUser = {
