@@ -12,6 +12,19 @@ use crate::{determine_language, SourcegraphQuery, SYNTAX_SET};
 extern crate lazy_static;
 
 #[rustfmt::skip]
+// Table of (@CaptureGroup, SyntaxKind) mapping.
+//
+// Any capture defined in a query will be mapped to the following SyntaxKind via the highlighter.
+//
+// To extend what types of captures are included, simply add a line below that takes a particular
+// match group that you're interested in and map it to a new SyntaxKind.
+//
+// We can also define our own new capture types that we want to use and add to queries to provide
+// particular highlights if necessary.
+//
+// (I can also add per-language mappings for these if we want, but you could also just do that with
+//  unique match groups. For example `@rust-bracket`, or similar. That doesn't need any
+//  particularly new rust code to be written. You can just modify queries for that)
 const MATCHES_TO_SYNTAX_KINDS: &[(&str, SyntaxKind)] = &[
     ("attribute",               SyntaxKind::UnspecifiedSyntaxKind),
     ("constant",                SyntaxKind::Identifier),
@@ -63,6 +76,10 @@ lazy_static! {
             lang.configure(&higlight_names);
             m.insert("go", lang);
         }
+
+        // TODO(tjdevries): Would be fun to add SQL parser here and then embed it and be able to do
+        // the const injection that I use for my own personal config to surprise some people with a
+        // really neat feature.
 
         // Other languages can be added here.
 
