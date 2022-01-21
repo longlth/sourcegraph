@@ -129,6 +129,7 @@ func (r *schemaResolver) UpdateExternalService(ctx context.Context, args *update
 	if err != nil {
 		return nil, err
 	}
+	oldConfig := es.Config
 
 	// 🚨 SECURITY: check access to external service
 	if err := backend.CheckExternalServiceAccess(ctx, r.db, es.NamespaceUserID, es.NamespaceOrgID); err != nil {
@@ -155,8 +156,12 @@ func (r *schemaResolver) UpdateExternalService(ctx context.Context, args *update
 	}
 
 	res := &externalServiceResolver{db: r.db, externalService: es}
-	if err = syncExternalService(ctx, es, syncExternalServiceTimeout, r.repoupdaterClient); err != nil {
-		res.warning = fmt.Sprintf("External service updated, but we encountered a problem while validating the external service: %s", err)
+
+	if oldConfig != es.Config {
+		err = syncExternalService(ctx, es, syncExternalServiceTimeout, r.repoupdaterClient)
+		if err != nil {
+			res.warning = fmt.Sprintf("External service updated, but we encountered a problem while validating the external service: %s", err)
+		}
 	}
 
 	return res, nil
