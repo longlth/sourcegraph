@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
-import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
+import { useLocalStorage, useObservable } from '@sourcegraph/wildcard'
 
 import { usePersistentCadence } from '../../hooks'
 import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
@@ -31,9 +30,12 @@ export const InstallIntegrationsAlert: React.FunctionComponent<InstallIntegratio
     onExtensionAlertDismissed,
 }) => {
     const displayCTABasedOnCadence = usePersistentCadence(CADENCE_KEY, DISPLAY_CADENCE)
-    const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
-    const [hoverCount] = useLocalStorage(HOVER_COUNT_KEY, 0)
-    const [hasDismissedExtensionAlert, setHasDismissedExtensionAlert] = useLocalStorage(HAS_DISMISSED_ALERT_KEY, false)
+    const isBrowserExtensionInstalled = useObservable<boolean>(browserExtensionInstalled)
+    const [hoverCount] = useLocalStorage<number>(HOVER_COUNT_KEY, 0)
+    const [hasDismissedExtensionAlert, setHasDismissedExtensionAlert] = useLocalStorage<boolean>(
+        HAS_DISMISSED_ALERT_KEY,
+        false
+    )
     const showExtensionAlert = useMemo(
         () =>
             isBrowserExtensionInstalled === false &&

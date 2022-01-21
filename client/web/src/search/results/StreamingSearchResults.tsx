@@ -18,9 +18,7 @@ import { StreamSearchOptions } from '@sourcegraph/shared/src/search/stream'
 import { SettingsCascadeProps } from '@sourcegraph/shared/src/settings/settings'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
-import { Link, Button } from '@sourcegraph/wildcard'
-import { useLocalStorage } from '@sourcegraph/shared/src/util/useLocalStorage'
-import { useObservable } from '@sourcegraph/shared/src/util/useObservable'
+import { useLocalStorage, useObservable } from '@sourcegraph/wildcard'
 
 import { SearchStreamingProps } from '..'
 import { AuthenticatedUser } from '../../auth'
@@ -29,17 +27,16 @@ import { FeatureFlagProps } from '../../featureFlags/featureFlags'
 import { usePersistentCadence } from '../../hooks'
 import { CodeInsightsProps } from '../../insights/types'
 import { isCodeInsightsEnabled } from '../../insights/utils/is-code-insights-enabled'
-import { BrowserExtensionAlert } from '../../repo/actions/BrowserExtensionAlert'
 import { OnboardingTour } from '../../onboarding-tour/OnboardingTour'
+import { BrowserExtensionAlert } from '../../repo/actions/BrowserExtensionAlert'
 import { SavedSearchModal } from '../../savedSearches/SavedSearchModal'
-import { useExperimentalFeatures, useNavbarQueryState, useSearchStack } from '../../stores'
-import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
 import {
     useExperimentalFeatures,
     useNavbarQueryState,
     useSearchStack,
     buildSearchURLQueryFromQueryState,
 } from '../../stores'
+import { browserExtensionInstalled } from '../../tracking/analyticsUtils'
 import { SearchUserNeedsCodeHost } from '../../user/settings/codeHosts/OrgUserNeedsCodeHost'
 import { SearchBetaIcon } from '../CtaIcons'
 import { submitSearch } from '../helpers'
@@ -95,15 +92,15 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
     const patternType = useNavbarQueryState(state => state.searchPatternType)
     const query = useNavbarQueryState(state => state.searchQueryFromURL)
 
-    const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage(
+    const [hasDismissedSignupAlert, setHasDismissedSignupAlert] = useLocalStorage<boolean>(
         'StreamingSearchResults.hasDismissedSignupAlert',
         false
     )
-    const [hasDismissedBrowserExtensionAlert, setHasDismissedBrowserExtensionAlert] = useLocalStorage(
+    const [hasDismissedBrowserExtensionAlert, setHasDismissedBrowserExtensionAlert] = useLocalStorage<boolean>(
         'StreamingSearchResults.hasDismissedBrowserExtensionAlert',
         false
     )
-    const isBrowserExtensionInstalled = useObservable(browserExtensionInstalled)
+    const isBrowserExtensionInstalled = useObservable<boolean>(browserExtensionInstalled)
     const displayCTAsBasedOnCadence = usePersistentCadence(CTA_ALERTS_CADENCE_KEY, CTA_ALERT_DISPLAY_CADENCE)
 
     const onSignupCtaAlertDismissed = useCallback(() => {
