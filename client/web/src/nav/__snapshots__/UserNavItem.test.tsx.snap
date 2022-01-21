@@ -86,21 +86,17 @@ exports[`UserNavItem simple 1`] = `
           class="d-flex align-items-center"
         >
           <div
+            class="mr-2"
+          >
+            Theme
+          </div>
+          <div
             class="form-group"
           >
-            <label
-              for=""
-            >
-              <div
-                class="mr-2"
-              >
-                Theme
-              </div>
-            </label>
             <select
-              class="form-control custom-select custom-select-sm test-theme-toggle"
+              aria-label=""
+              class="custom-select custom-select-sm test-theme-toggle"
               id=""
-              label="[object Object]"
             >
               <option
                 value="light"
