@@ -498,10 +498,10 @@ export const Forms: Story = () => (
                 <div className="form-group">
                     <input className="form-control form-control-sm mb-1" type="text" placeholder="Small input" />
                     <TextArea size="small" className="mb-1" placeholder="Small textarea" />
+                    <Select isCustomStyle={true} selectSize="sm" className="mb-1" aria-label="" id="">
+                        <option>Small select</option>
+                    </Select>
                 </div>
-                <Select isCustomStyle={true} selectSize="sm" className="mb-1" aria-label="" id="">
-                    <option>Small select</option>
-                </Select>
             </fieldset>
         </div>
         <h2 className="mt-3">Field reference</h2>

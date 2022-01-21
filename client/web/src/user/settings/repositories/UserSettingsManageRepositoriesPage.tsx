@@ -627,7 +627,6 @@ export const UserSettingsManageRepositoriesPage: React.FunctionComponent<Props> 
             <div className="d-inline-flex flex-row mr-3 align-items-baseline">
                 <p className="text-xl-center text-nowrap mr-2">Code Host:</p>
                 <Select
-                    selectClassName="form-control"
                     name="code-host"
                     aria-label="select code host type"
                     onChange={event => setCodeHostFilter(event.target.value)}

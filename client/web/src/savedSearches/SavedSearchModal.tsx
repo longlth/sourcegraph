@@ -3,10 +3,10 @@ import * as H from 'history'
 import * as React from 'react'
 
 import { Form } from '@sourcegraph/branded/src/components/Form'
+import { SearchPatternTypeProps } from '@sourcegraph/search'
 import { Button, Modal, Select } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'
-import { SearchPatternTypeProps } from '../search'
 
 import styles from './SavedSearchModal.module.scss'
 
@@ -60,11 +60,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
                     <Form onSubmit={this.onSubmit} className="test-saved-search-modal">
                         <h3 id={MODAL_LABEL_ID}>Save search query to: </h3>
 
-                        <Select
-                            aria-label=""
-                            onChange={this.onLocationChange}
-                            selectClassName={classNames('form-control', styles.select)}
-                        >
+                        <Select aria-label="" onChange={this.onLocationChange} selectClassName={styles.select}>
                             <option value={UserOrOrg.User}>User</option>
                             {this.props.authenticatedUser.organizations &&
                                 this.props.authenticatedUser.organizations.nodes.length > 0 && (
@@ -78,7 +74,7 @@ export class SavedSearchModal extends React.Component<Props, State> {
                                     aria-label=""
                                     onChange={this.onOrganizationChange}
                                     placeholder="Select an organization"
-                                    className={classNames('form-control', styles.select)}
+                                    selectClassName={styles.select}
                                 >
                                     <option value="" disabled={true} selected={true}>
                                         Select an organization

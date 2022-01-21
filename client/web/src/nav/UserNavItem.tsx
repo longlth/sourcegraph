@@ -8,11 +8,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Tooltip } from 'reactstrap'
 
 import { KeyboardShortcut } from '@sourcegraph/shared/src/keyboardShortcuts'
+import { KEYBOARD_SHORTCUT_SHOW_HELP } from '@sourcegraph/shared/src/keyboardShortcuts/keyboardShortcuts'
 import { ThemeProps } from '@sourcegraph/shared/src/theme'
 import { useTimeoutManager, Link, Select } from '@sourcegraph/wildcard'
 
 import { AuthenticatedUser } from '../auth'
-import { KEYBOARD_SHORTCUT_SHOW_HELP } from '../keyboardShortcuts/keyboardShortcuts'
 import { ThemePreference } from '../stores/themeState'
 import { ThemePreferenceProps } from '../theme'
 import { UserAvatar } from '../user/UserAvatar'
@@ -183,7 +183,7 @@ export const UserNavItem: React.FunctionComponent<UserNavItemProps> = props => {
                             aria-label=""
                             isCustomStyle={true}
                             selectSize="sm"
-                            className="test-theme-toggle"
+                            selectClassName="test-theme-toggle"
                             onChange={onThemeChange}
                             value={props.themePreference}
                         >

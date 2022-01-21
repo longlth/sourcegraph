@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 import * as React from 'react'
 
+import { ErrorAlert } from '@sourcegraph/branded/src/components/alerts'
 import { ErrorLike, isErrorLike } from '@sourcegraph/common'
 import { Scalars } from '@sourcegraph/shared/src/graphql-operations'
 import { Select } from '@sourcegraph/wildcard'
 
-import { ErrorAlert } from '../../../components/alerts'
 import {
     EXTENSION_NAME_MAX_LENGTH,
     EXTENSION_NAME_VALID_PATTERN,

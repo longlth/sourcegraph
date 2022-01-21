@@ -61,11 +61,9 @@
 // Input feedback messages
 .valid-feedback {
     color: var(--text-muted);
-    display: block !important; // fix UI change
 }
 .invalid-feedback {
     color: var(--danger);
-    display: block !important; // fix UI change
 }
 .form-check {
     > label,
@@ -150,9 +148,10 @@
 }
 
 // Remove feedback icon for <select> and <textarea>
+select.form-control,
 textarea.form-control:not(.with-invalid-icon) {
     background-image: none;
-} // Removed select.form-control from this rule to resolve UI change on new <Select> component
+}
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus,
