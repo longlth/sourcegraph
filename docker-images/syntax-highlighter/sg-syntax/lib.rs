@@ -16,12 +16,15 @@ use syntect::{
     parsing::{SyntaxReference, SyntaxSet},
 };
 
-mod lsif;
-mod ts;
-pub use ts::lsif_highlight;
+mod sg_treesitter;
+pub use sg_treesitter::index_language as lsif_index;
+pub use sg_treesitter::lsif_highlight;
+pub use sg_treesitter::PackedRange as LsifPackedRange;
 
-mod css_table;
-use css_table::ClassedTableGenerator;
+mod sg_syntect;
+use sg_syntect::ClassedTableGenerator;
+
+pub mod lsif;
 
 thread_local! {
     pub(crate) static SYNTAX_SET: SyntaxSet = SyntaxSet::load_defaults_newlines();

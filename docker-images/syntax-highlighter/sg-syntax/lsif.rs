@@ -1911,16 +1911,69 @@ impl ::protobuf::reflect::ProtobufValue for SymbolRole {
 
 #[derive(Clone,PartialEq,Eq,Debug,Hash)]
 pub enum SyntaxKind {
-    UnspecifiedSyntaxKind = 0,
-    StringLiteral = 1,
-    NumericLiteral = 2,
-    Identifier = 3,
-    MethodIdentifier = 4,
-    TypeIdentifier = 5,
-    TermIdentifier = 6,
-    LocalIdentifier = 7,
-    ShadedIdentifier = 8,
-    PackageIdentifier = 9,
+  UnspecifiedSyntaxKind = 1,
+
+  // `+`, `*`, etc.
+  Operator = 2,
+
+  // Comment, including comment markers and text
+  Comment = 3,
+
+  // `,` `.` `,`
+  PunctuationDelimiter = 4,
+  // (), {}, [] when used syntactically
+  PunctuationBracket = 5,
+  // `{}` within a string.
+  PunctuationSpecial = 6,
+
+  // This is `if`, `else`, `return`, `class`, etc.
+  Keyword = 7,
+
+  // non-specific variables, function calls, etc.
+  Identifier = 8,
+  // `xyz` in `const xyz = 10`
+  ConstantIdentifier = 10,
+  // Identifiers builtin to the language: `None`, `min`, `print` in Python.
+  BuiltinIdentifier = 11,
+  // TODO: Should we have local identifier?
+  LocalIdentifier = 12,
+  // TODO: Is this supposed to be Shaded or Shadowed? It's seems we're mixing implementation here.
+  ShadedIdentifier = 13,
+  // `package main`
+  PackageIdentifier = 14,
+
+  // Literal strings: "Hello, world!"
+  StringLiteral = 15,
+  // ".*" in a string regex
+  StringLiteralRegex = 16,
+  // "\t", "\n"
+  StringLiteralEscape = 17,
+  // "{}" in a format string
+  StringLiteralSpecial = 18,
+  // 'c' or similar, in languages that differentiate strings and characters
+  CharacterLiteral = 19,
+  // Literal numbers
+  NumericLiteral = 20,
+  // `true`, `false`
+  BooleanLiteral = 21,
+
+  // Function definition only
+  FunctionDefinition = 22,
+
+  // non-builtin types, including namespaces
+  TypeIdentifier = 23,
+  // builtin types only, such as `str` for Python or `uint88` in Go
+  BuiltinTypeIdentifier = 25,
+
+  // python decorators, c-like __attribute__
+  AttributeIdentifier = 26,
+
+  // Used for xml-like tags
+  Tag = 27,
+  // Attribute name in xml-like tags
+  TagAttribute = 28,
+  // Delimiters for xml-like tags
+  TagDelimiter = 29,
 }
 
 impl ::protobuf::ProtobufEnum for SyntaxKind {
@@ -1934,9 +1987,7 @@ impl ::protobuf::ProtobufEnum for SyntaxKind {
             1 => ::std::option::Option::Some(SyntaxKind::StringLiteral),
             2 => ::std::option::Option::Some(SyntaxKind::NumericLiteral),
             3 => ::std::option::Option::Some(SyntaxKind::Identifier),
-            4 => ::std::option::Option::Some(SyntaxKind::MethodIdentifier),
             5 => ::std::option::Option::Some(SyntaxKind::TypeIdentifier),
-            6 => ::std::option::Option::Some(SyntaxKind::TermIdentifier),
             7 => ::std::option::Option::Some(SyntaxKind::LocalIdentifier),
             8 => ::std::option::Option::Some(SyntaxKind::ShadedIdentifier),
             9 => ::std::option::Option::Some(SyntaxKind::PackageIdentifier),
@@ -1950,9 +2001,7 @@ impl ::protobuf::ProtobufEnum for SyntaxKind {
             SyntaxKind::StringLiteral,
             SyntaxKind::NumericLiteral,
             SyntaxKind::Identifier,
-            SyntaxKind::MethodIdentifier,
             SyntaxKind::TypeIdentifier,
-            SyntaxKind::TermIdentifier,
             SyntaxKind::LocalIdentifier,
             SyntaxKind::ShadedIdentifier,
             SyntaxKind::PackageIdentifier,

@@ -19,6 +19,7 @@ tree-sitter-highlight = "0.20.1"
 tree-sitter-go = "0.19.1"
 protobuf = "2.25.2"
 
+
 [lib]
 name = "sg_syntax"
-path = "src/lib.rs"
+path = "sg-syntax/lib.rs"

@@ -15,8 +15,8 @@
 ((identifier) @constant
  (#eq? @constant "_"))
 
-((identifier) @constant
- (#vim-match? @constant "^[A-Z][A-Z\\d_]+$"))
+; ((identifier) @constant
+;  (#vim-match? @constant "^[A-Z][A-Z\\d_]+$"))
 
 (const_spec
   name: (identifier) @constant)
@@ -24,11 +24,11 @@
 ; Function calls
 
 (call_expression
-  function: (identifier) @function)
+  function: (identifier) @identifier)
 
 (call_expression
   function: (selector_expression
-    field: (field_identifier) @method))
+    field: (field_identifier) @identifier))
 
 ; Function definitions
 

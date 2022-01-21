@@ -14,7 +14,7 @@ use std::env;
 use std::panic;
 
 #[post("/", format = "application/json", data = "<q>")]
-fn index(q: Json<SourcegraphQuery>) -> JsonValue {
+fn syntect(q: Json<SourcegraphQuery>) -> JsonValue {
     // TODO(slimsag): In an ideal world we wouldn't be relying on catch_unwind
     // and instead Syntect would return Result types when failures occur. This
     // will require some non-trivial work upstream:
@@ -29,6 +29,7 @@ fn index(q: Json<SourcegraphQuery>) -> JsonValue {
 #[post("/lsif", format = "application/json", data = "<q>")]
 fn lsif(q: Json<SourcegraphQuery>) -> JsonValue {
     sg_syntax::lsif_highlight(q.into_inner())
+        .unwrap_or(json!({"error": "could not lsif highlight", "code": "panic"}))
 }
 
 #[get("/health")]
@@ -54,6 +55,6 @@ fn rocket() -> rocket::Rocket {
     };
 
     rocket::ignite()
-        .mount("/", routes![index, lsif, health])
+        .mount("/", routes![syntect, lsif, health])
         .register(catchers![not_found])
 }
