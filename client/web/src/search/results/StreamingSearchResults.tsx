@@ -69,7 +69,7 @@ export type SearchType = 'file' | 'repo' | 'path' | 'symbol' | 'diff' | 'commit'
 // and will therefore default to V1.
 export const LATEST_VERSION = 'V2'
 
-const CTA_ALERTS_CADENCE_KEY = 'CtaAlerts.pageViews'
+const CTA_ALERTS_CADENCE_KEY = 'SearchResultCtaAlerts.pageViews'
 const CTA_ALERT_DISPLAY_CADENCE = 5
 
 export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResultsProps> = props => {
@@ -354,12 +354,13 @@ export const StreamingSearchResults: React.FunctionComponent<StreamingSearchResu
                             onClick: onSignUpClick,
                         }}
                         icon={<SearchBetaIcon />}
+                        className="mr-3"
                         onClose={onSignupCtaAlertDismissed}
                     />
                 )}
 
                 {showBrowserExtensionCta && (
-                    <BrowserExtensionAlert onAlertDismissed={onBrowserExtensionCtaAlertDismissed} />
+                    <BrowserExtensionAlert className="mr-3" onAlertDismissed={onBrowserExtensionCtaAlertDismissed} />
                 )}
 
                 <StreamingSearchResultsList {...props} results={results} allExpanded={allExpanded} />

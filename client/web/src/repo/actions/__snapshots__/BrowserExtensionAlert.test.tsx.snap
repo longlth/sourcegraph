@@ -3,7 +3,7 @@
 exports[`BrowserExtensionAlert matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="card my-2 mr-3 d-flex p-3 pr-5 flex-md-row flex-column align-items-center"
+    class="card my-2 d-flex p-3 pr-5 flex-md-row flex-column align-items-center"
   >
     <div
       class="mr-md-3"
@@ -82,14 +82,14 @@ exports[`BrowserExtensionAlert matches snapshot 1`] = `
       class="flex-1 my-md-0 my-2"
     >
       <div
-        class="mb-1 streamingSearchResultsCtaTitle"
+        class="mb-1 ctaTitle"
       >
         <strong>
           Install the Sourcegraph browser extension
         </strong>
       </div>
       <div
-        class="text-muted mb-2 streamingSearchResultsCtaDescription"
+        class="text-muted mb-2 ctaDescription"
       >
         Add code intelligence to pull requests and file views on GitHub, GitLab, Bitbucket Server, and Phabricator
       </div>

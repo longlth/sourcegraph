@@ -2,9 +2,9 @@ import classNames from 'classnames'
 import CloseIcon from 'mdi-react/CloseIcon'
 import React from 'react'
 
-import styles from '@sourcegraph/web/src/search/results/StreamingSearchResults.module.scss'
 import { Button } from '@sourcegraph/wildcard'
 
+import styles from './CtaAlert.module.scss'
 import { Link } from './Link'
 
 export interface CtaAlertProps {
@@ -23,12 +23,10 @@ export const CtaAlert: React.FunctionComponent<CtaAlertProps> = props => (
     <div className="card my-2 mr-3 d-flex p-3 pr-5 flex-md-row flex-column align-items-center">
         <div className="mr-md-3">{props.icon}</div>
         <div className="flex-1 my-md-0 my-2">
-            <div className={classNames('mb-1', styles.streamingSearchResultsCtaTitle)}>
+            <div className={classNames('mb-1', styles.ctaTitle)}>
                 <strong>{props.title}</strong>
             </div>
-            <div className={classNames('text-muted', 'mb-2', styles.streamingSearchResultsCtaDescription)}>
-                {props.description}
-            </div>
+            <div className={classNames('text-muted', 'mb-2', styles.ctaDescription)}>{props.description}</div>
             <Button to={props.cta.href} onClick={props.cta.onClick} variant="primary" as={Link}>
                 {props.cta.label}
             </Button>
