@@ -62,30 +62,69 @@ func (ds *Definitions) Leaves() []Definition {
 	return leaves
 }
 
-// func (ds *Definitions) Dominators() Definition {
-// 	// Dom(n_0) = { n_0 }
-// 	// Dom(n) = { n } union (intersect dom(p) over { p | preds(n) })
+// TODO - test this
+func (ds *Definitions) Filter(ids []int) (*Definitions, error) {
+	idMap := map[int]struct{}{}
+	for _, id := range ids {
+		idMap[id] = struct{}{}
+	}
 
-// 	dominators := map[int][]int{}
-// 	for _, definition := range ds.definitions {
-// 		ds := []int{definition.ID}
+	filtered := make([]Definition, 0, len(ds.definitions)-len(ids))
+	for _, definition := range ds.definitions {
+		if _, ok := idMap[definition.ID]; ok {
+			filtered = append(filtered, definition)
+		}
+	}
 
-// 		if len(definition.Metadata.Parents) != 0 {
-// 			a := dominators[definition.Metadata.Parents[0]]
-// 			bs := make([][]int, 0, len(definition.Metadata.Parents))
-// 			for _, parent := range definition.Metadata.Parents[1:] {
-// 				bs = append(bs, dominators[parent])
-// 			}
+	for _, definition := range filtered {
+		for _, parent := range definition.Metadata.Parents {
+			if _, ok := idMap[parent]; ok {
+				return nil, fmt.Errorf("outstanding (in a bad way) refrences")
+			}
+		}
+	}
 
-// 			ds = append(ds, intersect(a, bs...)...)
-// 		}
+	return newDefinitions(filtered), nil
+}
 
-// 		dominators[definition.ID] = ds
-// 	}
+// TODO - test this
+func (ds *Definitions) LeafDominator() (Definition, bool) {
+	// Dom(n_0) = { n_0 }
+	// Dom(n) = { n } union (intersect dom(p) over { p | preds(n) })
 
-// 	// TODO
-// 	return Definition{}
-// }
+	dominators := map[int][]int{}
+	for _, definition := range ds.definitions {
+		ds := []int{definition.ID}
+
+		if len(definition.Metadata.Parents) != 0 {
+			a := dominators[definition.Metadata.Parents[0]]
+			bs := make([][]int, 0, len(definition.Metadata.Parents))
+			for _, parent := range definition.Metadata.Parents[1:] {
+				bs = append(bs, dominators[parent])
+			}
+
+			ds = append(ds, intersect(a, bs...)...)
+		}
+
+		dominators[definition.ID] = ds
+	}
+
+	leaves := ds.Leaves()
+	if len(leaves) == 0 {
+		return Definition{}, false
+	}
+
+	ids := make([][]int, 0, len(leaves))
+	for _, leaf := range leaves {
+		ids = append(ids, dominators[leaf.ID])
+	}
+
+	same := intersect(ids[0], ids[1:]...)
+	if len(same) == 0 {
+		return Definition{}, false
+	}
+	return ds.GetByID(same[len(same)-1])
+}
 
 func (ds *Definitions) Up(appliedIDs, targetIDs []int) ([]Definition, error) {
 	// Gather the set of ancestors of the migrations with the target identifiers

@@ -19,6 +19,7 @@ import (
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/run"
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/stdout"
 	connections "github.com/sourcegraph/sourcegraph/internal/database/connections/live"
+	"github.com/sourcegraph/sourcegraph/internal/database/migration/definition"
 	"github.com/sourcegraph/sourcegraph/internal/database/migration/runner"
 	"github.com/sourcegraph/sourcegraph/internal/database/migration/store"
 	"github.com/sourcegraph/sourcegraph/internal/observation"
@@ -307,17 +308,32 @@ func selectNewRootMigration(database db.Database, commit string) (int, bool, err
 
 	versions := make([]int, 0, len(lines))
 	for _, filename := range lines {
-		parts := strings.Split(filename, "_")
-		if version, err := strconv.Atoi(parts[0]); err == nil {
+		if version, err := strconv.Atoi(strings.Split(filename, "_")[0]); err == nil {
 			versions = append(versions, version)
 		}
 	}
 
-	// TODO -
-	_ = versions
+	fs, err := database.FS()
+	if err != nil {
+		return 0, false, err
+	}
 
-	// lastMigrationIndex, ok := migration.ParseLastMigrationIndex()
-	return 100, true, nil // TODO
+	ds, err := definition.ReadDefinitions(fs)
+	if err != nil {
+		return 0, false, err
+	}
+
+	ds, err = ds.Filter(versions)
+	if err != nil {
+		return 0, false, err
+	}
+
+	id, ok := ds.LeafDominator()
+	if !ok {
+		return 0, false, nil
+	}
+
+	return id.ID, true, nil
 }
 
 // removeAncestorsOf removes all migrations that are an ancestor of the given target version.

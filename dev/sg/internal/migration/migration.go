@@ -6,9 +6,11 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/db"
 	"github.com/sourcegraph/sourcegraph/dev/sg/root"
+	"github.com/sourcegraph/sourcegraph/internal/database/migration/definition"
 )
 
 const upMigrationFileTemplate = `BEGIN;
@@ -41,37 +43,23 @@ parents: [%s]
 // returns the names of the new files. If there was an error, the filesystem should remain
 // unmodified.
 func RunAdd(database db.Database, migrationName string) (up, down, metadata string, _ error) {
-	// baseDir, err := MigrationDirectoryForDatabase(database)
-	// if err != nil {
-	// 	return "", "", "", err
-	// }
+	fs, err := database.FS()
+	if err != nil {
+		return "", "", "", err
+	}
 
-	// TODO - recalculate parents by checking leaves
+	definitions, err := definition.ReadDefinitions(fs)
+	if err != nil {
+		return "", "", "", err
+	}
 
-	// readFilenamesNamesInDirectory := func(dir string) ([]string, error) {
-	// 	entries, err := os.ReadDir(dir)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
+	leaves := definitions.Leaves()
+	parents := make([]int, 0, len(leaves))
+	for _, leaf := range leaves {
+		parents = append(parents, leaf.ID)
+	}
 
-	// 	names := make([]string, 0, len(entries))
-	// 	for _, entry := range entries {
-	// 		names = append(names, entry.Name())
-	// 	}
-
-	// 	return names, nil
-	// }
-	// names, err := readFilenamesNamesInDirectory(baseDir)
-	// if err != nil {
-	// 	return "", "", "", err
-	// }
-	// lastMigrationIndex, ok := ParseLastMigrationIndex(names)
-	// if !ok {
-	// 	return "", "", "", errors.New("no previous migrations exist")
-	// }
-
-	parents := []int{} // TODO
-	id := 100          // TODO
+	id := int(time.Now().UTC().Unix())
 
 	upPath, downPath, metadataPath, err := MakeMigrationFilenames(database, id)
 	if err != nil {
