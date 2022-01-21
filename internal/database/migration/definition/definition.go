@@ -62,6 +62,31 @@ func (ds *Definitions) Leaves() []Definition {
 	return leaves
 }
 
+// func (ds *Definitions) Dominators() Definition {
+// 	// Dom(n_0) = { n_0 }
+// 	// Dom(n) = { n } union (intersect dom(p) over { p | preds(n) })
+
+// 	dominators := map[int][]int{}
+// 	for _, definition := range ds.definitions {
+// 		ds := []int{definition.ID}
+
+// 		if len(definition.Metadata.Parents) != 0 {
+// 			a := dominators[definition.Metadata.Parents[0]]
+// 			bs := make([][]int, 0, len(definition.Metadata.Parents))
+// 			for _, parent := range definition.Metadata.Parents[1:] {
+// 				bs = append(bs, dominators[parent])
+// 			}
+
+// 			ds = append(ds, intersect(a, bs...)...)
+// 		}
+
+// 		dominators[definition.ID] = ds
+// 	}
+
+// 	// TODO
+// 	return Definition{}
+// }
+
 func (ds *Definitions) Up(appliedIDs, targetIDs []int) ([]Definition, error) {
 	// Gather the set of ancestors of the migrations with the target identifiers
 	definitions, err := ds.traverse(targetIDs, func(definition Definition) []int {
@@ -190,4 +215,27 @@ func unknownMigrationError(id int, parent *int) error {
 	}
 
 	return fmt.Errorf("unknown migration %dreferenced from migration %d", id, *parent)
+}
+
+func intersect(a []int, bs ...[]int) []int {
+	aCopy := make([]int, len(a))
+	copy(aCopy, a)
+
+	for _, b := range bs {
+		bMap := make(map[int]struct{}, len(b))
+		for _, v := range b {
+			bMap[v] = struct{}{}
+		}
+
+		filtered := aCopy[:0]
+		for _, v := range aCopy {
+			if _, ok := bMap[v]; ok {
+				filtered = append(filtered, v)
+			}
+		}
+
+		aCopy = filtered
+	}
+
+	return aCopy
 }

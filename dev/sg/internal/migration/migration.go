@@ -4,11 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/cockroachdb/errors"
 
 	"github.com/sourcegraph/sourcegraph/dev/sg/internal/db"
 	"github.com/sourcegraph/sourcegraph/dev/sg/root"
@@ -37,34 +34,46 @@ COMMIT;
 
 const metadataTemplate = `
 name: %s
-parent: %d
+parents: [%s]
 `
 
 // RunAdd creates a new up/down migration file pair for the given database and
 // returns the names of the new files. If there was an error, the filesystem should remain
 // unmodified.
 func RunAdd(database db.Database, migrationName string) (up, down, metadata string, _ error) {
-	baseDir, err := MigrationDirectoryForDatabase(database)
-	if err != nil {
-		return "", "", "", err
-	}
+	// baseDir, err := MigrationDirectoryForDatabase(database)
+	// if err != nil {
+	// 	return "", "", "", err
+	// }
 
-	//
 	// TODO - recalculate parents by checking leaves
-	//
 
-	// TODO: We can probably convert to migrations and use getMaxMigrationID
-	names, err := ReadFilenamesNamesInDirectory(baseDir)
-	if err != nil {
-		return "", "", "", err
-	}
+	// readFilenamesNamesInDirectory := func(dir string) ([]string, error) {
+	// 	entries, err := os.ReadDir(dir)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-	lastMigrationIndex, ok := ParseLastMigrationIndex(names)
-	if !ok {
-		return "", "", "", errors.New("no previous migrations exist")
-	}
+	// 	names := make([]string, 0, len(entries))
+	// 	for _, entry := range entries {
+	// 		names = append(names, entry.Name())
+	// 	}
 
-	upPath, downPath, metadataPath, err := MakeMigrationFilenames(database, lastMigrationIndex+1)
+	// 	return names, nil
+	// }
+	// names, err := readFilenamesNamesInDirectory(baseDir)
+	// if err != nil {
+	// 	return "", "", "", err
+	// }
+	// lastMigrationIndex, ok := ParseLastMigrationIndex(names)
+	// if !ok {
+	// 	return "", "", "", errors.New("no previous migrations exist")
+	// }
+
+	parents := []int{} // TODO
+	id := 100          // TODO
+
+	upPath, downPath, metadataPath, err := MakeMigrationFilenames(database, id)
 	if err != nil {
 		return "", "", "", err
 	}
@@ -72,7 +81,7 @@ func RunAdd(database db.Database, migrationName string) (up, down, metadata stri
 	contents := map[string]string{
 		upPath:       upMigrationFileTemplate,
 		downPath:     downMigrationFileTemplate,
-		metadataPath: fmt.Sprintf(metadataTemplate, migrationName, lastMigrationIndex),
+		metadataPath: fmt.Sprintf(metadataTemplate, migrationName, strings.Join(intsToStrings(parents), ", ")),
 	}
 
 	if err := WriteMigrationFiles(contents); err != nil {
@@ -107,37 +116,6 @@ func MakeMigrationFilenames(database db.Database, migrationIndex int) (up, down,
 	return upPath, downPath, metadataPath, nil
 }
 
-// ParseMigrationIndex parse a filename and returns the migration index if the filename
-// looks like a migration. Each migration filename has the form {unique_id}_{name}.{dir}.sql.
-// This function returns a false-valued flag on failure. Leading directories are stripped
-// from the input, so a basename or a full path can be supplied.
-func ParseMigrationIndex(name string) (int, bool) {
-	index, err := strconv.Atoi(strings.Split(filepath.Base(name), "_")[0])
-	if err != nil {
-		return 0, false
-	}
-
-	return index, true
-}
-
-// ParseLastMigrationIndex parses a list of filenames and returns the highest migration
-// index available.
-func ParseLastMigrationIndex(names []string) (int, bool) {
-	indices := make([]int, 0, len(names))
-	for _, name := range names {
-		if index, ok := ParseMigrationIndex(name); ok {
-			indices = append(indices, index)
-		}
-	}
-	sort.Ints(indices)
-
-	if len(indices) == 0 {
-		return 0, false
-	}
-
-	return indices[len(indices)-1], true
-}
-
 // WriteMigrationFiles writes the contents of migrationFileTemplate to the given filepaths.
 func WriteMigrationFiles(contents map[string]string) (err error) {
 	defer func() {
@@ -162,17 +140,11 @@ func WriteMigrationFiles(contents map[string]string) (err error) {
 	return nil
 }
 
-// ReadFilenamesNamesInDirectory returns a list of names in the given directory.
-func ReadFilenamesNamesInDirectory(dir string) ([]string, error) {
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, err
+func intsToStrings(ints []int) []string {
+	strs := make([]string, 0, len(ints))
+	for _, value := range ints {
+		strs = append(strs, strconv.Itoa(value))
 	}
 
-	names := make([]string, 0, len(entries))
-	for _, entry := range entries {
-		names = append(names, entry.Name())
-	}
-
-	return names, nil
+	return strs
 }
