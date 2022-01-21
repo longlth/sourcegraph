@@ -4,8 +4,7 @@ import ChevronUpIcon from 'mdi-react/ChevronUpIcon'
 import React, { useMemo, useRef } from 'react'
 import { useHistory, useLocation } from 'react-router'
 
-import { Link } from '@sourcegraph/shared/src/components/Link'
-import { Menu, MenuButton, MenuPopover, useOpenMenuButton, MenuLink } from '@sourcegraph/wildcard'
+import { Menu, MenuButton, MenuPopover, useOpenMenuButton, MenuLink, Link } from '@sourcegraph/wildcard'
 
 import styles from './NavDropdown.module.scss'
 import navItemStyles from './NavItem.module.scss'
@@ -60,7 +59,7 @@ export const NavDropdown: React.FunctionComponent<NavDropdownProps> = ({ toggleI
             {/* Dropdown nav item for bigger screens */}
             <NavItem className="d-none d-md-flex">
                 <Menu>
-                    {({ isExpanded }) => (
+                    {() => (
                         <>
                             <MenuButton
                                 className={classNames(

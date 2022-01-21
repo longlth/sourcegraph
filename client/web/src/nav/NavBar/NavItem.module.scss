@@ -20,6 +20,8 @@
     align-items: center;
     justify-content: center;
     color: var(--body-color);
+    letter-spacing: normal;
+    border: none;
     &:hover {
         text-decoration: none;
     }

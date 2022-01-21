@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import MenuDownIcon from 'mdi-react/MenuDownIcon'
 import React, { useMemo } from 'react'
 
 import { Namespace } from '@sourcegraph/shared/src/schema'
@@ -59,7 +60,11 @@ export const SearchContextOwnerDropdown: React.FunctionComponent<SearchContextOw
                         disabled={isDisabled}
                         data-tooltip={isDisabled ? "Owner can't be changed." : ''}
                     >
-                        <div>{selectedNamespace.type === 'global-owner' ? 'Global' : `@${selectedNamespace.name}`}</div>
+                        <div>
+                            {selectedNamespace.type === 'global-owner' ? 'Global' : `@${selectedNamespace.name}`}{' '}
+                            {/* MenuButton does not have an icon by default */}
+                            <MenuDownIcon className="icon-inline" />
+                        </div>
                     </MenuButton>
                     <MenuPopover>
                         <MenuItems>

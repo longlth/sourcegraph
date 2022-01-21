@@ -1,9 +1,8 @@
 import classNames from 'classnames'
 import React, { useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 
-import { Link } from '@sourcegraph/shared/src/components/Link'
 import { TelemetryProps } from '@sourcegraph/shared/src/telemetry/telemetryService'
-import { Button, Menu, MenuButton, MenuPopover, useOpenMenuButton } from '@sourcegraph/wildcard'
+import { Button, Menu, MenuButton, MenuPopover, useOpenMenuButton, Link } from '@sourcegraph/wildcard'
 
 import { CloudSignUpSource } from '../../auth/CloudSignUpPage'
 

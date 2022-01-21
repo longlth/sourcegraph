@@ -12,3 +12,6 @@ export { useTimeoutManager } from './useTimeoutManager'
 export { useOpenMenuButton } from './useOpenMenuButton'
 export { useKeyboard } from './useKeyboard'
 export { useDeepMemo } from './useDeepMemo'
+export { WildcardThemeContext, useWildcardTheme } from './useWildcardTheme'
+// Export type is required to avoid Webpack warnings.
+export type { WildcardTheme } from './useWildcardTheme'

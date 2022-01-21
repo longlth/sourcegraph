@@ -13,6 +13,40 @@ exports[`UserNavItem simple 1`] = `
     <div
       class="position-relative"
     >
+<<<<<<< HEAD
+=======
+      <h6
+        class="py-1 dropdown-header"
+        tabindex="-1"
+      >
+        Signed in as 
+        <strong>
+          @alice
+        </strong>
+      </h6>
+      <div
+        class="dropdown-divider"
+        tabindex="-1"
+      />
+      <a
+        class="dropdown-item"
+        href="#"
+      >
+        Settings
+      </a>
+      <a
+        class="dropdown-item"
+        href="/users/alice/settings/repositories"
+      >
+        Your repositories
+      </a>
+      <a
+        class="dropdown-item"
+        href="/users/alice/searches"
+      >
+        Saved searches
+      </a>
+>>>>>>> 218e472a46a1a3ffd613b94e965cccef841e01d7
       <div
         class="align-items-center d-flex"
       >
