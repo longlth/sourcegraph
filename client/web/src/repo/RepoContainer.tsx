@@ -50,7 +50,7 @@ import { RouteDescriptor } from '../util/contributions'
 import { parseBrowserRepoURL } from '../util/url'
 
 import { GoToCodeHostAction } from './actions/GoToCodeHostAction'
-import { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
+import type { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
 import { fetchFileExternalLinks, fetchRepository, resolveRevision } from './backend'
 import styles from './RepoContainer.module.scss'
 import { RepoHeader, RepoHeaderActionButton, RepoHeaderContributionsLifecycleProps } from './RepoHeader'
@@ -337,7 +337,7 @@ export const RepoContainer: React.FunctionComponent<RepoContainerProps> = props 
     // features after hover count threshold is reached (e.g. alerts, popovers)
     // Store hover count in ref to avoid circular dependency
     // hoverCount -> onHoverShown -> WebHoverOverlay (onHoverShown in useEffect deps) -> onHoverShown()
-    const hoverCountReference = useRef(hoverCount)
+    const hoverCountReference = useRef<number>(hoverCount)
     hoverCountReference.current = hoverCount
     const onHoverShown = useCallback(() => {
         const count = hoverCountReference.current + 1

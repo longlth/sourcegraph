@@ -38,7 +38,7 @@ import { RouteDescriptor } from '../util/contributions'
 
 import { CopyPathAction } from './actions/CopyPathAction'
 import { GoToPermalinkAction } from './actions/GoToPermalinkAction'
-import { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
+import type { ExtensionAlertProps } from './actions/InstallIntegrationsAlert'
 import { ResolvedRevision } from './backend'
 import { RepoRevisionChevronDownIcon, RepoRevisionWrapper } from './components/RepoRevision'
 import { HoverThresholdProps, RepoContainerContext } from './RepoContainer'

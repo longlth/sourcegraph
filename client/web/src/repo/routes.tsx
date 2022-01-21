@@ -204,7 +204,7 @@ export const repoRevisionContainerRoutes: readonly RepoRevisionContainerRoute[] 
                         isDir={objectType === 'tree'}
                         defaultBranch={defaultBranch || 'HEAD'}
                         showOnboardingTour={showOnboardingTour}
-                    />{' '}
+                    />
                     {!hideRepoRevisionContent && (
                         // Add `.blob-status-bar__container` because this is the
                         // lowest common ancestor of Blob and the absolutely-positioned Blob status bar

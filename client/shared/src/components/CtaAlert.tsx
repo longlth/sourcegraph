@@ -2,10 +2,9 @@ import classNames from 'classnames'
 import CloseIcon from 'mdi-react/CloseIcon'
 import React from 'react'
 
-import { Button } from '@sourcegraph/wildcard'
+import { Button, Link } from '@sourcegraph/wildcard'
 
 import styles from './CtaAlert.module.scss'
-import { Link } from './Link'
 
 export interface CtaAlertProps {
     title: string
