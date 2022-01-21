@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 
-import { ExternalServiceKind } from '@sourcegraph/shared/src/graphql/schema'
+import { ExternalServiceKind } from '@sourcegraph/shared/src/schema'
 
 import { NativeIntegrationAlert } from './NativeIntegrationAlert'
 
@@ -18,6 +18,7 @@ describe('NativeIntegrationAlert', () => {
             expect(
                 render(
                     <NativeIntegrationAlert
+                        className=""
                         onAlertDismissed={() => {}}
                         externalURLs={
                             serviceKind

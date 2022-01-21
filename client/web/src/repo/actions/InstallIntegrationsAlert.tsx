@@ -14,7 +14,9 @@ export interface ExtensionAlertProps {
     onExtensionAlertDismissed: () => void
 }
 
-interface InstallIntegrationsAlertProps extends Pick<NativeIntegrationAlertProps, 'externalURLs'>, ExtensionAlertProps {
+interface InstallIntegrationsAlertProps
+    extends Pick<NativeIntegrationAlertProps, 'externalURLs' | 'className'>,
+        ExtensionAlertProps {
     codeHostIntegrationMessaging: 'native-integration' | 'browser-extension'
 }
 
@@ -25,6 +27,7 @@ const HAS_DISMISSED_ALERT_KEY = 'has-dismissed-extension-alert'
 export const InstallIntegrationsAlert: React.FunctionComponent<InstallIntegrationsAlertProps> = ({
     codeHostIntegrationMessaging,
     externalURLs,
+    className,
     onExtensionAlertDismissed,
 }) => {
     const displayCTABasedOnCadence = usePersistentCadence(CADENCE_KEY, DISPLAY_CADENCE)
@@ -53,8 +56,14 @@ export const InstallIntegrationsAlert: React.FunctionComponent<InstallIntegratio
     }
 
     if (codeHostIntegrationMessaging === 'native-integration') {
-        return <NativeIntegrationAlert onAlertDismissed={onAlertDismissed} externalURLs={externalURLs} />
+        return (
+            <NativeIntegrationAlert
+                className={className}
+                onAlertDismissed={onAlertDismissed}
+                externalURLs={externalURLs}
+            />
+        )
     }
 
-    return <BrowserExtensionAlert onAlertDismissed={onAlertDismissed} />
+    return <BrowserExtensionAlert className={className} onAlertDismissed={onAlertDismissed} />
 }

@@ -10,6 +10,7 @@ import { eventLogger } from '../../tracking/eventLogger'
 import { serviceKindDisplayNameAndIcon } from './GoToCodeHostAction'
 
 export interface NativeIntegrationAlertProps {
+    className: string
     onAlertDismissed: () => void
     externalURLs: ExternalLinkFields[]
 }
@@ -23,6 +24,7 @@ const supportedServiceTypes = new Set<string>([
 ])
 
 export const NativeIntegrationAlert: React.FunctionComponent<NativeIntegrationAlertProps> = ({
+    className,
     onAlertDismissed,
     externalURLs,
 }) => {
@@ -55,6 +57,7 @@ export const NativeIntegrationAlert: React.FunctionComponent<NativeIntegrationAl
             }
             cta={{ label: 'Try it out', href: externalLink.url, onClick: installLinkClickHandler }}
             icon={<ExtensionRadialGradientIcon />}
+            className={className}
             onClose={onAlertDismissed}
         />
     )

@@ -6,10 +6,11 @@ import { ExtensionRadialGradientIcon } from '../../search/CtaIcons'
 import { eventLogger } from '../../tracking/eventLogger'
 
 interface Props {
+    className: string
     onAlertDismissed: () => void
 }
 
-export const BrowserExtensionAlert: React.FunctionComponent<Props> = ({ onAlertDismissed }) => {
+export const BrowserExtensionAlert: React.FunctionComponent<Props> = ({ className, onAlertDismissed }) => {
     useEffect(() => {
         eventLogger.log('InstallBrowserExtensionCTAShown')
     }, [])
@@ -25,6 +26,7 @@ export const BrowserExtensionAlert: React.FunctionComponent<Props> = ({ onAlertD
                 onClick: onBrowserExtensionClick,
             }}
             icon={<ExtensionRadialGradientIcon />}
+            className={className}
             onClose={onAlertDismissed}
         />
     )

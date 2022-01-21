@@ -30,6 +30,7 @@ const NativeIntegrationAlertWrapper: React.FunctionComponent<{ serviceKind: Exte
     serviceKind,
 }) => (
     <NativeIntegrationAlert
+        className=""
         onAlertDismissed={onAlertDismissed}
         externalURLs={[
             {

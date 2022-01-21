@@ -5,6 +5,8 @@ import { BrowserExtensionAlert } from './BrowserExtensionAlert'
 
 describe('BrowserExtensionAlert', () => {
     it('matches snapshot', () => {
-        expect(render(<BrowserExtensionAlert onAlertDismissed={() => {}} />).asFragment()).toMatchSnapshot()
+        expect(
+            render(<BrowserExtensionAlert className="" onAlertDismissed={() => {}} />).asFragment()
+        ).toMatchSnapshot()
     })
 })
